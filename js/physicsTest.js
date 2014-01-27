@@ -4,7 +4,6 @@
 */
 
 $(document).ready(function(){
-	
-
+	var world = new b2World( new b2Vec2(0.0, -10.0) );
 
 });
