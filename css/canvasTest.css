@@ -1,0 +1,16 @@
+/* 
+    Created on  : Feb 12, 2014
+    Author      : Daniel Kolsoi
+    Description : Style sheet for the physics demo
+*/
+
+#canvas {
+	border: 2px solid black;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	overflow: hidden;
+}
