@@ -1,7 +1,7 @@
 /*
-    Created on  : Jan 26 2014
-    Author      : Daniel Kolsoi
-    Description : Test script for the canvas demo.
+	Created on  : Jan 26 2014
+	Author      : Daniel Kolsoi
+	Description : Test script for the canvas demo.
 */
 
 function Node(x, y) {
@@ -113,42 +113,46 @@ function Canvas(id) {
 
 	// Handle the canvas being clicked:
 	$('#' + id).click(function(e){
-	 	// x & y based on code from https://stackoverflow.com/questions/3067691/html5-canvas-click-event:
-	    var x = e.pageX - $('#' + id).offset().left;
-	    var y = e.pageY - $('#' + id).offset().top;
+		// x & y based on code from https://stackoverflow.com/questions/3067691/html5-canvas-click-event:
+		var x = e.pageX - $('#' + id).offset().left;
+		var y = e.pageY - $('#' + id).offset().top;
 
-	    // Create a node if placed in open space:
-	    for (var i = 0; i < nodes.length; i++) {
-	    	var pos = nodes[i].getPosition();
+		var pos, pythag;
 
-	    	// Ignore node if offscreen:
-	    	if (pos.x < scroll.x || pos.y < scroll.y ||
-	    		pos.x > mainBuffer.canvas.width + scroll.x ||
-	    		pos.y > mainBuffer.canvas.height + scroll.y) {
-	    		
-	    		continue;
-	    	}
-	    	else if (Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2) < Math.pow(40, 2)) {
-	    		// Node was selected.
-	    		for (var j = 0; j < selections.length; j++) {
-	    			selections[j].selected = false;
-	    		}
+		// Create a node if placed in open space:
+		for (var i = 0; i < nodes.length; i++) {
+			pos = nodes[i].getPosition();
 
-	    		nodes[i].selected = true;
-	    		selections.push(nodes[i]);
+			// Ignore node if offscreen:
+			if (pos.x < scroll.x || pos.y < scroll.y ||
+				pos.x > mainBuffer.canvas.width + scroll.x ||
+				pos.y > mainBuffer.canvas.height + scroll.y) {
+				
+				continue;
+			}
+			
+			// x^2 + y^2:
+			pythag = Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2)
+			if (pythag < Math.pow(40, 2)) {
+				// Node was selected.
+				for (var j = 0; j < selections.length; j++) {
+					selections[j].selected = false;
+				}
 
-	    		redrawBuffer = true;
-	    		return;
-	    	}
-	    	else if (Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2) < Math.pow(80, 2))
-				// Tried placing a new node ontop of an existing node.
+				nodes[i].selected = true;
+				selections.push(nodes[i]);
+
+				redrawBuffer = true;
 				return;
+			}
+			else if (pythag < Math.pow(80, 2))
+				return; // Tried placing a new node onto an existing node.
 		}
-	    
-	    var node = Node(x + scroll.x, y + scroll.y);
-	    nodes.push(node);
-	    redrawBuffer = true;
- 	});
+		
+		var node = Node(x + scroll.x, y + scroll.y);
+		nodes.push(node);
+		redrawBuffer = true;
+	});
 
 	// Here is the returned JSOL which allows public access of certain functions:
 	return {
