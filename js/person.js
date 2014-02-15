@@ -1,169 +1,223 @@
 /* 
  * Author: Andrew Lincoln
- * Date: 01/23/2014 2:23 PM
+ * Date Created: 02/14/2014 12:07 PM
+ * Date Updated: 02/14/2014 --------
  * 
  * person.js
  */
+//TODO: Add checks for proper types to all setters
+//TODO: Implement Generation Counter
 
-/**
- * Person Constructor
- * 
- * @param {String} firstName
- * @param {String} lastName
- * @param {String} middleName (Optional)
- * @returns {Person}
- */
 
-function Person(firstName, lastName, middleName) {
+var Person = function() {
 
-    if (!(typeof (firstName) === "string")) {
-        throw Exception("Argument city to Location must be a String");
+    var birthplace = null,
+            children = null,
+            dateBirth = null,
+            dateDeath = null,
+            id = Date.now(),
+            gender = null,
+            generation = null,
+            firstName = null,
+            formerSpouses,
+            lastName = null,
+            middleName = null,
+            residence = null,
+            currentSpouse = null;
+
+    function birthPlaceGetter() {
+        return birthplace;
     }
-    if (!(typeof (lastName) === "string")) {
-        throw Exception("Argument state to Location must be a String");
-    }
-    if (!(typeof (middleName) === "string")) {
-        throw Exception("Argument country to Location must be a String");
+
+    function birthPlaceSetter(loc) {
+        birthplace = loc;
     }
 
-    this.birthplace = null;
-    this.children = null;
-    this.dateBirth = null;
-    this.dateDeath = null;
-    this.firstName = firstName;
-    this.id = Date.now();
-    this.gender = null;
-    this.generation = 1;
-    this.lastName = lastName;
-    this.middleName = middleName;
-    this.residence = null;
-    this.spouse = null;
+    function childrenGetter() {
+        return children;
+    }
 
-    //  Getter Definitions
-    this.getBirthplace = function() {
-        return this.birthplace;
-    };
-    this.getChildren = function() {
-        return this.children;
-    };
-    this.getDateOfBirth = function() {
-        return this.dateBirth;
-    };
-    this.getDateOfDeath = function() {
-        return this.dateDeath;
-    };
-    this.getFirstName = function() {
-        return this.firstName;
-    };
-    this.getGender = function() {
-        return this.gender;
-    };
-    this.getGeneration = function() {
-        throw Exception("Not yet implemneted");
-    };
-    this.getID = function() {
-        return this.id;
-    };
-    this.getLastName = function() {
-        return this.lastName;
-    };
-    this.getMiddleName = function() {
-        return this.middleName;
-    };
-    this.getName = function() {
-        if (this.getMiddleName() === undefined) {
-            return (this.getFirstName() + " " + this.getLastName());
+    function childrenSetter(child) {
+        if (children === null) {
+            children = Map();
         }
-        return (this.getFirstName() + " " + this.getMiddleName() + " " + this.getLastName());
-    };
-    this.getResidence = function() {
-        return this.residence;
-    };
-    this.getSpouse = function() {
-        return this.spouse;
-    };
+        children.set(child);
+    }
 
-    //  Setter Definitions 
+    function currentSpouseGetter() {
+        return currentSpouse;
+    }
 
-    this.addChild = function(child) {
+    function currentSpouseSetter(person) {
+        currentSpouse = person;
+    }
 
-        if (this.children === null) {
-            this.children = new Map();
+    function dateOfBirthGetter() {
+        return dateBirth;
+    }
+
+    function dateOfBirthSetter(date) {
+        dateBirth = date;
+    }
+
+    function dateOfDeathGetter() {
+        return dateBirth;
+    }
+
+    function dateOfDeathSetter(date) {
+        dateBirth = date;
+    }
+
+    function firstNameGetter() {
+        return firstName;
+    }
+
+    function firstNameSetter(strName) {
+        firstName = strName;
+    }
+    
+    function formerSpouseGetter() {
+        return formerSpouses;
+    }
+    
+    function formerSpouseSetter(person) {
+        if (formerSpouses === null) {
+            formerSpouses = Map();
+        } 
+        
+        formerSpouses.set(person);
+    }
+
+    function genderGetter() {
+        return gender;
+    }
+
+    function genderSetter(strGender) {
+        gender = strGender;
+    }
+
+    function generationGetter() {
+        throw Exception("TODO: Not yet implemented");
+    }
+
+    function generationSetter() {
+        throw Exception("TODO: Not yet implemented");
+    }
+
+    function idGetter() {
+        return id;
+    }
+
+    function lastNameGetter() {
+        return lastName;
+    }
+
+    function lastNameSetter(strName) {
+        lastName = strName;
+    }
+
+    function middleNameGetter() {
+        return middleName;
+    }
+
+    function middleNameSetter(strName) {
+        middleName = strName;
+    }
+
+    function nameGetter() {
+
+        if (middleName === null) {
+            return firstNameGetter() + " " + lastNameGetter();
         }
-        this.children.set(child.getID(), child);
-    };
-    this.setBirthplace = function(location) {
-        this.birthplace = location;
-    };
-    this.setDateOfBirth = function(date) {
-        this.dateBirth = date;
-    };
-    this.setFirstName = function(newName) {
-        this.firstName = newName;
-    };
-    this.setGender = function(gender) {
-        this.gender = gender;
-    };
-    this.setGeneration = function(num) {
-        //TODO: Implement Generation counter
-        throw Exception("Not yet implemented");
-    };
-    this.setLastName = function(newName) {
-        this.LastName = newName;
-    };
-    this.setMiddleName = function(newName) {
-        this.MiddleName = newName;
-    };
-    this.setResidence = function(location) {
-        this.residence = location;
-    };
-    this.setSpouse = function(spouse) {
-        this.spouse = spouse;
-    };
 
-}
-
-
-/**
- * Location Constructor
- * 
- * @param {String} city
- * @param {String} state
- * @param {String} country
- * @returns {Location}
- */
-function Location(city, state, country) {
-
-    if (!(typeof (city) === "string")) {
-        throw Exception("Argument city to Location must be a String");
-    }
-    if (!(typeof (state) === "string")) {
-        throw Exception("Argument state to Location must be a String");
-    }
-    if (!(typeof (country) === "string")) {
-        throw Exception("Argument country to Location must be a String");
+        return firstNameGetter() + " " + middleNameGetter() + " " + lastNameGetter();
     }
 
-    this.city = city;
-    this.state = state;
-    this.country = country;
+    function nameSetter(strFirst, strLast, strMiddle) {
 
-    this.getCity = function() {
-        return this.city;
+        firstNameSetter(strFirst);
+        middleNameSetter(strMiddle);
+        lastNameSetter(strLast);
+
+    }
+
+    function residenceGetter() {
+        return residence;
+    }
+
+    function residenceSetter(loc) {
+        residence = loc;
+    }
+
+    return {
+        addChild: childrenSetter,
+        addFormerSpouse: formerSpouseSetter,
+        getBirthPlace: birthPlaceGetter,
+        getCurrentSpouse: currentSpouseGetter,
+        getChildren: childrenGetter,
+        getDateOfBirth: dateOfBirthGetter,
+        getDateOfDeath: dateOfDeathGetter,
+        getFirstName: firstNameGetter,
+        getGender: genderGetter,
+        getGeneration: generationGetter,
+        getID: idGetter,
+        getLastName: lastNameGetter,
+        getMiddleName: middleNameGetter,
+        getName: nameGetter,
+        getResidence: residenceGetter,
+        setBirthPlace: birthPlaceSetter,
+        setCurrentSpouse: currentSpouseSetter,
+        setDateOfBirth: dateOfBirthSetter,
+        setDateOfDeath: dateOfDeathGetter,
+        setFirstName: firstNameSetter,
+        setGender: genderSetter,
+        setGeneration: generationSetter,
+        setLastName: lastNameSetter,
+        setMiddleName: middleNameSetter,
+        setName : nameSetter,
+        setResidence: residenceSetter
     };
-    this.getCountry = function() {
-        return this.country;
+}; 
+
+
+var Location = function() {
+    var city, state, country;
+    var toClass = {}.toString;
+    function cityGetter() {
+        return city;
     };
-    this.getState = function() {
-        return this.state;
+    
+    function citySetter(strCity) {
+        city = strCity;
     };
-
-
-    // TODO: setters? Yes/No
-    /* Reasoning: No
-     *  A change to the location could just mean a new Location obj
-     *  Locations can also be made on the fly, and less likely to be fiddled
-     *  with accidentally
-     */
-}
-
+    
+    function countryGetter() {
+        return country;
+    };
+    
+    function countrySetter(strCountry) {
+        country = strCountry;
+    };
+    
+    function stateGetter() {
+        return state;
+    };
+    
+    function stateSetter(strState) {
+        state = strState;
+    }
+    
+    function toClassGetter() {
+        return toClass;
+    }
+    
+    return {
+      getCity : cityGetter,
+      getCountry : countryGetter,
+      getState : stateGetter,
+      getToClass : toClassGetter,
+      setCity : citySetter,
+      setCountry : countryGetter,
+      setState : stateSetter
+    };
+};
