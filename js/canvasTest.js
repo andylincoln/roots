@@ -4,37 +4,75 @@
     Description : Test script for the canvas demo.
 */
 
-function Node() {
-	var person = "Person";// = Person("Person");	
+function Node(x, y) {
+	// Data structure variables:
+	var person = "Person";// = Person("Person");
+	var pos = {x: x, y: y};
 
+	// Flag variables:
+	var selected = false;
+
+	// Getter function(s):
+	function getPosition() {
+		return pos;
+	}
 	return {
-		// more stuff
+		getPosition: getPosition
 	};
 }
 
 function Canvas(id) {
-	// Load data required to manipulate the canvas:
-	var cElement = document.getElementById(id),
-		context = cElement.getContext("2d"),
-		scroll = {x: 0, y: 0},
-		jID = '#' + id,
-		nodes = [];
+	// Canvas and buffer variables:
+	var mElement = document.getElementById(id),
+		bElement = document.createElement('canvas'),
+		mainBuffer = mElement.getContext("2d"),
+		backBuffer = bElement.getContext("2d");
 
-	// This is the function that will draw to the canvas each frame:
+	// Flag variables:
+	var redrawBuffer = false,
+		scrolling = false;
+
+	// Data Structure variables:
+	var scroll = {x: 0, y: 0},
+		nodes = [],
+		selections = [];
+
+	// This is the function that will draw to the back buffer only when something new happens on screen:
 	function draw() {
-		// if scrolling, shift scrolled ver of back buffer onto front:
-		// --- not handled in the demo ---
+		var pos;
 
-
-		// if new stuff to be drawn, draw to back buffer
 		// Start by clearing the screen:
-		context.clearRect(0, 0, cElement.width, cElement.height);
+		backBuffer.clearRect(0, 0, mElement.width, mElement.height);
 
 		// Draw nodes and connections:
-		context.stroke();
+		for (var i = 0; i < nodes.length; i++) {
+			pos = nodes[i].getPosition();
 
-		// Draw back buffer onto front buffer:
+			backBuffer.beginPath();
+			backBuffer.arc(pos.x, pos.y, 40, 2 * Math.PI, false);
+			backBuffer.fillStyle = "gray";
+			backBuffer.fill();
+			backBuffer.lineWidth = 5;
+			backBuffer.strokeStyle = "black";
+			
+			// tmp, color TBD:
+			if (nodes[i].selected)
+				backBuffer.strokeStyle = "#003300";
+			backBuffer.stroke();
+		}
+	}
 
+	function update() {
+		if (redrawBuffer) {
+			draw();
+		}
+
+		// if scrolling, shift scrolled version of back buffer onto front:
+		// --- scroll not tested in demo ---
+		if (redrawBuffer) { // || scrolling) ?
+			mainBuffer.drawImage(bElement, scroll.x, scroll.y);
+			redrawBuffer = false;
+		}
 	}
 
 	function scroll(xVelocity, yVelocity) {
@@ -51,14 +89,16 @@ function Canvas(id) {
 
 	// Sets the width & height of the canvas:
 	function resize(width, height) {
-		context.canvas.width  = width;
-		context.canvas.height = height;
+		mainBuffer.canvas.width  = width;
+		mainBuffer.canvas.height = height;
 
-		tiles.x = Math.ceil(width / tileSize);
-		tiles.y = Math.ceil(height/ tileSize);
+		backBuffer.canvas.width  = width;
+		backBuffer.canvas.height = height;
+
+		redrawBuffer = true;
 	}
 
-	// This function will handle the drawing and fps syncing:
+	// This function will handle updating the canvas and fps syncing:
 	function animate() {
 		var time = 0,
 			inc = 0.1;
@@ -67,25 +107,47 @@ function Canvas(id) {
 		(function loop() {
 			requestAnimationFrame(loop);
 			time += inc;
-			draw();
+			update();
 		}());
 	}
 
 	// Handle the canvas being clicked:
-	 $(jID).click(function(e){
+	$('#' + id).click(function(e){
 	 	// x & y based on code from https://stackoverflow.com/questions/3067691/html5-canvas-click-event:
-	    var x = Math.floor((e.pageX-$(jID).offset().left) / tileSize);
-	    var y = Math.floor((e.pageY-$(jID).offset().top)  / tileSize);
+	    var x = e.pageX - $('#' + id).offset().left;
+	    var y = e.pageY - $('#' + id).offset().top;
 
 	    // Create a node if placed in open space:
-	    if (true) { // figure out way to map nodes, check if not occupied already.
-	    	var node = Node();
-	    	nodes.push(node);
-	    }
+	    for (var i = 0; i < nodes.length; i++) {
+	    	var pos = nodes[i].getPosition();
 
-	    // Needs to be moved out of this function:
-    	//context.fillStyle = "rgb(255,0,0)";
-    	//context.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+	    	// Ignore node if offscreen:
+	    	if (pos.x < scroll.x || pos.y < scroll.y ||
+	    		pos.x > mainBuffer.canvas.width + scroll.x ||
+	    		pos.y > mainBuffer.canvas.height + scroll.y) {
+	    		
+	    		continue;
+	    	}
+	    	else if (Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2) < Math.pow(40, 2)) {
+	    		// Node was selected.
+	    		for (var j = 0; j < selections.length; j++) {
+	    			selections[j].selected = false;
+	    		}
+
+	    		nodes[i].selected = true;
+	    		selections.push(nodes[i]);
+
+	    		redrawBuffer = true;
+	    		return;
+	    	}
+	    	else if (Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2) < Math.pow(80, 2))
+				// Tried placing a new node ontop of an existing node.
+				return;
+		}
+	    
+	    var node = Node(x + scroll.x, y + scroll.y);
+	    nodes.push(node);
+	    redrawBuffer = true;
  	});
 
 	// Here is the returned JSOL which allows public access of certain functions:
