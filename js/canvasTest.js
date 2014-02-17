@@ -34,8 +34,8 @@ function Canvas(id) {
 
 	// Data Structure variables:
 	var scroll = {x: 0, y: 0},
-		nodes = [],
-		selections = [];
+		selections = {left: null, right: null},
+		nodes = [];
 
 	// This is the function that will draw to the back buffer only when something new happens on screen:
 	function draw() {
@@ -49,15 +49,21 @@ function Canvas(id) {
 			pos = nodes[i].getPosition();
 
 			backBuffer.beginPath();
-			backBuffer.arc(pos.x, pos.y, 40, 2 * Math.PI, false);
+			backBuffer.arc(pos.x, pos.y, 40, 2 * Math.PI, 0);
 			backBuffer.fillStyle = "gray";
+
+			// tmp, color TBD:
+			if (selections.left == nodes[i] || selections.right == nodes[i])
+				backBuffer.fillStyle = "green";
+
 			backBuffer.fill();
 			backBuffer.lineWidth = 5;
 			backBuffer.strokeStyle = "black";
-			
+
 			// tmp, color TBD:
-			if (nodes[i].selected)
+			if (selections.left == nodes[i] || selections.right == nodes[i])
 				backBuffer.strokeStyle = "#003300";
+			
 			backBuffer.stroke();
 		}
 	}
@@ -131,22 +137,18 @@ function Canvas(id) {
 				continue;
 			}
 			
-			// x^2 + y^2:
-			pythag = Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2)
+			pythag = Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2); // x^2 + y^2:
+			// Node was selected.
+			console.log(pythag);
 			if (pythag < Math.pow(40, 2)) {
-				// Node was selected.
-				for (var j = 0; j < selections.length; j++) {
-					selections[j].selected = false;
-				}
-
-				nodes[i].selected = true;
-				selections.push(nodes[i]);
-
+				selections.left = nodes[i];
 				redrawBuffer = true;
 				return;
 			}
-			else if (pythag < Math.pow(80, 2))
-				return; // Tried placing a new node onto an existing node.
+			
+			// Tried placing a new node onto an existing node:
+			else if (pythag < Math.pow(84, 2)) // 80 is 2*radius + small border offset
+				return;
 		}
 		
 		var node = Node(x + scroll.x, y + scroll.y);
