@@ -1,7 +1,7 @@
 /*
-	Created on  : Jan 26 2014
+	Created on  : Feb 18 2014
 	Author      : Daniel Kolsoi
-	Description : Script for the canvas functions.
+	Description : Main script for roots web app.
 */
 
 $(document).ready(function(){
