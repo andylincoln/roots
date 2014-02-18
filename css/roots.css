@@ -1,0 +1,16 @@
+/* 
+	Created on  : Feb 12, 2014
+	Author      : Daniel Kolsoi
+	Description : Style sheet for the roots web app.
+*/
+
+#canvas {
+	border: 2px solid black; /* Just here to see where canvas is */
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	overflow: hidden;
+}

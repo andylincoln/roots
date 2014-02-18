@@ -1,7 +1,7 @@
 /*
 	Created on  : Jan 26 2014
 	Author      : Daniel Kolsoi
-	Description : Test script for the canvas demo.
+	Description : Script for the canvas functions.
 */
 
 function Node(x, y) {
@@ -139,15 +139,14 @@ function Canvas(id) {
 			
 			pythag = Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2); // x^2 + y^2:
 			// Node was selected.
-			console.log(pythag);
-			if (pythag < Math.pow(40, 2)) {
+			if (pythag < 1600) { // radius of 40^2 = 1600
 				selections.left = nodes[i];
 				redrawBuffer = true;
 				return;
 			}
 			
 			// Tried placing a new node onto an existing node:
-			else if (pythag < Math.pow(84, 2)) // 80 is 2*radius + small border offset
+			else if (pythag < 7056) // (2*radius of 80 + small offset)^2 = 7056
 				return;
 		}
 		
@@ -163,16 +162,3 @@ function Canvas(id) {
 		// more stuff
 	};
 }
-
-
-$(document).ready(function(){
-	// Instantiate the canvas "class":
-	var canvas = Canvas("canvas");
-	canvas.animate();
-
-	// tmp, for the demo. Although we will use similar logic:
-	canvas.resize(window.innerWidth, window.innerHeight);
-	$(window).resize(function() {
-		canvas.resize(window.innerWidth, window.innerHeight);
-	});
-});
