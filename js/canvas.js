@@ -6,18 +6,24 @@
 
 function Node(x, y) {
 	// Data structure variables:
-	var person = "Person";// = Person("Person");
 	var pos = {x: x, y: y};
+	var person = Person();
 
-	// Flag variables:
-	var selected = false;
+	//tmp:
+	person.setFirstName("Test");
+	person.setLastName("Name");
 
 	// Getter function(s):
 	function getPosition() {
 		return pos;
 	}
+
+	function getData() {
+		return person;
+	}
 	return {
-		getPosition: getPosition
+		getPosition: getPosition,
+		getData: getData
 	};
 }
 

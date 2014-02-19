@@ -9,10 +9,20 @@ $(document).ready(function(){
 	var canvas = Canvas("canvas");
 	canvas.animate();
 
-	/* Needs to be changed to resize to the amount of the screen
-	   deemed appropriate for the canvas instead of the whole page */
-	canvas.resize(window.innerWidth, window.innerHeight);
+	// Resize the canvas initially, and do the same upon window resize:
 	$(window).resize(function() {
-		canvas.resize(window.innerWidth, window.innerHeight);
+		var width = window.innerWidth;
+		var height = window.innerHeight - $("#topDiv").height();
+		
+		if ($("#leftDetail").css("display") == "inline-block") {
+			width -= $("#leftDetail").width();
+		}
+
+		if ($("#rightDetail").css("display") == "inline-block") {
+			width -= $("#rightDetail").width();
+		}
+
+		canvas.resize(width, height);
 	});
+	$(window).resize();
 });

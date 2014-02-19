@@ -9,7 +9,7 @@
 //TODO: Implement Generation Counter
 
 
-var Person = function() {
+function Person() {
 
     var birthplace = null,
             children = null,
@@ -217,7 +217,7 @@ var Person = function() {
 };
 
 
-var Location = function() {
+function Location() {
     var city, state, country,
             toClass = {}.toString;
 

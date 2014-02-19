@@ -4,13 +4,32 @@
 	Description : Style sheet for the roots web app.
 */
 
-#canvas {
-	border: 2px solid black; /* Just here to see where canvas is */
-}
-
 html, body {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
 	overflow: hidden;
+}
+
+#topDiv {
+	border: 1px solid black; /* Just here to see where div is */
+	width: 100%;
+}
+
+#leftDetail {
+	border: 1px solid black; /* Just here to see where the panel is */
+	/*display: none; to hide */
+	display: inline-block;
+	position: relative;
+	height: 100%;
+}
+
+#canvas {
+	border: 1px solid black; /* Just here to see where canvas is */
+	display: inline-block;
+	position: absolute;
+}
+
+#rightDetail {
+	display: none;
 }
