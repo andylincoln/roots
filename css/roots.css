@@ -18,7 +18,6 @@ html, body {
 
 #leftDetail {
 	border: 1px solid black; /* Just here to see where the panel is */
-	/*display: none; to hide */
 	display: inline-block;
 	position: relative;
 	height: 100%;

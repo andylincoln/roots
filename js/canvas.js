@@ -21,9 +21,10 @@ function Node(x, y) {
 	function getData() {
 		return person;
 	}
+
 	return {
-		getPosition: getPosition,
-		getData: getData
+		getData: getData,
+		getPosition: getPosition
 	};
 }
 
@@ -110,6 +111,11 @@ function Canvas(id) {
 		redrawBuffer = true;
 	}
 
+	// This function will return the left and right selected nodes.
+	function getSelections() {
+		return selections;
+	}
+
 	// This function will handle updating the canvas and fps syncing:
 	function animate() {
 		var time = 0,
@@ -124,46 +130,61 @@ function Canvas(id) {
 	}
 
 	// Handle the canvas being clicked:
-	$('#' + id).click(function(e){
-		// x & y based on code from https://stackoverflow.com/questions/3067691/html5-canvas-click-event:
-		var x = e.pageX - $('#' + id).offset().left;
-		var y = e.pageY - $('#' + id).offset().top;
+	$('#' + id).mousedown(function(event) {
+		switch (event.which) {
+			case 1: // Left mouse
+				// x & y based on code from https://stackoverflow.com/questions/3067691/html5-canvas-click-event:
+				var x = event.pageX - $('#' + id).offset().left;
+				var y = event.pageY - $('#' + id).offset().top;
 
-		var pos, pythag;
+				var pos, pythag;
 
-		// Create a node if placed in open space:
-		for (var i = 0; i < nodes.length; i++) {
-			pos = nodes[i].getPosition();
+				// Create a node if placed in open space:
+				for (var i = 0; i < nodes.length; i++) {
+					pos = nodes[i].getPosition();
 
-			// Ignore node if offscreen:
-			if (pos.x < scroll.x || pos.y < scroll.y ||
-				pos.x > mainBuffer.canvas.width + scroll.x ||
-				pos.y > mainBuffer.canvas.height + scroll.y) {
+					// Ignore node if offscreen:
+					if (pos.x < scroll.x || pos.y < scroll.y ||
+						pos.x > mainBuffer.canvas.width + scroll.x ||
+						pos.y > mainBuffer.canvas.height + scroll.y) {
 				
-				continue;
-			}
+						continue;
+					}
 			
-			pythag = Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2); // x^2 + y^2:
-			// Node was selected.
-			if (pythag < 1600) { // radius of 40^2 = 1600
-				selections.left = nodes[i];
-				redrawBuffer = true;
-				return;
-			}
+					pythag = Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2); // x^2 + y^2:
+					// Node was selected.
+					if (pythag < 1600) { // radius of 40^2 = 1600
+						$("#leftDetail").show();
+						selections.left = nodes[i];
+						redrawBuffer = true;
+						return;
+					}
 			
-			// Tried placing a new node onto an existing node:
-			else if (pythag < 7056) // (2*radius of 80 + small offset)^2 = 7056
-				return;
-		}
+					// Tried placing a new node onto an existing node:
+					else if (pythag < 7056) // (2*radius of 80 + small offset)^2 = 7056
+						return;
+				}
 		
-		var node = Node(x + scroll.x, y + scroll.y);
-		nodes.push(node);
-		redrawBuffer = true;
+				var node = Node(x + scroll.x, y + scroll.y);
+				nodes.push(node);
+				redrawBuffer = true;
+				break;
+
+			case 3: // Right mouse
+				$("#leftDetail").hide();
+				selections.left = null;
+				redrawBuffer = true;
+				break;
+
+			default:
+				break;
+		}
 	});
 
 	// Here is the returned JSOL which allows public access of certain functions:
 	return {
 		animate: animate,
+		getSelections: getSelections,
 		resize: resize
 		// more stuff
 	};
