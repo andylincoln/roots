@@ -155,6 +155,7 @@ function Canvas(id) {
 					// Node was selected.
 					if (pythag < 1600) { // radius of 40^2 = 1600
 						$("#leftDetail").show();
+						$(window).resize();
 						selections.left = nodes[i];
 						redrawBuffer = true;
 						return;
@@ -172,6 +173,7 @@ function Canvas(id) {
 
 			case 3: // Right mouse
 				$("#leftDetail").hide();
+				$(window).resize();
 				selections.left = null;
 				redrawBuffer = true;
 				break;
