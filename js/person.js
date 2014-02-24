@@ -22,6 +22,7 @@ function Person() {
             formerSpouses,
             lastName = null,
             middleName = null,
+            pictureURL = null,
             residence = null,
             currentSpouse = null;
 
@@ -175,6 +176,17 @@ function Person() {
         lastNameSetter(strLast);
 
     }
+    
+    function pictureURLGetter() {
+        return pictureURL;
+    }
+    
+    function pictureURLSetter(strURL) {
+        if(!(typeof strURL === "string")) {
+            throw Exception("Person.setMiddleName: argument strName expects type string");
+        }
+        pictureURL = strURL;
+    }
 
     function residenceGetter() {
         return residence;
@@ -200,6 +212,7 @@ function Person() {
         getLastName: lastNameGetter,
         getMiddleName: middleNameGetter,
         getName: nameGetter,
+        getPictureURL: pictureURLGetter,
         getResidence: residenceGetter,
         setBirthPlace: birthPlaceSetter,
         setCurrentSpouse: currentSpouseSetter,
@@ -212,6 +225,7 @@ function Person() {
         setLastName: lastNameSetter,
         setMiddleName: middleNameSetter,
         setName: nameSetter,
+        setPictureURL: pictureURLSetter,
         setResidence: residenceSetter
     };
 };
