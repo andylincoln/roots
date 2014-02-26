@@ -155,13 +155,13 @@ function Canvas(id) {
 				switch (event.which) {
 					case 1: // Left mouse
 						if (selections.left == nodes[i]) { // For future: Do not deselect if the detail panel is checked to stay open
-							$("#leftDetail").hide();
+							//$("#leftDetail").hide();
 							$(window).resize();
 							selections.left = null;
 							redrawBuffer = true;
 						}
 						else {
-							$("#leftDetail").show();
+							//$("#leftDetail").show();
 							$(window).resize();
 							selections.left = nodes[i];
 							redrawBuffer = true;

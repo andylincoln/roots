@@ -1,51 +1,105 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-	<meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
 
-	<!--
-		Created on  : Jan 26 2014
-		Author      : Daniel Kolsoi
-		Description : Main roots website page.
-	-->
+        <!--
+                Created on  : Jan 26 2014
+                Author      : Daniel Kolsoi
+                Description : Main roots website page.
+        -->
 
-	<title>Roots Family Tree</title>
+        <title>Roots Family Tree</title>
 
-	<!-- Include the jQuery library -->
-	<script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
+        <!-- Include the jQuery library -->
+        <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
+        <!-- Include the jQueryUI library  & it's CSS Theme-->
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        <!-- Include main roots script and css -->
+        <script type="text/javascript" src="js/roots.js"></script>
+        <link rel="stylesheet" href="css/roots.css">
 
-	<!-- Include main roots script and css -->
-	<script type="text/javascript" src="js/roots.js"></script>
-	<link rel="stylesheet" href="css/roots.css">
+        <!-- Include our canvas library -->
+        <script type="text/javascript" src="js/canvas.js"></script>
 
-	<!-- Include our canvas library -->
-	<script type="text/javascript" src="js/canvas.js"></script>
+        <!-- Include our person library -->
+        <script type="text/javascript" src="js/person.js"></script>
 
-	<!-- Include our person library -->
-	<script type="text/javascript" src="js/person.js"></script>
+        <!-- Include Google Fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Port+Lligat+Slab|Roboto:400,500,700' rel='stylesheet' type='text/css'>
+    </head>
 
-</head>
+    <body>
+        <!-- This is for the main bar at the top of the page -->
+        <div id="topDiv">
+            <div class="header">
+                <img src="css/img/roots-logo-small.png" alt="Logo goes here" class="header">
+            </div>
+        </div>
 
-<body>
-	<!-- This is for the main bar at the top of the page -->
-	<div id="topDiv">
-		Top div for stuff
-	</div>
+        <!-- This is for the left detail panel. -->
+        <div id="leftDetail">
+            <!--Tree Title-->
+            <h1 id="title">Untitled</h1>
+            <div class="details">
+                <div>
+                    <table>
+                        <tr>
+                            <td><input id="leftFirstName" placeholder="John" size="8" class="edit text"></td>
+                            <td><input id="leftMiddleName" placeholder="Michael" size="8" class="edit text"></td>
+                            <td><input id="leftLastName"  placeholder="Smith" size="8" class="edit text"></td>
+                        </tr>
+                        <tr>
+                            <td><input id="leftDateBirth" placeholder="01/01/00" size="8" class="date text"></td>
+                            <td><p style="text-align: center" class="text">-</p></td>
+                            <td><input id="leftDateDeath" placeholder="01/01/00" size="8" class="date text"></td>
+                        </tr>
+                    </table>
 
-	<!-- This is for the left detail panel. -->
-	<div id="leftDetail">
-		Lots 'o stuff here!
-	</div>
+                    <table>
+                        <tr>
+                            <td><label for="leftGender">Gender:</label></td>
+                            <td>
+                                <select id="leftGender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="leftBirthplace">Birthplace:</label></td>
+                            <td><input id="leftBirthplace" class="edit text"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="leftResidence">Residence:</label></td>
+                            <td> <input id="leftResidence" class="edit text"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="leftGeneration">Generation:</label></td>
+                            <td><input id="leftGeneration" size="2" class="edit text"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $("#leftDateBirth").datepicker();
+                $("#leftDateDeath").datepicker();
+            });
+        </script>
 
-	<canvas id="canvas"> 
+        <canvas id="canvas"> 
 
-	</canvas>
+        </canvas>
 
-	<!-- This is for the right detail panel. -->
-	<div id="rightDetail">
-		
-	</div>
+        <!-- This is for the right detail panel. -->
+        <div id="rightDetail">
 
-</body>
+        </div>
+
+    </body>
 </html>

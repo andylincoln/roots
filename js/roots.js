@@ -5,8 +5,8 @@
 */
 
 $(document).ready(function(){
-	$("#leftDetail").hide();
-	$("#rightDetail").hide();
+	//$("#leftDetail").hide();
+	//$("#rightDetail").hide();
 
 
 	// Instantiate the canvas "class":
