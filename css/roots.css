@@ -43,7 +43,7 @@ html, body {
     width: 25%;
 }
 
-#canvas {
+#workspace {
     background-color: #FFF;
     border: 1px solid black; /* Just here to see where canvas is */
     border-radius: 2px;
