@@ -27,11 +27,11 @@ function Person(x, y) {
             currentSpouse = null,
             canvasPosition = {x: x, y: y};
 
-    function birthPlaceGetter() {
+    function birthplaceGetter() {
         return birthplace;
     }
 
-    function birthPlaceSetter(loc) {
+    function birthplaceSetter(loc) {
         birthplace = loc;
     }
 
@@ -142,7 +142,7 @@ function Person(x, y) {
     function lastNameSetter(strName) {
 
         if (!(typeof strName === "string")) {
-            throw Exception("Person.setLastName: argument strName expects type string");
+            throw("Person.setLastName: argument strName expects type string");
         }
 
         lastName = strName;
@@ -155,7 +155,7 @@ function Person(x, y) {
     function middleNameSetter(strName) {
 
         if (!(typeof strName === "string")) {
-            throw Exception("Person.setMiddleName: argument strName expects type string");
+            throw("Person.setMiddleName: argument strName expects type string");
         }
 
         middleName = strName;
@@ -184,7 +184,7 @@ function Person(x, y) {
     
     function pictureURLSetter(strURL) {
         if(!(typeof strURL === "string")) {
-            throw Exception("Person.setMiddleName: argument strName expects type string");
+            throw("Person.setMiddleName: argument strName expects type string");
         }
         pictureURL = strURL;
     }
@@ -208,7 +208,7 @@ function Person(x, y) {
     return {
         addChild: childrenSetter,
         addFormerSpouse: formerSpouseSetter,
-        getBirthPlace: birthPlaceGetter,
+        getBirthplace: birthplaceGetter,
         getCurrentSpouse: currentSpouseGetter,
         getChildren: childrenGetter,
         getDateOfBirth: dateOfBirthGetter,
@@ -224,7 +224,7 @@ function Person(x, y) {
         getPictureURL: pictureURLGetter,
         getPosition: positionGetter,
         getResidence: residenceGetter,
-        setBirthPlace: birthPlaceSetter,
+        setBirthPlace: birthplaceSetter,
         setCurrentSpouse: currentSpouseSetter,
         setDateOfBirth: dateOfBirthSetter,
         setDateOfDeath: dateOfDeathSetter,
