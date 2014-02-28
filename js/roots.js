@@ -13,6 +13,8 @@ $(document).ready(function(){
     // Instantiate the canvas workspace "class":
     canvasWorkspace = CanvasWorkspace("#workspace");
     canvasWorkspace.animate();
+    
+    setjQueryUIWidgets();
 
     // Add an event handler to resize the canvas workspace on window resize:
     $(window).resize(function() {
@@ -37,3 +39,10 @@ $(document).ready(function(){
     // Resize the window once all workspaces have been loaded.
     $(window).resize();
 });
+
+function setjQueryUIWidgets() {
+    
+    $("#leftDateBirth").datepicker();
+    $("#leftDateDeath").datepicker();
+
+}
