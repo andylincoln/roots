@@ -36,7 +36,7 @@ $(document).ready(function(){
     });
 
     // Instantiate the left detail panel "class":
-    leftDetailWorkspace = DetailPanel("leftDetail");
+    leftDetailWorkspace = DetailPanelWorkspace("leftDetail");
 
     // Resize the window once all workspaces have been loaded.
     $(window).resize();
