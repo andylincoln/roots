@@ -9,7 +9,7 @@
 //TODO: Implement Generation Counter
 
 
-function Person() {
+function Person(x, y) {
 
     var birthplace = null,
             children = null,
@@ -24,7 +24,8 @@ function Person() {
             middleName = null,
             pictureURL = null,
             residence = null,
-            currentSpouse = null;
+            currentSpouse = null,
+            canvasPosition = {x: x, y: y};
 
     function birthPlaceGetter() {
         return birthplace;
@@ -188,6 +189,14 @@ function Person() {
         pictureURL = strURL;
     }
 
+    function positionGetter() {
+        return canvasPosition;
+    }
+
+    function positionSetter(x, y) {
+        canvasPosition = {x: x, y: y};
+    }
+
     function residenceGetter() {
         return residence;
     }
@@ -213,6 +222,7 @@ function Person() {
         getMiddleName: middleNameGetter,
         getName: nameGetter,
         getPictureURL: pictureURLGetter,
+        getPosition: positionGetter,
         getResidence: residenceGetter,
         setBirthPlace: birthPlaceSetter,
         setCurrentSpouse: currentSpouseSetter,
@@ -226,6 +236,7 @@ function Person() {
         setMiddleName: middleNameSetter,
         setName: nameSetter,
         setPictureURL: pictureURLSetter,
+        setPosition: positionSetter,
         setResidence: residenceSetter
     };
 };

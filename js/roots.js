@@ -4,13 +4,14 @@
     Description : Main script for roots web app.
 */
 
+// Define our primary workspaces globally:
+var canvasWorkspace,
+    leftDetailWorkspace,
+    rightDetailWorkspace;
+
 $(document).ready(function(){
-    //$("#leftDetail").hide();
-    //$("#rightDetail").hide();
-
-
-    // Instantiate the canvas "class":
-    var canvasWorkspace = Workspace("workspace");
+    // Instantiate the canvas workspace "class":
+    canvasWorkspace = CanvasWorkspace("workspace");
     canvasWorkspace.animate();
 
     // Disable right click:
@@ -33,15 +34,10 @@ $(document).ready(function(){
 
         canvasWorkspace.resize(width, height);
     });
-    // Resize the window on document load.
+
+    // Instantiate the left detail panel "class":
+    leftDetailWorkspace = DetailPanel("leftDetail");
+
+    // Resize the window once all workspaces have been loaded.
     $(window).resize();
-
-    /*
-        For Andy:
-        1. You can get the JSOL containing the left (and right) nodes from canvas.getSelections()
-            However we're only working on the left detail panel right now.
-        2. Once you have a node, you can call node.getData() to return its associated person class.
-            Be sure to figure out if JavaSript uses deep or shallow copy by default.
-    */
-
 });

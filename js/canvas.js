@@ -4,31 +4,7 @@
     Description : Script for the canvas functions.
 */
 
-function Node(x, y) {
-    // Data structure variables:
-    var pos = {x: x, y: y};
-    var person = Person();
-
-    //tmp:
-    person.setFirstName("Test");
-    person.setLastName("Name");
-
-    // Getter function(s):
-    function getPosition() {
-        return pos;
-    }
-
-    function getData() {
-        return person;
-    }
-
-    return {
-        getData: getData,
-        getPosition: getPosition
-    };
-}
-
-function Workspace(id) {
+function CanvasWorkspace(id) {
     // Canvas and buffer variables:
     var mElement = document.getElementById(id),
         bElement = document.createElement('canvas'),
@@ -55,22 +31,20 @@ function Workspace(id) {
         for (var i = 0; i < nodes.length; i++) {
             pos = nodes[i].getPosition();
 
-            backBuffer.beginPath();
-            backBuffer.arc(pos.x, pos.y, 40, 2 * Math.PI, 0);
+            // Default node style: gray circle, black border:
             backBuffer.fillStyle = "gray";
-
-            // tmp, color TBD:
-            if (selections.left == nodes[i] || selections.right == nodes[i])
-                backBuffer.fillStyle = "green";
-
-            backBuffer.fill();
-            backBuffer.lineWidth = 5;
             backBuffer.strokeStyle = "black";
 
-            // tmp, color TBD:
-            if (selections.left == nodes[i] || selections.right == nodes[i])
+            // Overwrite to a green circle with a dark green outline when selected:
+            if (selections.left == nodes[i] || selections.right == nodes[i]) {
+                backBuffer.fillStyle = "green";
                 backBuffer.strokeStyle = "#003300";
-            
+            }
+
+            backBuffer.beginPath();
+            backBuffer.arc(pos.x, pos.y, 40, 2 * Math.PI, 0);
+            backBuffer.fill();
+            backBuffer.lineWidth = 5;          
             backBuffer.stroke();
         }
     }
@@ -155,17 +129,16 @@ function Workspace(id) {
                 switch (event.which) {
                     case 1: // Left mouse
                         if (selections.left == nodes[i]) { // For future: Do not deselect if the detail panel is checked to stay open
-                            //$("#leftDetail").hide();
-                            $(window).resize();
                             selections.left = null;
-                            redrawBuffer = true;
+                            leftDetailWorkspace.hide();
                         }
                         else {
-                            //$("#leftDetail").show();
-                            $(window).resize();
                             selections.left = nodes[i];
-                            redrawBuffer = true;
+                            leftDetailWorkspace.show(nodes[i]);
                         }
+
+                        redrawBuffer = true;
+                        $(window).resize();
                         return;
                     case 2: // Middle mouse
 
@@ -181,7 +154,7 @@ function Workspace(id) {
         }
         switch (event.which) {
             case 3: // Right mouse
-                var node = Node(x + scroll.x, y + scroll.y);
+                var node = Person(x + scroll.x, y + scroll.y);
                 nodes.push(node);
                 redrawBuffer = true;
 
