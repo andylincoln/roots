@@ -6,15 +6,14 @@
 
 function DetailPanelWorkspace(id) {
     function show(personData) {
-
         // You can now load the data to the detail panel here, Andy.
         // personData is a person class, Be sure to find out if JavaSript uses deep or shallow copy by default.
 
-        $('#' + id).show();
+        $(id).show();
     }
 
     function hide() {
-        $('#' + id).hide();
+        $(id).hide();
     }
 
     // Hide the detail panel initially:

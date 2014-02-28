@@ -6,7 +6,7 @@
 
 function CanvasWorkspace(id) {
     // Canvas and buffer variables:
-    var mElement = document.getElementById(id),
+    var mElement = document.getElementById(id.substring(1)),
         bElement = document.createElement('canvas'),
         mainBuffer = mElement.getContext("2d"),
         backBuffer = bElement.getContext("2d");
@@ -104,10 +104,10 @@ function CanvasWorkspace(id) {
     }
 
     // Handle the canvas being clicked:
-    $('#' + id).mousedown(function(event) {
+    $(id).mousedown(function(event) {
         // x & y based on code from https://stackoverflow.com/questions/3067691/html5-canvas-click-event:
-        var x = event.pageX - $('#' + id).offset().left;
-        var y = event.pageY - $('#' + id).offset().top;
+        var x = event.pageX - $(id).offset().left;
+        var y = event.pageY - $(id).offset().top;
 
         var pos, pythag;
 
@@ -161,6 +161,11 @@ function CanvasWorkspace(id) {
             default:
                 break;
         }
+    });
+
+    // Disable right click:
+    $(id).bind("contextmenu", function(e) {
+        return false;
     });
 
     // Here is the returned JSOL which allows public access of certain functions:

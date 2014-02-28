@@ -11,13 +11,8 @@ var canvasWorkspace,
 
 $(document).ready(function(){
     // Instantiate the canvas workspace "class":
-    canvasWorkspace = CanvasWorkspace("workspace");
+    canvasWorkspace = CanvasWorkspace("#workspace");
     canvasWorkspace.animate();
-
-    // Disable right click:
-    $("#workspace").bind("contextmenu", function(e) {
-        return false;
-    });
 
     // Add an event handler to resize the canvas workspace on window resize:
     $(window).resize(function() {
@@ -36,7 +31,8 @@ $(document).ready(function(){
     });
 
     // Instantiate the left detail panel "class":
-    leftDetailWorkspace = DetailPanelWorkspace("leftDetail");
+    leftDetailWorkspace = DetailPanelWorkspace("#leftDetail");
+    rightDetailWorkspace = DetailPanelWorkspace("#rightDetail");
 
     // Resize the window once all workspaces have been loaded.
     $(window).resize();
