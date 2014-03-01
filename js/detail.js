@@ -12,10 +12,8 @@ function DetailPanelWorkspace(id) {
 
     /*
      * Panel Strings
-     * 
      * The panel may be left or right, so DetailPanelWorkspace runs a check
      * for which side it is on using strLeft and strRight
-     * 
      */
     var strLeft = "#left", strRight = "#right", idPrefix = null;
 
@@ -28,11 +26,11 @@ function DetailPanelWorkspace(id) {
     }
 
     /*
-     * JS handles for UI elements in detail panel
+     * jQuery object handles for UI elements in detail panel
      */
     var birthplaceInput,
-            dateBirthInput,
-            dateDeathInput,
+            dateOfBirthInput,
+            dateOfDeathInput,
             firstNameInput,
             genderSelect,
             generationInput,
@@ -41,27 +39,87 @@ function DetailPanelWorkspace(id) {
             residenceInput;
 
     birthplaceInput = $(idPrefix + "Birthplace");
-    dateBirthInput = $(idPrefix + "DateBirth");
-    dateDeathInput = $(idPrefix + "DateDeath");
+    dateOfBirthInput = $(idPrefix + "DateBirth");
+    dateOfDeathInput = $(idPrefix + "DateDeath");
     firstNameInput = $(idPrefix + "FirstName");
     genderSelect = $(idPrefix + "Gender");
     generationInput = $(idPrefix + "Generation");
     lastNameInput = $(idPrefix + "LastName");
     middleNameInput = $(idPrefix + "MiddleName");
     residenceInput = $(idPrefix + "Residence");
+    
+    //Default to disabled
+    disable();
+    
+    //  Set jQueryUI Widgets in detail panel
+    $(dateOfBirthInput).datepicker();
+    $(dateOfDeathInput).datepicker();
+    
 
+    function disable() {
+        birthplaceInput.prop( "disabled", true );
+        dateOfBirthInput.prop( "disabled", true );
+        dateOfDeathInput.prop( "disabled", true );
+        firstNameInput.prop( "disabled", true );
+        genderSelect.prop( "disabled", true );
+        generationInput.prop( "disabled", true );
+        lastNameInput.prop( "disabled", true );
+        middleNameInput.prop( "disabled", true );
+        residenceInput.prop( "disabled", true );
+    }
+
+    function enable() {
+        birthplaceInput.prop( "disabled", false );
+        dateOfBirthInput.prop( "disabled", false );
+        dateOfDeathInput.prop( "disabled", false );
+        firstNameInput.prop( "disabled", false );
+        genderSelect.prop( "disabled", false );
+        generationInput.prop( "disabled", false );
+        lastNameInput.prop( "disabled", false );
+        middleNameInput.prop( "disabled", false );
+        residenceInput.prop( "disabled", false );
+    }
+
+    function hide() {
+        $(id).hide();
+    }
+
+    function load(personData) {
+
+        birthplaceInput.val(personData.getBirthplace());
+        dateOfBirthInput.val(personData.getDateOfBirth());
+        dateOfDeathInput.val(personData.getDateOfDeath());
+        firstNameInput.val(personData.getFirstName());
+        genderSelect.val(personData.getGender());
+//        generationInput.val(personData.getGeneration());
+        lastNameInput.val(personData.getLastName());
+        middleNameInput.val(personData.getMiddleName());
+        residenceInput.val(personData.getResidence());
+
+    }
+
+    function save(personData) {
+
+        personData.setBirthplace(birthplaceInput.val());
+        personData.setDateOfBirth(dateOfBirthInput.val());
+        personData.setDateOfDeatth(dateOfDeathInput.val());
+        personData.setFirstName(firstNameInput.val());
+        personData.setGender(genderSelect.val());
+//        personData.set(generationInput.val());
+        personData.setLastName(lastNameInput.val());
+        personData.setMiddleName(residenceInput.val());
+        personData.setResidenceInput(personData.getResidence());
+
+    }
 
     function show(personData) {
         // You can now load the data to the detail panel here, Andy.
         // personData is a person class, Be sure to find out if JavaSript uses deep or shallow copy by default.
 
-        birthplaceInput.val(personData.getBirthplace());
-        //TODO fill the inputs with the rest of the data
+        // Dan, from what I've gathered from some Google searching, JS does a 
+        // shallow copy
+        load(personData);
         $(id).show();
-    }
-
-    function hide() {
-        $(id).hide();
     }
 
     // Hide the detail panel initially:
@@ -69,7 +127,11 @@ function DetailPanelWorkspace(id) {
 
     // Allow access to the hide and show functions:
     return {
+        disable: disable,
+        enable: enable,
         hide: hide,
+        load: load,
+        save: save,
         show: show
     };
 }

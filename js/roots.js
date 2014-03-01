@@ -14,8 +14,6 @@ $(document).ready(function(){
     canvasWorkspace = CanvasWorkspace("#workspace");
     canvasWorkspace.animate();
     
-    setjQueryUIWidgets();
-
     // Add an event handler to resize the canvas workspace on window resize:
     $(window).resize(function() {
         var width = window.innerWidth;
@@ -33,16 +31,26 @@ $(document).ready(function(){
     });
 
     // Instantiate the left detail panel "class":
-    leftDetailWorkspace = DetailPanelWorkspace("#leftDetail");
+    leftDetailWorkspace  = DetailPanelWorkspace("#leftDetail");
     rightDetailWorkspace = DetailPanelWorkspace("#rightDetail");
 
     // Resize the window once all workspaces have been loaded.
     $(window).resize();
 });
 
-function setjQueryUIWidgets() {
-    
-    $("#leftDateBirth").datepicker();
-    $("#leftDateDeath").datepicker();
+//  Event Handlers
 
-}
+$(document).ready(function() {
+    // Enable/Disable editing checkbox
+    
+    $("#checkEdit").click(function() {
+        if ($(this).is(':checked')) {
+            leftDetailWorkspace.enable();
+        } else {
+            leftDetailWorkspace.disable();
+        }
+    });
+    
+    
+    
+});
