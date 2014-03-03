@@ -156,11 +156,11 @@ function CanvasWorkspace(id) {
             // Tried placing a new node onto an existing node:
             else if (pythag < 7056) // (2*radius of 80 + small offset)^2 = 7056
                 // Check if the delete button was pressed:
-                if (false) {
-                    console.log("delete");
+                //if (false) {
+                //    console.log("delete");
 
                     // redrawBuffer = true;
-                }
+                //}
                 return;
         }
         switch (event.which) {
