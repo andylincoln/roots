@@ -52,10 +52,9 @@ function DetailPanelWorkspace(id) {
     disable();
     
     //  Set jQueryUI Widgets in detail panel
-    $(dateOfBirthInput).datepicker();
-    $(dateOfDeathInput).datepicker();
+    dateOfBirthInput.datepicker();
+    dateOfDeathInput.datepicker();
     
-
     function disable() {
         birthplaceInput.prop( "disabled", true );
         dateOfBirthInput.prop( "disabled", true );
@@ -113,11 +112,6 @@ function DetailPanelWorkspace(id) {
     }
 
     function show(personData) {
-        // You can now load the data to the detail panel here, Andy.
-        // personData is a person class, Be sure to find out if JavaSript uses deep or shallow copy by default.
-
-        // Dan, from what I've gathered from some Google searching, JS does a 
-        // shallow copy
         load(personData);
         $(id).show();
     }
@@ -125,7 +119,7 @@ function DetailPanelWorkspace(id) {
     // Hide the detail panel initially:
     hide();
 
-    // Allow access to the hide and show functions:
+    // Allow external access to functions:
     return {
         disable: disable,
         enable: enable,

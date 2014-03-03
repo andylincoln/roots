@@ -16,7 +16,7 @@ $(document).ready(function(){
     
     // Add an event handler to resize the canvas workspace on window resize:
     $(window).resize(function() {
-        var width = window.innerWidth;
+        var width  = window.innerWidth;
         var height = window.innerHeight - $("#topDiv").height();
 
         if ($("#leftDetail").css("display") != "none") {
@@ -34,15 +34,7 @@ $(document).ready(function(){
     leftDetailWorkspace  = DetailPanelWorkspace("#leftDetail");
     rightDetailWorkspace = DetailPanelWorkspace("#rightDetail");
 
-    // Resize the window once all workspaces have been loaded.
-    $(window).resize();
-});
-
-//  Event Handlers
-
-$(document).ready(function() {
     // Enable/Disable editing checkbox
-    
     $("#checkEdit").click(function() {
         if ($(this).is(':checked')) {
             leftDetailWorkspace.enable();
@@ -50,7 +42,7 @@ $(document).ready(function() {
             leftDetailWorkspace.disable();
         }
     });
-    
-    
-    
+
+    // Resize the window once all workspaces have been loaded.    
+    $(window).resize();
 });

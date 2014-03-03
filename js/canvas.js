@@ -23,6 +23,8 @@ function CanvasWorkspace(id) {
     // This is the function that will draw to the back buffer only when something new happens on screen:
     function draw() {
         var pos;
+        var deleteImg = Image();
+        deleteImg.src = "css/img/Delete_icon.svg"; // Image from http://all-free-download.com/free-vector/vector-clip-art/delete_icon_55564.html
 
         // Start by clearing the screen:
         backBuffer.clearRect(0, 0, mElement.width, mElement.height);
@@ -39,6 +41,9 @@ function CanvasWorkspace(id) {
             if (selections.left == nodes[i] || selections.right == nodes[i]) {
                 backBuffer.fillStyle = "green";
                 backBuffer.strokeStyle = "#003300";
+
+                // Draw delete button near the selected node.
+                backBuffer.drawImage(deleteImg, pos.x + 40, pos.y - 40, 16, 16);
             }
 
             backBuffer.beginPath();
@@ -150,6 +155,12 @@ function CanvasWorkspace(id) {
             }
             // Tried placing a new node onto an existing node:
             else if (pythag < 7056) // (2*radius of 80 + small offset)^2 = 7056
+                // Check if the delete button was pressed:
+                if (false) {
+                    console.log("delete");
+
+                    // redrawBuffer = true;
+                }
                 return;
         }
         switch (event.which) {
