@@ -79,6 +79,25 @@ function CanvasWorkspace(id) {
         scroll.y = 0;
     }
 
+    function removeNode(index) {
+        // Remove the node from current selections:
+        if (selections.left == nodes[index]) {
+            selections.left = null;
+        }
+        if (selections.right == nodes[index]) {
+            selections.right = null;
+        }
+        
+        // Remove the node from the array:
+        nodes.splice(index, 1);
+
+        // I'm not sure why, but this function call is required, else
+        // The delete in the buffer wont be updated. Tried setting redrawBuffer = true,
+        // Which should logically be the fix. But it isnt...
+        // Meaning somehow resetting the height or width of the canvas is the fix??
+        resize(mainBuffer.canvas.width, mainBuffer.canvas.height);
+    }
+
     // Sets the width & height of the canvas:
     function resize(width, height) {
         mainBuffer.canvas.width  = width;
@@ -154,14 +173,16 @@ function CanvasWorkspace(id) {
                 }
             }
             // Tried placing a new node onto an existing node:
-            else if (pythag < 7056) // (2*radius of 80 + small offset)^2 = 7056
+            else if (pythag < 7056) { // (2*radius of 80 + small offset)^2 = 7056
                 // Check if the delete button was pressed:
-                //if (false) {
-                //    console.log("delete");
+                var pythag2 = Math.pow(x - (pos.x + 48), 2) + Math.pow(y - (pos.y - 32), 2);
+                if (pythag2 < 81) {
+                    removeNode(i);
+                }
 
-                    // redrawBuffer = true;
-                //}
+                // Stop a node from being created:
                 return;
+            }
         }
         switch (event.which) {
             case 3: // Right mouse
