@@ -23,7 +23,7 @@ function CanvasWorkspace(id) {
     // This is the function that will draw to the back buffer only when something new happens on screen:
     function draw() {
         var pos;
-        var deleteImg = Image();
+        var deleteImg = new Image();
         deleteImg.src = "css/img/Delete_icon.svg"; // Image from http://all-free-download.com/free-vector/vector-clip-art/delete_icon_55564.html
 
         // Start by clearing the screen:
