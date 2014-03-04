@@ -48,12 +48,32 @@ function DetailPanelWorkspace(id) {
     middleNameInput = $(idPrefix + "MiddleName");
     residenceInput = $(idPrefix + "Residence");
     
-    //Default to disabled
-    disable();
+    //Default to enabled
+    enable();
     
     //  Set jQueryUI Widgets in detail panel
-    dateOfBirthInput.datepicker();
-    dateOfDeathInput.datepicker();
+    dateOfBirthInput.datepicker({
+//     showOn: 'button',
+//        buttonImage: '',
+//        buttonImageOnly: true,
+        dateFormat: 'mm/dd/yy',
+        changeYear: true,
+        minDate: new Date(1900, 0, 1),
+        maxDate: new Date(2014, 11, 31),
+        defaultDate: new Date(1950, 0, 1),
+        yearRange: '1900:2014'
+    });
+    dateOfDeathInput.datepicker({
+//        showOn: 'button',
+//        buttonImage: '',
+//        buttonImageOnly: true,
+        dateFormat: 'mm/dd/yy',
+        changeYear: true,
+        minDate: new Date(1900, 0, 1),
+        maxDate: new Date(2014, 11, 31),
+        defaultDate: new Date(1950, 0, 1),
+        yearRange: '1900:2014'
+    });
     
     function disable() {
         birthplaceInput.prop( "disabled", true );
