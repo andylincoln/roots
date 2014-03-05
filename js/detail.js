@@ -29,6 +29,7 @@ function DetailPanelWorkspace(id) {
      * jQuery object handles for UI elements in detail panel
      */
     var birthplaceInput,
+            currentPerson,
             dateOfBirthInput,
             dateOfDeathInput,
             firstNameInput,
@@ -36,7 +37,8 @@ function DetailPanelWorkspace(id) {
             generationInput,
             lastNameInput,
             middleNameInput,
-            residenceInput;
+            residenceInput,
+            saveButton;
 
     birthplaceInput = $(idPrefix + "Birthplace");
     dateOfBirthInput = $(idPrefix + "DateBirth");
@@ -47,6 +49,7 @@ function DetailPanelWorkspace(id) {
     lastNameInput = $(idPrefix + "LastName");
     middleNameInput = $(idPrefix + "MiddleName");
     residenceInput = $(idPrefix + "Residence");
+    saveButton= $(idPrefix + "Save");
     
     //Default to enabled
     enable();
@@ -74,6 +77,7 @@ function DetailPanelWorkspace(id) {
         defaultDate: new Date(1950, 0, 1),
         yearRange: '1900:2014'
     });
+    saveButton.button();
     
     function disable() {
         birthplaceInput.prop( "disabled", true );
@@ -104,7 +108,7 @@ function DetailPanelWorkspace(id) {
     }
 
     function load(personData) {
-
+        currentPerson = personData;
         birthplaceInput.val(personData.getBirthplace());
         dateOfBirthInput.val(personData.getDateOfBirth());
         dateOfDeathInput.val(personData.getDateOfDeath());
@@ -117,17 +121,17 @@ function DetailPanelWorkspace(id) {
 
     }
 
-    function save(personData) {
-
-        personData.setBirthplace(birthplaceInput.val());
-        personData.setDateOfBirth(dateOfBirthInput.val());
-        personData.setDateOfDeatth(dateOfDeathInput.val());
-        personData.setFirstName(firstNameInput.val());
-        personData.setGender(genderSelect.val());
-//        personData.set(generationInput.val());
-        personData.setLastName(lastNameInput.val());
-        personData.setMiddleName(residenceInput.val());
-        personData.setResidenceInput(personData.getResidence());
+    function save() {
+        
+        currentPerson.setBirthplace(birthplaceInput.val());
+        currentPerson.setDateOfBirth(dateOfBirthInput.val());
+        currentPerson.setDateOfDeath(dateOfDeathInput.val());
+        currentPerson.setFirstName(firstNameInput.val());
+        currentPerson.setGender(genderSelect.val());
+//        currentPerson.set(generationInput.val());
+        currentPerson.setLastName(lastNameInput.val());
+        currentPerson.setMiddleName(middleNameInput.val());
+        currentPerson.setResidenceInput(residenceInput.val());
 
     }
 

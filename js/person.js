@@ -60,10 +60,6 @@ function Person(x, y) {
 
     function dateOfBirthSetter(date) {
 
-        if (!(date instanceof Date)) {
-            throw Exception("Person.setDateOfBirth(): argument date expects type Date");
-        }
-
         dateBirth = date;
     }
 
@@ -72,10 +68,6 @@ function Person(x, y) {
     }
 
     function dateOfDeathSetter(date) {
-
-        if (!(date instanceof Date)) {
-            throw Exception("Person.setDateOfDeath(): argument date expects type Date");
-        }
 
         dateDeath = date;
     }
@@ -224,7 +216,7 @@ function Person(x, y) {
         getPictureURL: pictureURLGetter,
         getPosition: positionGetter,
         getResidence: residenceGetter,
-        setBirthPlace: birthplaceSetter,
+        setBirthplace: birthplaceSetter,
         setCurrentSpouse: currentSpouseSetter,
         setDateOfBirth: dateOfBirthSetter,
         setDateOfDeath: dateOfDeathSetter,

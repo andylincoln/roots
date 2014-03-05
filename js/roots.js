@@ -42,6 +42,10 @@ $(document).ready(function(){
             leftDetailWorkspace.disable();
         }
     });
+    
+    $("#leftSave").click(function(){
+        leftDetailWorkspace.save();
+    });
 
     // Resize the window once all workspaces have been loaded.    
     $(window).resize();
