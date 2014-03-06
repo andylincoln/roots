@@ -13,7 +13,7 @@
             <?php
             if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
 
-                echo "<script>$(document).ready(window.location = 'roots.html');</script>";
+                echo "<script>window.location = 'roots.html';</script>";
 
                 } elseif (!empty($_POST['username']) && !empty($_POST['password'])) {
                     $username = mysql_real_escape_string($_POST['username']);
