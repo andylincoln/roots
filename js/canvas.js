@@ -4,12 +4,82 @@
     Description : Script for the canvas functions.
 */
 
+var deleteImg = new Image();
+deleteImg.src = "css/img/deleteicon.svg"; // Image from http://all-free-download.com/free-vector/vector-clip-art/delete_icon_55564.html
+
+function Node(layer, x, y) {
+    var data = Person();
+
+    var kineticOBJ = new Kinetic.Circle({
+        x: x,
+        y: y,
+        radius: 40,
+        fill: "gray",
+        stroke: "black",
+        strokeWidth: 5
+    });
+
+    layer.add(kineticOBJ);
+
+    var deleteIcon = new Kinetic.Image({
+        x: x + 40,
+        y: y - 40,
+        image: deleteImg,
+        width: 16,
+        height: 16,
+        visible: false
+    });
+
+    layer.add(deleteIcon);
+    layer.draw();
+
+    // For when the node is de/selected
+    function select() {
+        kineticOBJ.fill("green");
+        kineticOBJ.stroke("#003300");
+        deleteIcon.visible(true);
+    }
+
+    function deselect() {
+        kineticOBJ.fill("gray");
+        kineticOBJ.stroke("black");
+        deleteIcon.visible(false);
+    }
+
+    // Have to remove the KineticJS objects their own way
+    function destroy() {
+        kineticOBJ.destroy();
+        deleteIcon.destroy();
+    }
+
+    function getData() {
+        return data;
+    }
+
+    function getPosition() {
+        return {
+            x: kineticOBJ.x(),
+            y: kineticOBJ.y()
+        };
+    }
+
+    // Allow public access to these functions
+    return {
+        deselect: deselect,
+        destroy: destroy,
+        getData: getData,
+        getPosition: getPosition,
+        select: select
+    };
+}
+
+
 function CanvasWorkspace(id) {
-    // Canvas and buffer variables:
-    var mElement = document.getElementById(id.substring(1)),
-        bElement = document.createElement('canvas'),
-        mainBuffer = mElement.getContext("2d"),
-        backBuffer = bElement.getContext("2d");
+    // KineticJS display variables
+    var stage = new Kinetic.Stage({
+        container: id.substring(1)
+    });
+    var layer = new Kinetic.Layer();
 
     // Flag variables:
     var redrawBuffer = false,
@@ -20,63 +90,10 @@ function CanvasWorkspace(id) {
         selections = {left: null, right: null},
         nodes = [];
 
-    // This is the function that will draw to the back buffer only when something new happens on screen:
-    function draw() {
-        var pos;
-        var deleteImg = new Image();
-        deleteImg.src = "css/img/Delete_icon.svg"; // Image from http://all-free-download.com/free-vector/vector-clip-art/delete_icon_55564.html
-
-        // Start by clearing the screen:
-        backBuffer.clearRect(0, 0, mElement.width, mElement.height);
-
-        // Draw nodes and connections:
-        for (var i = 0; i < nodes.length; i++) {
-            pos = nodes[i].getPosition();
-
-            // Default node style: gray circle, black border:
-            backBuffer.fillStyle = "gray";
-            backBuffer.strokeStyle = "black";
-
-            // Overwrite to a green circle with a dark green outline when selected:
-            if (selections.left == nodes[i] || selections.right == nodes[i]) {
-                backBuffer.fillStyle = "green";
-                backBuffer.strokeStyle = "#003300";
-
-                // Draw delete button near the selected node.
-                backBuffer.drawImage(deleteImg, pos.x + 40, pos.y - 40, 16, 16);
-            }
-
-            backBuffer.beginPath();
-            backBuffer.arc(pos.x, pos.y, 40, 2 * Math.PI, 0);
-            backBuffer.fill();
-            backBuffer.lineWidth = 5;          
-            backBuffer.stroke();
-        }
-    }
-
-    function update() {
-        if (redrawBuffer) {
-            draw();
-        }
-
-        // if scrolling, shift scrolled version of back buffer onto front:
-        // --- scroll not tested in demo ---
-        if (redrawBuffer) { // || scrolling) ?
-            mainBuffer.drawImage(bElement, scroll.x, scroll.y);
-            redrawBuffer = false;
-        }
-    }
-
     function scroll(xVelocity, yVelocity) {
         // not final nor essential to demo:
         scroll.x += xVelocity;
         scroll.y += yVelocity;
-    }
-
-    function resetCamera() {
-        // Not sure if actually needed.
-        scroll.x = 0;
-        scroll.y = 0;
     }
 
     function removeNode(index) {
@@ -88,43 +105,24 @@ function CanvasWorkspace(id) {
             selections.right = null;
         }
         
-        // Remove the node from the array:
+        // Remove the node from the array and update KineticsJS:
+        nodes[index].destroy();
         nodes.splice(index, 1);
-
-        // I'm not sure why, but this function call is required, else
-        // The delete in the buffer wont be updated. Tried setting redrawBuffer = true,
-        // Which should logically be the fix. But it isnt...
-        // Meaning somehow resetting the height or width of the canvas is the fix??
-        resize(mainBuffer.canvas.width, mainBuffer.canvas.height);
+        layer.draw();
     }
 
     // Sets the width & height of the canvas:
     function resize(width, height) {
-        mainBuffer.canvas.width  = width;
-        mainBuffer.canvas.height = height;
+        $(id).width(width);
+        $(id).height(height);
 
-        backBuffer.canvas.width  = width;
-        backBuffer.canvas.height = height;
-
-        redrawBuffer = true;
+        stage.width(width);
+        stage.height(height);
     }
 
     // This function will return the left and right selected nodes.
     function getSelections() {
         return selections;
-    }
-
-    // This function will handle updating the canvas and fps syncing:
-    function animate() {
-        var time = 0,
-            inc = 0.1;
-
-        // Immediate Anonymous Loop:
-        (function loop() {
-            requestAnimationFrame(loop);
-            time += inc;
-            update();
-        }());
     }
 
     // Handle the canvas being clicked:
@@ -141,8 +139,8 @@ function CanvasWorkspace(id) {
 
             // Ignore node if offscreen:
             if (pos.x < scroll.x || pos.y < scroll.y ||
-                pos.x > mainBuffer.canvas.width + scroll.x ||
-                pos.y > mainBuffer.canvas.height + scroll.y) {
+                pos.x > $(id).width() + scroll.x ||
+                pos.y > $(id).height() + scroll.y) {
                 
                 continue;
             }
@@ -154,14 +152,18 @@ function CanvasWorkspace(id) {
                     case 1: // Left mouse
                         if (selections.left == nodes[i]) { // For future: Do not deselect if the detail panel is checked to stay open
                             selections.left = null;
+                            nodes[i].deselect();
                             leftDetailWorkspace.hide();
                         }
                         else {
+                            if (selections.left != null)
+                                selections.left.deselect();
+
                             selections.left = nodes[i];
-                            leftDetailWorkspace.show(nodes[i]);
+                            nodes[i].select();
+                            leftDetailWorkspace.show(nodes[i].getData());
                         }
 
-                        redrawBuffer = true;
                         $(window).resize();
                         return;
                     case 2: // Middle mouse
@@ -186,9 +188,9 @@ function CanvasWorkspace(id) {
         }
         switch (event.which) {
             case 3: // Right mouse
-                var node = Person(x + scroll.x, y + scroll.y);
+                var node = Node(layer, x, y);
                 nodes.push(node);
-                redrawBuffer = true;
+                //redrawBuffer = true;
 
             default:
                 break;
@@ -200,11 +202,12 @@ function CanvasWorkspace(id) {
         return false;
     });
 
+
+    stage.add(layer);
+
     // Here is the returned JSOL which allows public access of certain functions:
     return {
-        animate: animate,
         getSelections: getSelections,
         resize: resize
-        // more stuff
     };
 }

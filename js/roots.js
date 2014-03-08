@@ -12,7 +12,7 @@ var canvasWorkspace,
 $(document).ready(function(){
     // Instantiate the canvas workspace "class":
     canvasWorkspace = CanvasWorkspace("#workspace");
-    canvasWorkspace.animate();
+    //canvasWorkspace.animate();
     
     // Add an event handler to resize the canvas workspace on window resize:
     $(window).resize(function() {
