@@ -7,6 +7,18 @@
 var deleteImg = new Image();
 deleteImg.src = "css/img/deleteicon.svg"; // Image from http://all-free-download.com/free-vector/vector-clip-art/delete_icon_55564.html
 
+var selections = {left: null, right: null};
+var nodes = [];
+
+// This function returns the Node associated with a particular KOBJ
+function findNode(kineticOBJ) {
+    for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].getKOBJ() == kineticOBJ) {
+            return nodes[i];
+        }
+    }
+}
+
 function Node(layer, x, y) {
     var data = Person();
 
@@ -17,6 +29,28 @@ function Node(layer, x, y) {
         fill: "gray",
         stroke: "black",
         strokeWidth: 5
+    });
+
+    // When the node icon is pressed:
+    kineticOBJ.on("click", function(event) {
+        // On left click only
+        if (event.which != 1)
+            return;
+
+        // Select or deselect
+        if (kineticOBJ.fill() == "green") {
+            selections.left = null;
+            deselect();
+        }
+        else {
+            if (selections.left != null)
+                selections.left.deselect();
+
+            selections.left = findNode(kineticOBJ);
+            select();
+        }
+        // Update the canvas
+        layer.draw();
     });
 
     layer.add(kineticOBJ);
@@ -30,6 +64,14 @@ function Node(layer, x, y) {
         visible: false
     });
 
+    // When the delete icon is pressed:
+    deleteIcon.on("click", function(event) {
+        // On left click
+        if (event.which == 1)
+            destroy();
+            layer.draw();
+    });
+
     layer.add(deleteIcon);
     layer.draw();
 
@@ -38,16 +80,19 @@ function Node(layer, x, y) {
         kineticOBJ.fill("green");
         kineticOBJ.stroke("#003300");
         deleteIcon.visible(true);
+        leftDetailWorkspace.show(data);
     }
 
     function deselect() {
         kineticOBJ.fill("gray");
         kineticOBJ.stroke("black");
         deleteIcon.visible(false);
+        leftDetailWorkspace.hide();
     }
 
     // Have to remove the KineticJS objects their own way
     function destroy() {
+        deselect();
         kineticOBJ.destroy();
         deleteIcon.destroy();
     }
@@ -63,11 +108,16 @@ function Node(layer, x, y) {
         };
     }
 
+    function getKOBJ() {
+        return kineticOBJ;
+    }
+
     // Allow public access to these functions
     return {
         deselect: deselect,
         destroy: destroy,
         getData: getData,
+        getKOBJ: getKOBJ,
         getPosition: getPosition,
         select: select
     };
@@ -86,9 +136,7 @@ function CanvasWorkspace(id) {
         scrolling = false;
 
     // Data Structure variables:
-    var scroll = {x: 0, y: 0},
-        selections = {left: null, right: null},
-        nodes = [];
+    var scroll = {x: 0, y: 0};
 
     function scroll(xVelocity, yVelocity) {
         // not final nor essential to demo:
@@ -130,68 +178,23 @@ function CanvasWorkspace(id) {
         // x & y based on code from https://stackoverflow.com/questions/3067691/html5-canvas-click-event:
         var x = event.pageX - $(id).offset().left;
         var y = event.pageY - $(id).offset().top;
+        var pythag, pos;
 
-        var pos, pythag;
 
-        // Create a node if placed in open space:
-        for (var i = 0; i < nodes.length; i++) {
-            pos = nodes[i].getPosition();
-
-            // Ignore node if offscreen:
-            if (pos.x < scroll.x || pos.y < scroll.y ||
-                pos.x > $(id).width() + scroll.x ||
-                pos.y > $(id).height() + scroll.y) {
-                
-                continue;
-            }
-            
-            pythag = Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2); // x^2 + y^2:
-            // Node was selected.
-            if (pythag < 1600) { // radius of 40^2 = 1600
-                switch (event.which) {
-                    case 1: // Left mouse
-                        if (selections.left == nodes[i]) { // For future: Do not deselect if the detail panel is checked to stay open
-                            selections.left = null;
-                            nodes[i].deselect();
-                            leftDetailWorkspace.hide();
-                        }
-                        else {
-                            if (selections.left != null)
-                                selections.left.deselect();
-
-                            selections.left = nodes[i];
-                            nodes[i].select();
-                            leftDetailWorkspace.show(nodes[i].getData());
-                        }
-
-                        $(window).resize();
-                        return;
-                    case 2: // Middle mouse
-
-                    case 3: // Right Mouse
-                        return;
-                    default:
-                        break;
-                }
-            }
-            // Tried placing a new node onto an existing node:
-            else if (pythag < 7056) { // (2*radius of 80 + small offset)^2 = 7056
-                // Check if the delete button was pressed:
-                var pythag2 = Math.pow(x - (pos.x + 48), 2) + Math.pow(y - (pos.y - 32), 2);
-                if (pythag2 < 81) {
-                    removeNode(i);
-                }
-
-                // Stop a node from being created:
-                return;
-            }
-        }
         switch (event.which) {
             case 3: // Right mouse
-                var node = Node(layer, x, y);
-                nodes.push(node);
-                //redrawBuffer = true;
 
+                // Check for collision
+                for (var i = 0; i < nodes.length; i++) {
+                    pos = nodes[i].getPosition();
+                    pythag = Math.pow((x - pos.x), 2) + Math.pow((y - pos.y), 2); // x^2 + y^2
+                    if (pythag < 7056) {
+                        return;
+                    }
+                }
+
+                var node = Node(layer, x - scroll.x, y - scroll.y);
+                nodes.push(node);
             default:
                 break;
         }
@@ -201,7 +204,6 @@ function CanvasWorkspace(id) {
     $(id).bind("contextmenu", function(e) {
         return false;
     });
-
 
     stage.add(layer);
 

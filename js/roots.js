@@ -27,6 +27,8 @@ $(document).ready(function(){
             width -= $("#rightDetail").width();
         }
 
+        width -= 2;
+        height -= 2;
         canvasWorkspace.resize(width, height);
     });
 

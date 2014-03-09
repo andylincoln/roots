@@ -105,6 +105,7 @@ function DetailPanelWorkspace(id) {
 
     function hide() {
         $(id).hide();
+        $(window).resize();
     }
 
     function load(personData) {
