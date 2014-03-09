@@ -5,7 +5,7 @@
 */
 
 var deleteImg = new Image();
-deleteImg.src = "css/img/deleteicon.svg"; // Image from http://all-free-download.com/free-vector/vector-clip-art/delete_icon_55564.html
+deleteImg.src = "css/img/deleteicon.png"; // Image from http://all-free-download.com/free-vector/vector-clip-art/delete_icon_55564.html
 
 var selections = {left: null, right: null};
 var nodes = [];
@@ -179,7 +179,6 @@ function CanvasWorkspace(id) {
         var x = event.pageX - $(id).offset().left;
         var y = event.pageY - $(id).offset().top;
         var pythag, pos;
-
 
         switch (event.which) {
             case 3: // Right mouse
