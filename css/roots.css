@@ -31,10 +31,6 @@ html, body {
     width: 100%;
 }
 
-#title {
-    font-family: 'Port Lligat Slab', serif;
-}
-
 #leftDetail {
     border: 1px solid black; /* Just here to see where the panel is */
     display: inline-block;
@@ -63,6 +59,7 @@ html, body {
 #title {
     color: #8b4424;
     font-size: 2em;
+    font-family: 'Port Lligat Slab', serif;
     text-align: center;
 }
 

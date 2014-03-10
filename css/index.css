@@ -1,0 +1,83 @@
+/* 
+    Created on : Mar 8, 2014, 10:50:22 PM
+    Author     : Andrew Lincoln
+    Description: Styles for splash page
+*/
+
+/*
+ *          Color Pallette
+ * Dark Green   :       #24420e
+ * Light Green  :       #008142
+ * Orange       :       #f7941d
+ * Earth Brown  :       #5b3b00
+ * Light Blue   :       #3cc1c9
+ * Red Brown    :       #8b4424
+ * Grey         :       #bbb9be
+ *
+ */
+
+
+
+body {
+    background-color: #bbb9be;
+    background-image: url(img/roots-website-background.png);
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    color:#24420e;
+    display: inline;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+h1 {
+    color: #8b4424;
+    font-size: 2em;
+    font-family: 'Port Lligat Slab', serif;
+    text-align: center;
+}
+
+header {
+    display: block;
+    height: 125px;
+    position: relative;
+}
+
+input {
+    display: block;
+    margin-top: 10px;
+    margin-left: 100px;
+}
+
+li {
+    display: inline;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+}
+
+#accountLinks {
+    display: inline;
+    float: right;
+}
+
+#loginform {
+    margin: 10px auto 10px auto;
+}
+
+#logo {
+    display:inline;
+}
+
+#main {
+    margin-top: 200px;
+    float: left;
+    padding: 10px;
+    width: 25%;
+}
+
+.wrapper {
+    display: inline-block;
+}
