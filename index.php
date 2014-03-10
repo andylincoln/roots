@@ -5,7 +5,7 @@
 
     <head>  
         <meta content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="width=device-width"/>
         <title>Roots Ancestry Tracker</title>
         <!-- Include the jQuery library -->
         <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
@@ -68,7 +68,7 @@
                     <form method="post" action="index.php" name="loginform" id="loginform">
                         <input type="text" name="username" id="username" placeholder="username" />
                         <input type="password" name="password" id="password" placeholder="password"/>
-                        <input type="submit" name="login" id="login" value="Login" />
+                        <input type="submit" name="login" id="login" value="Login" class="small-button" />
                     </form>
 
                     <?php
@@ -78,7 +78,7 @@
             </div>
             <script>
                 $(document).ready(function() {
-                    $("login").button();
+                    $("#login").button();
                 });
             </script>
         </div>

@@ -78,6 +78,10 @@ p {
     width: 25%;
 }
 
+.small-button {
+   font-size: .8em !important;
+}
+
 .wrapper {
     display: inline-block;
 }
