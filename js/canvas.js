@@ -10,6 +10,19 @@ deleteImg.src = "css/img/deleteicon.png"; // Image from http://all-free-download
 var selections = {left: null, right: null};
 var nodes = [];
 
+// To hold the nodes are attempting to ccoonnect
+var connection = {start: null, end: null};
+
+// This is the line for users to make connections
+var kineticConnection = new Kinetic.Line({
+    points: [0, 0],
+    stroke: "red",
+    strokeWidth: 5,
+    lineCap: "round",
+    lineJoin: "round",
+    dash: [5, 3]
+});
+
 // This function returns the Node associated with a particular KOBJ
 function findNode(kineticOBJ) {
     for (var i = 0; i < nodes.length; i++) {
@@ -53,6 +66,38 @@ function Node(layer, x, y) {
         layer.draw();
     });
 
+    kineticOBJ.on("mousedown", function(event) {
+        // On left click, draw the line
+        if (event.which == 1) {
+            connection.start = findNode(kineticOBJ);
+            kineticConnection.points([x, y]);
+            kineticConnection.visible(true);
+        }
+
+        layer.draw();
+    });
+
+    kineticOBJ.on("mouseup", function(event) {
+        // On left click
+        if (event.which == 1) {
+            if (connection.start != null) {
+                var points = kineticConnection.points().splice(0, 2);
+
+                kineticConnection.points(points.concat(x, y));
+                connection.end = findNode(kineticOBJ);
+                // call GUI stuff here
+
+
+                // tmp reset
+                connection.start = null;
+                connection.end = null;
+            }
+//            kineticConnection.visible(false);
+        }
+
+        layer.draw();
+    });
+
     layer.add(kineticOBJ);
 
     var deleteIcon = new Kinetic.Image({
@@ -67,9 +112,10 @@ function Node(layer, x, y) {
     // When the delete icon is pressed:
     deleteIcon.on("click", function(event) {
         // On left click
-        if (event.which == 1)
+        if (event.which == 1) {
             destroy();
             layer.draw();
+        }
     });
 
     layer.add(deleteIcon);
@@ -166,6 +212,9 @@ function CanvasWorkspace(id) {
 
         stage.width(width);
         stage.height(height);
+
+        layer.width(width);
+        layer.height(height);
     }
 
     // This function will return the left and right selected nodes.
@@ -181,8 +230,21 @@ function CanvasWorkspace(id) {
         var pythag, pos;
 
         switch (event.which) {
-            case 3: // Right mouse
+            // Left Click
+            case 1:
+                if (connection.start != null) { // need to figure how how it isnt on a node
+                    console.log("A");
+                    if (layer.getIntersection({x:x, y:y}) == null) {
+                        connection.start = null;
+                        console.log("B");
+                    }
+                    //kineticConnection.visible(false);
+                }
 
+                break;
+
+            // Right Click
+            case 3:
                 // Check for collision
                 for (var i = 0; i < nodes.length; i++) {
                     pos = nodes[i].getPosition();
@@ -199,11 +261,29 @@ function CanvasWorkspace(id) {
         }
     });
 
+    $(id).mousemove(function(event){
+        if (connection.start != null) {
+            
+            // Relocate the connection when moving mouse
+            var x = event.pageX - $(id).offset().left;
+            var y = event.pageY - $(id).offset().top;
+            var pts = kineticConnection.points();
+            var pts2 = pts.splice(0, 2);
+            var pts3 = pts2.concat(x, y);
+
+            if (pts3.length == 4) {
+                kineticConnection.points(pts3);
+                console.log("ASDA");
+            }
+        }
+    });
+
     // Disable right click:
     $(id).bind("contextmenu", function(e) {
         return false;
     });
 
+    layer.add(kineticConnection);
     stage.add(layer);
 
     // Here is the returned JSOL which allows public access of certain functions:

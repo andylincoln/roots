@@ -27,8 +27,9 @@ $(document).ready(function(){
             width -= $("#rightDetail").width();
         }
 
-        width -= 2;
-        height -= 2;
+        // Adjust for temp borders
+        width -= 4;
+        
         canvasWorkspace.resize(width, height);
     });
 

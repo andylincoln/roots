@@ -139,6 +139,7 @@ function DetailPanelWorkspace(id) {
     function show(personData) {
         load(personData);
         $(id).show();
+        $(window).resize();
     }
 
     // Hide the detail panel initially:
