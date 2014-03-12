@@ -23,10 +23,10 @@ var kineticConnection = new Kinetic.Line({
     dash: [33, 10]
 });
 
-// This function returns the Node associated with a particular KOBJ
-function findNode(kineticOBJ) {
+// This function returns the Node associated with a particular KObj
+function findNode(kineticObj) {
     for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i].getKOBJ() == kineticOBJ) {
+        if (nodes[i].getKObj() == kineticObj) {
             return nodes[i];
         }
     }
@@ -35,7 +35,7 @@ function findNode(kineticOBJ) {
 function Node(layer, x, y) {
     var data = Person();
 
-    var kineticOBJ = new Kinetic.Circle({
+    var kineticObj = new Kinetic.Circle({
         x: x,
         y: y,
         radius: 40,
@@ -45,13 +45,13 @@ function Node(layer, x, y) {
     });
 
     // When the node icon is pressed:
-    kineticOBJ.on("click", function(event) {
+    kineticObj.on("click", function(event) {
         // On left click only
         if (event.which != 1)
             return;
 
         // Select or deselect
-        if (kineticOBJ.fill() == "green") {
+        if (kineticObj.fill() == "green") {
             selections.left = null;
             deselect();
         }
@@ -59,31 +59,31 @@ function Node(layer, x, y) {
             if (selections.left != null)
                 selections.left.deselect();
 
-            selections.left = findNode(kineticOBJ);
+            selections.left = findNode(kineticObj);
             select();
         }
         // Update the canvas
         layer.draw();
     });
 
-    kineticOBJ.on("mousedown", function(event) {
+    kineticObj.on("mousedown", function(event) {
         // On left click, draw the line
         if (event.which == 1) {
-            connection.start = findNode(kineticOBJ);
+            connection.start = findNode(kineticObj);
             kineticConnection.points([x, y]);
         }
 
         layer.draw();
     });
 
-    kineticOBJ.on("mouseup", function(event) {
+    kineticObj.on("mouseup", function(event) {
         // On left click
         if (event.which == 1) {
-            if (connection.start != null && connection.start != findNode(kineticOBJ)) {
+            if (connection.start != null && connection.start != findNode(kineticObj)) {
                 var points = kineticConnection.points().splice(0, 2);
 
                 kineticConnection.points(points.concat(x, y));
-                connection.end = findNode(kineticOBJ);
+                connection.end = findNode(kineticObj);
 
                 // call GUI stuff here
                 alert("Gui goes here.");
@@ -93,9 +93,9 @@ function Node(layer, x, y) {
         layer.draw();
     });
 
-    layer.add(kineticOBJ);
+    layer.add(kineticObj);
 
-    var deleteIcon = new Kinetic.Image({
+    var deleteObj = new Kinetic.Image({
         x: x + 40,
         y: y - 40,
         image: deleteImg,
@@ -105,7 +105,7 @@ function Node(layer, x, y) {
     });
 
     // When the delete icon is pressed:
-    deleteIcon.on("click", function(event) {
+    deleteObj.on("click", function(event) {
         // On left click
         if (event.which == 1) {
             destroy();
@@ -113,29 +113,50 @@ function Node(layer, x, y) {
         }
     });
 
-    layer.add(deleteIcon);
+    layer.add(deleteObj);
+
+    var textObj = new Kinetic.Text({
+        x: x,
+        y: y,
+        text: "Test",
+        fontSize: 12,
+        fontFamily: "Roboto",
+        fill: "black",
+        visible: false
+    });
+
+    function updateText() {
+        // Update the text drawn on top of nodes
+        // This function is incomplete.
+        textObj.x = x;
+        textObj.y = y;
+        textObj.text = "Parsed name goes here";
+        textObj.visible = true;
+    }
+
+    layer.add(textObj)
     layer.draw();
 
     // For when the node is de/selected
     function select() {
-        kineticOBJ.fill("green");
-        kineticOBJ.stroke("#003300");
-        deleteIcon.visible(true);
+        kineticObj.fill("green");
+        kineticObj.stroke("#003300");
+        deleteObj.visible(true);
         leftDetailWorkspace.show(data);
     }
 
     function deselect() {
-        kineticOBJ.fill("gray");
-        kineticOBJ.stroke("black");
-        deleteIcon.visible(false);
+        kineticObj.fill("gray");
+        kineticObj.stroke("black");
+        deleteObj.visible(false);
         leftDetailWorkspace.hide();
     }
 
     // Have to remove the KineticJS objects their own way
     function destroy() {
         deselect();
-        kineticOBJ.destroy();
-        deleteIcon.destroy();
+        kineticObj.destroy();
+        deleteObj.destroy();
     }
 
     function getData() {
@@ -144,13 +165,13 @@ function Node(layer, x, y) {
 
     function getPosition() {
         return {
-            x: kineticOBJ.x(),
-            y: kineticOBJ.y()
+            x: kineticObj.x(),
+            y: kineticObj.y()
         };
     }
 
-    function getKOBJ() {
-        return kineticOBJ;
+    function getKObj() {
+        return kineticObj;
     }
 
     // Allow public access to these functions
@@ -158,7 +179,7 @@ function Node(layer, x, y) {
         deselect: deselect,
         destroy: destroy,
         getData: getData,
-        getKOBJ: getKOBJ,
+        getKObj: getKObj,
         getPosition: getPosition,
         select: select
     };
