@@ -16,11 +16,11 @@ var connection = {start: null, end: null};
 // This is the line for users to make connections
 var kineticConnection = new Kinetic.Line({
     points: [0, 0],
-    stroke: "red",
+    stroke: "#8b4424",
     strokeWidth: 5,
     lineCap: "round",
     lineJoin: "round",
-    dash: [5, 3]
+    dash: [33, 10]
 });
 
 // This function returns the Node associated with a particular KOBJ
@@ -71,7 +71,6 @@ function Node(layer, x, y) {
         if (event.which == 1) {
             connection.start = findNode(kineticOBJ);
             kineticConnection.points([x, y]);
-            kineticConnection.visible(true);
         }
 
         layer.draw();
@@ -80,19 +79,15 @@ function Node(layer, x, y) {
     kineticOBJ.on("mouseup", function(event) {
         // On left click
         if (event.which == 1) {
-            if (connection.start != null) {
+            if (connection.start != null && connection.start != findNode(kineticOBJ)) {
                 var points = kineticConnection.points().splice(0, 2);
 
                 kineticConnection.points(points.concat(x, y));
                 connection.end = findNode(kineticOBJ);
+
                 // call GUI stuff here
-
-
-                // tmp reset
-                connection.start = null;
-                connection.end = null;
+                alert("Gui goes here.");
             }
-//            kineticConnection.visible(false);
         }
 
         layer.draw();
@@ -230,19 +225,6 @@ function CanvasWorkspace(id) {
         var pythag, pos;
 
         switch (event.which) {
-            // Left Click
-            case 1:
-                if (connection.start != null) { // need to figure how how it isnt on a node
-                    console.log("A");
-                    if (layer.getIntersection({x:x, y:y}) == null) {
-                        connection.start = null;
-                        console.log("B");
-                    }
-                    //kineticConnection.visible(false);
-                }
-
-                break;
-
             // Right Click
             case 3:
                 // Check for collision
@@ -267,14 +249,27 @@ function CanvasWorkspace(id) {
             // Relocate the connection when moving mouse
             var x = event.pageX - $(id).offset().left;
             var y = event.pageY - $(id).offset().top;
-            var pts = kineticConnection.points();
-            var pts2 = pts.splice(0, 2);
-            var pts3 = pts2.concat(x, y);
+            var pos = connection.start.getPosition();
 
-            if (pts3.length == 4) {
-                kineticConnection.points(pts3);
-                console.log("ASDA");
-            }
+            kineticConnection.points([pos.x, pos.y, x, y]);
+            layer.draw();
+        }
+    });
+
+    $(id).mouseup(function(event){
+        var x = event.pageX - $(id).offset().left;
+        var y = event.pageY - $(id).offset().top;
+
+        switch (event.which) {
+            // Left Click
+            case 1:
+                if (connection.start != null) {
+                    connection.start = null;
+                    kineticConnection.points([0, 0]);
+                    layer.draw();
+                }
+            default:
+                break;
         }
     });
 
