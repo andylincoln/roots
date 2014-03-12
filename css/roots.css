@@ -13,6 +13,7 @@
  * Light Blue   :       #3cc1c9
  * Red Brown    :       #8b4424
  * Grey         :       #bbb9be
+ * Black        :       #000108
  *
  */
 
@@ -93,6 +94,10 @@ table {
    font-size: .8em !important;
 }
 
+.displayText {
+    color: #000108;
+    font-weight: 500;
+}
 
 /*  Header  */
 
@@ -111,7 +116,7 @@ table {
 }
 
  a {
-    color:#24420e;
+    color: #24420e;
     display: inline;
     font-family: 'Roboto', sans-serif;
     text-align: center;

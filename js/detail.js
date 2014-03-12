@@ -82,6 +82,7 @@ function DetailPanelWorkspace(id) {
     saveButton.button();
     
     function disable() {
+        //  Disable the inputs
         birthplaceInput.prop( "disabled", true );
         dateOfBirthInput.prop( "disabled", true );
         dateOfDeathInput.prop( "disabled", true );
@@ -91,9 +92,13 @@ function DetailPanelWorkspace(id) {
         lastNameInput.prop( "disabled", true );
         middleNameInput.prop( "disabled", true );
         residenceInput.prop( "disabled", true );
+        
+        // Toggle the black text
+        toggleDisplayText();
     }
 
     function enable() {
+        //  Enable the inputs
         birthplaceInput.prop( "disabled", false );
         dateOfBirthInput.prop( "disabled", false );
         dateOfDeathInput.prop( "disabled", false );
@@ -103,6 +108,9 @@ function DetailPanelWorkspace(id) {
         lastNameInput.prop( "disabled", false );
         middleNameInput.prop( "disabled", false );
         residenceInput.prop( "disabled", false );
+        
+        // Toggle the black text
+        toggleDisplayText();
     }
 
     function hide() {
@@ -142,6 +150,18 @@ function DetailPanelWorkspace(id) {
         load(personData);
         $(id).show();
         $(window).resize();
+    }
+    
+    function toggleDisplayText() {
+        birthplaceInput.toggleClass("displayText");
+        dateOfBirthInput.toggleClass("displayText");
+        dateOfDeathInput.toggleClass("displayText");
+        firstNameInput.toggleClass("displayText");
+        genderSelect.toggleClass("displayText");
+        generationInput.toggleClass("displayText");
+        lastNameInput.toggleClass("displayText");
+        middleNameInput.toggleClass("displayText");
+        residenceInput.toggleClass("displayText");
     }
 
     // Hide the detail panel initially:

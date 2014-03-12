@@ -68,14 +68,14 @@
                     <input id="checkEdit" type="checkbox" checked>
                     <table>
                         <tr>
-                            <td><input id="leftFirstName" placeholder="First" size="8" class="edit text"></td>
-                            <td><input id="leftMiddleName" placeholder="Middle" size="8" class="edit text"></td>
-                            <td><input id="leftLastName" placeholder="Last" size="8" class="edit text"></td>
+                            <td><input id="leftFirstName" placeholder="First" size="8" class="edit text displayText"></td>
+                            <td><input id="leftMiddleName" placeholder="Middle" size="8" class="edit text displayText"></td>
+                            <td><input id="leftLastName" placeholder="Last" size="8" class="edit text displayText"></td>
                         </tr>
                         <tr>
-                            <td><input id="leftDateBirth" placeholder="01/01/00" size="8" class="date text"></td>
+                            <td><input id="leftDateBirth" placeholder="01/01/00" size="8" class="date text displayText"></td>
                             <td><p style="text-align: center" class="text">-</p></td>
-                            <td><input id="leftDateDeath" placeholder="01/01/00" size="8" class="date text"></td>
+                            <td><input id="leftDateDeath" placeholder="01/01/00" size="8" class="date text displayText"></td>
                         </tr>
                     </table>
 
@@ -92,15 +92,15 @@
                         </tr>
                         <tr>
                             <td><label for="leftBirthplace">Birthplace:</label></td>
-                            <td><input id="leftBirthplace" class="edit text"></td>
+                            <td><input id="leftBirthplace" class="edit text displayText"></td>
                         </tr>
                         <tr>
                             <td><label for="leftResidence">Residence:</label></td>
-                            <td> <input id="leftResidence" class="edit text"></td>
+                            <td> <input id="leftResidence" class="edit text displayText"></td>
                         </tr>
                         <tr>
                             <td><label for="leftGeneration">Generation:</label></td>
-                            <td><input id="leftGeneration" size="2" class="edit text"></td>
+                            <td><input id="leftGeneration" size="2" class="edit text displayText"></td>
                         </tr>
                     </table>
                     <div><button id="leftSave" class="small-button">Save</button></div>

@@ -195,7 +195,7 @@ function Person() {
         setResidence: residenceSetter
     };
 }
-;
+
 
 
 function Location() {
@@ -1315,4 +1315,3 @@ function Location() {
         setState: stateSetter
     };
 }
-;
