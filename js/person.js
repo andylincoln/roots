@@ -58,7 +58,6 @@ function Person() {
     }
 
     function dateOfBirthSetter(date) {
-
         dateBirth = date;
     }
 
@@ -67,7 +66,6 @@ function Person() {
     }
 
     function dateOfDeathSetter(date) {
-
         dateDeath = date;
     }
 
@@ -76,11 +74,6 @@ function Person() {
     }
 
     function firstNameSetter(strName) {
-
-        if (!(typeof strName === "string")) {
-            throw Exception("Person.setFirstName(): argument strName expects type string");
-        }
-
         firstName = strName;
     }
 
@@ -89,10 +82,6 @@ function Person() {
     }
 
     function formerSpouseSetter(person) {
-
-        if (person === null) {
-            throw Exception("Person.addFormerSpouse(): Null argument invalid, expects type Person");
-        }
 
         if (formerSpouses === null) {
             formerSpouses = Map();
@@ -106,11 +95,6 @@ function Person() {
     }
 
     function genderSetter(strGender) {
-
-        if (!(typeof strGender === "string")) {
-            throw Exception("Person.setGender(): argument strGender expects type string");
-        }
-
         gender = strGender;
     }
 
@@ -131,11 +115,6 @@ function Person() {
     }
 
     function lastNameSetter(strName) {
-
-        if (!(typeof strName === "string")) {
-            throw("Person.setLastName: argument strName expects type string");
-        }
-
         lastName = strName;
     }
 
@@ -144,11 +123,6 @@ function Person() {
     }
 
     function middleNameSetter(strName) {
-
-        if (!(typeof strName === "string")) {
-            throw("Person.setMiddleName: argument strName expects type string");
-        }
-
         middleName = strName;
     }
 
