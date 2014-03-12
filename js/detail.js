@@ -117,7 +117,7 @@ function DetailPanelWorkspace(id) {
         dateOfDeathInput.val(personData.getDateOfDeath());
         firstNameInput.val(personData.getFirstName());
         genderSelect.val(personData.getGender());
-//        generationInput.val(personData.getGeneration());
+        generationInput.val(personData.getGeneration());
         lastNameInput.val(personData.getLastName());
         middleNameInput.val(personData.getMiddleName());
         residenceInput.val(personData.getResidence());
@@ -131,10 +131,10 @@ function DetailPanelWorkspace(id) {
         currentPerson.setDateOfDeath(dateOfDeathInput.val());
         currentPerson.setFirstName(firstNameInput.val());
         currentPerson.setGender(genderSelect.val());
-//        currentPerson.set(generationInput.val());
+        currentPerson.setGeneration(generationInput.val());
         currentPerson.setLastName(lastNameInput.val());
         currentPerson.setMiddleName(middleNameInput.val());
-        currentPerson.setResidenceInput(residenceInput.val());
+        currentPerson.setResidence(residenceInput.val());
 
     }
 

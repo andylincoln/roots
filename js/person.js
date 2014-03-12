@@ -1,12 +1,12 @@
 /* 
  * Author: Andrew Lincoln
  * Date Created: 02/14/2014 12:07 PM
- * Date Updated: 02/14/2014 --------
+ * Date Updated: 03/12/2014 3:16 PM
  * 
  * person.js
  */
-//TODO: Add checks for proper types to all setters
-//TODO: Implement Generation Counter
+
+//TODO: Implement Automatic Generation Counter
 
 
 function Person() {
@@ -115,11 +115,11 @@ function Person() {
     }
 
     function generationGetter() {
-        throw Exception("TODO: Not yet implemented");
+        return generation;
     }
 
-    function generationSetter() {
-        throw Exception("TODO: Not yet implemented");
+    function generationSetter(num) {
+        generation = num;
     }
 
     function idGetter() {
@@ -168,13 +168,13 @@ function Person() {
         lastNameSetter(strLast);
 
     }
-    
+
     function pictureURLGetter() {
         return pictureURL;
     }
-    
+
     function pictureURLSetter(strURL) {
-        if(!(typeof strURL === "string")) {
+        if (!(typeof strURL === "string")) {
             throw("Person.setMiddleName: argument strName expects type string");
         }
         pictureURL = strURL;
@@ -220,7 +220,8 @@ function Person() {
         setPictureURL: pictureURLSetter,
         setResidence: residenceSetter
     };
-};
+}
+;
 
 
 function Location() {
@@ -248,11 +249,11 @@ function Location() {
 
 
     function locationGetter() {
-        
+
         if (stateGetter() === null) {
             return cityGetter() + ", " + countryGetter();
         }
-        
+
         return cityGetter() + ", " + stateGetter() + " " + countryGetter();
     }
 
@@ -1339,4 +1340,5 @@ function Location() {
         setCountry: countrySetter,
         setState: stateSetter
     };
-};
+}
+;
