@@ -61,6 +61,7 @@ p {
 #accountLinks {
     display: inline;
     float: right;
+    padding: 10px;
 }
 
 #loginform {

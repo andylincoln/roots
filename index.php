@@ -1,5 +1,4 @@
 <?php include "base.php"; ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -39,7 +38,7 @@
                 <?php
                 if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
 
-                    echo "<script>window.location = 'roots.html';</script>";
+                    echo "<script>window.location = 'roots.php';</script>";
                 } elseif (!empty($_POST['username']) && !empty($_POST['password'])) {
                     $username = mysql_real_escape_string($_POST['username']);
                     $password = md5(mysql_real_escape_string($_POST['password']));
@@ -53,13 +52,11 @@
                         $_SESSION['Username'] = $username;
                         $_SESSION['EmailAddress'] = $email;
                         $_SESSION['LoggedIn'] = 1;
-
-                        echo "<h1>Success</h1>";
-                        echo "<p>We are now redirecting you to the application.</p>";
-                        echo "<script>window.location = 'roots.html'</script>";
+                        
+                        echo "<script>window.location = 'roots.php'</script>";
                     } else {
                         echo "<h1>Error</h1>";
-                        echo "<p>Sorry, your account could not be found. Please <a href=\"index.php\">click here to try again</a>.</p>";
+                        echo "<p>Sorry, your account could not be found. Please <a href=\"index.php\">click here </a>to try again.</p>";
                     }
                 } else {
                     ?>

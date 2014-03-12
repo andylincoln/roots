@@ -26,13 +26,13 @@ html, body {
 }
 
 #topDiv {
-    border: 1px solid black; /* Just here to see where div is */
+    /* border: 1px solid black; /* Just here to see where div is */
     height: 10%;
     width: 100%;
 }
 
 #leftDetail {
-    border: 1px solid black; /* Just here to see where the panel is */
+    /* border: 1px solid black;  Just here to see where the panel is */
     display: inline-block;
     position: relative;
     height: 100%;
@@ -45,8 +45,8 @@ html, body {
 
 #workspace {
     background-color: #FFF;
-    border: 1px solid black; /* Just here to see where canvas is */
-    border-radius: 2px;
+    /*border: 1px solid black; /* Just here to see where canvas is */
+    /* border-radius: 2px;*/
     display: inline-block;
     opacity: 0.7;
     position: absolute;
@@ -65,8 +65,8 @@ html, body {
 
 .details {
     background-color: #FFF;
-    border: 1px white solid;
-    border-radius: 2px;
+    /*border: 1px white solid;
+    border-radius: 2px;*/
     height: 50%;
     padding: 10px;
     margin: 20px;
@@ -91,4 +91,41 @@ table {
 
 .small-button {
    font-size: .8em !important;
+}
+
+
+/*  Header  */
+
+#logo {
+    display:inline;
+}
+
+.wrapper {
+    display: inline-block;
+}
+
+#accountLinks {
+    display: inline;
+    float: right;
+    padding: 10px;
+}
+
+ a {
+    color:#24420e;
+    display: inline;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+header {
+    display: block;
+    height: 125px;
+    position: relative;
+}
+p {
+    font-family: 'Roboto', sans-serif;
+}
+
+li {
+    display: inline;
 }

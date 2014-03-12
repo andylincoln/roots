@@ -1,5 +1,5 @@
+<?php include "base.php"?>
 <!DOCTYPE html>
-
 <html>
     <head>
         <meta charset="utf-8">
@@ -14,9 +14,11 @@
 
         <!-- Include the jQuery library -->
         <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
+        
         <!-- Include the jQueryUI library  & it's CSS Theme-->
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        
         <!-- Include the KineticJS library -->
         <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v5.0.1.min.js"></script>
 
@@ -37,13 +39,26 @@
         <link href='http://fonts.googleapis.com/css?family=Port+Lligat+Slab|Roboto:400,500,700' rel='stylesheet' type='text/css'>
     </head>
 
+    
     <body>
-        <!-- This is for the main bar at the top of the page -->
-        <div id="topDiv">
-            <div class="header">
-                <img src="css/img/roots-logo-small.png" alt="Logo goes here" class="header">
+        
+        <?php #Check if logged in, if not redirect to login
+        if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
+        ?>
+        
+        <!-- This is for the main bar at the top of the page  -->
+        <header>
+            <div id="logo" class="wrapper">
+                <img src="css/img/roots-logo-small.png" style="float:left;"> 
             </div>
-        </div>
+
+            <div id="accountLinks">
+                <ul>
+                    <li><a href="logout.php">Log Out</a></li>
+                </ul>
+
+            </div>
+        </header>
 
         <!-- This is for the left detail panel. -->
         <div id="leftDetail">
@@ -102,6 +117,10 @@
         <div id="rightDetail">
 
         </div>
-
+        <?php
+        } else {
+            echo "<script>window.location = 'index.php'</script>";
+        }
+        ?>
     </body>
 </html>
