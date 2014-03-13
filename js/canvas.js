@@ -23,6 +23,16 @@ var kineticConnection = new Kinetic.Line({
     dash: [33, 10]
 });
 
+// Temp
+var tempConnection = new Kinetic.Line({
+    points: [0, 0],
+    stroke: "#8b4424",
+    strokeWidth: 5,
+    lineCap: "round",
+    lineJoin: "round",
+    dash: [33, 10]
+});
+
 // This function returns the Node associated with a particular KObj
 function findNode(kineticObj) {
     for (var i = 0; i < nodes.length; i++) {
@@ -86,7 +96,13 @@ function Node(layer, x, y) {
                 connection.end = findNode(kineticObj);
 
                 // call GUI stuff here
-                alert("Gui goes here.");
+                //alert("Gui goes here.");
+                // Temp demo stuff below
+
+                tempConnection.points([300, 150, 300, 350]);
+
+                connection.end.setPosition(300, 150);
+                connection.start.setPosition(300, 350);
             }
         }
 
@@ -170,6 +186,13 @@ function Node(layer, x, y) {
         };
     }
 
+    function setPosition(x, y) {
+        kineticObj.x(x);
+        kineticObj.y(y);
+        deleteObj.x(x + 40);
+        deleteObj.y(y - 40);
+    }
+
     function getKObj() {
         return kineticObj;
     }
@@ -181,6 +204,7 @@ function Node(layer, x, y) {
         getData: getData,
         getKObj: getKObj,
         getPosition: getPosition,
+        setPosition: setPosition,
         select: select
     };
 }
@@ -300,6 +324,7 @@ function CanvasWorkspace(id) {
     });
 
     layer.add(kineticConnection);
+    layer.add(tempConnection); // Temp
     stage.add(layer);
 
     // Here is the returned JSOL which allows public access of certain functions:
