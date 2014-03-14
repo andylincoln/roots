@@ -5,17 +5,17 @@
         <meta content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width"/>
         <title>Roots Ancestry Tracker</title>
-        
+
         <!-- Include the jQuery library -->
         <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
-        
+
         <!-- Include the jQueryUI library  & it's CSS Theme-->
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-        
+
         <!-- Include Google Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Port+Lligat+Slab|Roboto:400,500,700' rel='stylesheet' type='text/css'>
-        
+
         <!-- Link to page style -->
         <link rel="stylesheet" href="css/index.css" />
     </head>  
@@ -63,11 +63,12 @@
 
                     <h1>Register</h1>
 
-                    <form method="post" action="register.php" name="registerform" id="registerform">
-                        <input type="text" name="username" id="username" placeholder="username"/>
-                        <input type="password" name="password" id="password" placeholder="password" />
-                        <input type="password" name="password" id="confirmPassword" placeholder="confirm password"/>
-                        <input type="text" name="email" id="email" placeholder="email"/>
+                    <form method="post" action="register.php" name="registerForm" id="registerForm">
+                        <input type="text" name="username" id="username" placeholder="Username" class="required"/>
+                        <input type="password" name="password" id="password" placeholder="Password" class="required"/>
+                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm password"class="required password"/>
+                        <input type="text" name="email" id="email" placeholder="Email" class="required" />
+                        <input type="text" name="confirmEmail" id="confirmEmail" placeholder="Confirm email" class="required email"/>
                         <input type="submit" name="register" id="register" value="Register" class="small-button"/>
                     </form>
 
@@ -79,7 +80,47 @@
             <script>
                 $(document).ready(function() {
                     $("#register").button();
+                    $("#register").submit(validate());
                 });
+                
+                function validate() {
+                    
+                    $("#registerForm").validate({
+                        rules: {
+                            username: {
+                                required: true;
+                            }
+                            password: {
+                                required: true;
+                            }
+                            confirmPassword: {
+                                required: true;
+                            }
+                            email: {
+                                required: true;
+                            }
+                            confirmEmail: {
+                                require: true;
+                            }
+                        }
+                    });
+                    $.validator.addMethod("password", function() {
+                        
+                        var pass = $("#password").val();
+                        var confirm = $("#confirmPassword").val();
+                        
+                        return (pass === confirm);
+                       },
+                        "Password does not match");
+                        $.validator.addMethod("email", function() {
+                        
+                        var email = $("#email").val();
+                        var confirm = $("#confirmEmail").val();
+                        
+                        return (email === confirm);
+                       },
+                        "Email does not match");
+                }
             </script>
         </div>
     </body>
