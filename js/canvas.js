@@ -23,16 +23,6 @@ var kineticConnection = new Kinetic.Line({
     dash: [33, 10]
 });
 
-// Temp
-var tempConnection = new Kinetic.Line({
-    points: [0, 0],
-    stroke: "#8b4424",
-    strokeWidth: 5,
-    lineCap: "round",
-    lineJoin: "round",
-    dash: [33, 10]
-});
-
 // This function returns the Node associated with a particular KObj
 function findNode(kineticObj) {
     for (var i = 0; i < nodes.length; i++) {
@@ -96,13 +86,7 @@ function Node(layer, x, y) {
                 connection.end = findNode(kineticObj);
 
                 // call GUI stuff here
-                //alert("Gui goes here.");
-                // Temp demo stuff below
-
-                tempConnection.points([300, 150, 300, 350]);
-
-                connection.end.setPosition(300, 150);
-                connection.start.setPosition(300, 350);
+                alert("Gui goes here.");
             }
         }
 
@@ -141,24 +125,31 @@ function Node(layer, x, y) {
         visible: false
     });
 
-    function updateText() {
-        // Update the text drawn on top of nodes
-        // This function is incomplete.
-        textObj.x = x;
-        textObj.y = y;
-        textObj.text = "Parsed name goes here";
-        textObj.visible = true;
-    }
-
     layer.add(textObj)
     layer.draw();
+
+    // Update the text drawn on top of nodes
+    function updateText() {
+        // This function is incomplete.
+        var nameString = data.getName();
+
+        // Get the initials via regex
+        textObj.text(nameString.match(/\b(\w)/g));
+
+        textObj.x(x);
+        textObj.y(y);
+
+        textObj.visible(true);
+    }
 
     // For when the node is de/selected
     function select() {
         kineticObj.fill("green");
         kineticObj.stroke("#003300");
         deleteObj.visible(true);
-        leftDetailWorkspace.show(data);
+
+        // Pass this node off to the detail panel
+        leftDetailWorkspace.show(findNode(kineticObj));
     }
 
     function deselect() {
@@ -205,7 +196,8 @@ function Node(layer, x, y) {
         getKObj: getKObj,
         getPosition: getPosition,
         setPosition: setPosition,
-        select: select
+        select: select,
+        updateText: updateText
     };
 }
 
@@ -324,7 +316,6 @@ function CanvasWorkspace(id) {
     });
 
     layer.add(kineticConnection);
-    layer.add(tempConnection); // Temp
     stage.add(layer);
 
     // Here is the returned JSOL which allows public access of certain functions:

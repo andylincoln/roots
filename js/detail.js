@@ -29,6 +29,7 @@ function DetailPanelWorkspace(id) {
      * jQuery object handles for UI elements in detail panel
      */
     var birthplaceInput,
+            currentNode,
             currentPerson,
             dateOfBirthInput,
             dateOfDeathInput,
@@ -144,10 +145,16 @@ function DetailPanelWorkspace(id) {
         currentPerson.setMiddleName(middleNameInput.val());
         currentPerson.setResidence(residenceInput.val());
 
+        // Update the node's display text
+        currentNode.updateText();
     }
 
-    function show(personData) {
-        load(personData);
+    function show(node) {
+        // Save the current node and load its data to the detail panel
+        currentNode = node;
+        load(node.getData());
+
+        // Show the detail panel and adjust the window
         $(id).show();
         $(window).resize();
     }
