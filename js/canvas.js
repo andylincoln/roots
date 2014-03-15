@@ -125,6 +125,11 @@ function Node(layer, x, y) {
         fill: "black"
     });
 
+    // Redirect clicking the text to clicking the node
+    textObj.on("click", function(event) {
+        kineticObj.fire("click", event);
+    });
+
     layer.add(textObj)
     layer.draw();
 
