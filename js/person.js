@@ -8,7 +8,6 @@
 
 //TODO: Implement Automatic Generation Counter
 
-
 function Person() {
 
     var birthplace = null,
@@ -110,6 +109,23 @@ function Person() {
         return id;
     }
 
+    function jsonGetter() {
+        // Can add more to this in the future, I only put
+        // what is currently in the detail panel
+        return {
+            "birthplace": birthplace,
+            "dateBirth": dateBirth,
+            "dateDeath": dateDeath,
+            "id": id,
+            "gender": gender,
+            "generation": generation,
+            "firstName": firstName,
+            "lastName": lastName,
+            "middleName": middleName,
+            "residence": residence
+        }
+    }
+
     function lastNameGetter() {
         return lastName;
     }
@@ -175,6 +191,7 @@ function Person() {
         getGender: genderGetter,
         getGeneration: generationGetter,
         getID: idGetter,
+        getJSON: jsonGetter,
         getLastName: lastNameGetter,
         getMiddleName: middleNameGetter,
         getName: nameGetter,
