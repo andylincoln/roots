@@ -118,11 +118,11 @@ function Node(layer, x, y) {
     var textObj = new Kinetic.Text({
         x: x,
         y: y,
-        text: "Test",
+        text: "",
         fontSize: 12,
         fontFamily: "Roboto",
-        fill: "black",
-        visible: false
+        fontStyle: "Bold",
+        fill: "black"
     });
 
     layer.add(textObj)
@@ -130,16 +130,27 @@ function Node(layer, x, y) {
 
     // Update the text drawn on top of nodes
     function updateText() {
-        // This function is incomplete.
         var nameString = data.getName();
+        var charArray, xAdjust, yAdjust;
 
-        // Get the initials via regex
-        textObj.text(nameString.match(/\b(\w)/g));
+        // Get the initials via regex and format to string
+        charArray = nameString.match(/\b(\w)/g);
 
-        textObj.x(x);
-        textObj.y(y);
+        nameString = "";
+        for (var i = 0; i < charArray.length; i++) {
+            nameString += charArray[i] + ". ";
+        }
 
-        textObj.visible(true);
+        textObj.text(nameString);
+
+        // Adjust text position based on string length
+        xAdjust = x - nameString.length * 2;
+        yAdjust = y - 5;
+
+        textObj.x(xAdjust);
+        textObj.y(yAdjust);
+
+        layer.draw();
     }
 
     // For when the node is de/selected
@@ -164,6 +175,7 @@ function Node(layer, x, y) {
         deselect();
         kineticObj.destroy();
         deleteObj.destroy();
+        textObj.destroy();
     }
 
     function getData() {
