@@ -12,6 +12,7 @@ function Person() {
 
     var birthplace = null,
             children = null,
+            currentSpouse = null,
             dateBirth = null,
             dateDeath = null,
             id = Date.now(),
@@ -23,7 +24,7 @@ function Person() {
             middleName = null,
             pictureURL = null,
             residence = null,
-            currentSpouse = null;
+            suffix = null;
 
     function birthplaceGetter() {
         return birthplace;
@@ -164,9 +165,6 @@ function Person() {
     }
 
     function pictureURLSetter(strURL) {
-        if (!(typeof strURL === "string")) {
-            throw("Person.setMiddleName: argument strName expects type string");
-        }
         pictureURL = strURL;
     }
 
@@ -176,6 +174,14 @@ function Person() {
 
     function residenceSetter(loc) {
         residence = loc;
+    }
+    
+    function suffixGetter() {
+        return suffix;
+    }
+    
+    function suffixSetter(strSuffix) {
+        suffix = strSuffix;
     }
 
     return {
@@ -197,6 +203,7 @@ function Person() {
         getName: nameGetter,
         getPictureURL: pictureURLGetter,
         getResidence: residenceGetter,
+        getSuffix: suffixGetter,
         setBirthplace: birthplaceSetter,
         setCurrentSpouse: currentSpouseSetter,
         setDateOfBirth: dateOfBirthSetter,
@@ -209,7 +216,8 @@ function Person() {
         setMiddleName: middleNameSetter,
         setName: nameSetter,
         setPictureURL: pictureURLSetter,
-        setResidence: residenceSetter
+        setResidence: residenceSetter,
+        setSuffix: suffixSetter
     };
 }
 
