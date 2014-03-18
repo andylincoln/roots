@@ -4,6 +4,8 @@
     Description : Script for the canvas functions.
 */
 
+// list of spouces, children
+
 var deleteImg = new Image();
 deleteImg.src = "css/img/deleteicon.png"; // Image from http://all-free-download.com/free-vector/vector-clip-art/delete_icon_55564.html
 
@@ -15,6 +17,16 @@ var connection = {start: null, end: null};
 
 // This is the connection the user manipulates
 var mouseConnection;
+
+var connectionDialog = $(
+    "<div id='connectionDialog'> <p id='person1'></p> is the " +
+        "<select id='relation'>" +
+            "<option value='Parent'>Parent</option>" +
+            "<option value='Child'>Child</option>"   +
+            "<option value='Spouse'>Spouse</option>" +
+        "</select>" +
+        " of <p id='person2'></p>" +
+    "</div>");
 
 function Connection(layer, points) {
     var connectionObj = new Kinetic.Line({
@@ -46,6 +58,7 @@ function Connection(layer, points) {
         setPoints: setPoints
     };
 }
+
 // This function returns the Node associated with a particular CircleObj
 function findNode(circleObj) {
     for (var i = 0; i < nodes.length; i++) {
@@ -90,30 +103,47 @@ function Node(layer, x, y) {
     });
 
     circleObj.on("mousedown", function(event) {
-        // On left click, draw the line
+        // On left click
         if (event.which == 1) {
+            if (data.getName() == "null null") {
+                // Error message here? No name associated with this node.
+                return;
+            }
+
             connection.start = findNode(circleObj);
             mouseConnection.setPoints([x, y]);
-        }
 
-        layer.draw();
+            layer.draw();
+        }
     });
 
     circleObj.on("mouseup", function(event) {
         // On left click
         if (event.which == 1) {
+            if (data.getName() == "null null") {
+                // Error message here? No name associated with this node.
+                return;
+            }
+        
             if (connection.start != null && connection.start != findNode(circleObj)) {
                 var points = mouseConnection.getPoints().splice(0, 2);
+                var person1, person2;
 
                 mouseConnection.setPoints(points.concat(x, y));
                 connection.end = findNode(circleObj);
 
-                // call GUI stuff here
-                alert("Gui goes here.");
-            }
-        }
+                person1 = connection.start.getData().getName();
+                person2 = data.getName();
 
-        layer.draw();
+                // call GUI stuff here
+                $("#person1").text(person1);
+                $("#person2").text(person2);
+
+                connectionDialog.dialog("open");
+            }
+
+            layer.draw();
+        }
     });
 
     layer.add(circleObj);
@@ -173,8 +203,11 @@ function Node(layer, x, y) {
         charArray = nameString.match(/\b(\w)/g);
 
         nameString = "";
-        for (var i = 0; i < charArray.length; i++) {
-            nameString += charArray[i] + ". ";
+
+        if (charArray != null) {
+            for (var i = 0; i < charArray.length; i++) {
+                nameString += charArray[i] + ". ";
+            }
         }
 
         textObj.text(nameString);
@@ -265,6 +298,24 @@ function CanvasWorkspace(id) {
 
     mouseConnection = Connection(layer, [0, 0]);
 
+    connectionDialog.dialog({
+        resizable: false,
+        modal: true,
+        //width: 400,
+        hide: false,
+        buttons: {
+            "Accept": function() {
+                console.log($("#relation").val());
+                $(this).dialog("close");
+            }
+        },
+        close: function() {
+            $(this).dialog("close");
+        }
+    });
+
+    connectionDialog.dialog("close");
+
     function scroll(xVelocity, yVelocity) {
         // not final nor essential:
         scroll.x += xVelocity;
@@ -331,7 +382,6 @@ function CanvasWorkspace(id) {
 
     $(id).mousemove(function(event){
         if (connection.start != null) {
-            
             // Relocate the connection when moving mouse
             var x = event.pageX - $(id).offset().left;
             var y = event.pageY - $(id).offset().top;

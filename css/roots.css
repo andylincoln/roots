@@ -44,6 +44,10 @@ html, body {
     float: right;
 }
 
+#connectionDialog {
+    text-align: center;
+}
+
 #workspace {
     background-color: #FFF;
     /*border: 1px solid black; /* Just here to see where canvas is */

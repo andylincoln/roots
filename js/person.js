@@ -109,7 +109,7 @@ function Person() {
         return id;
     }
 
-    function jsonGetter() {
+    function jsolGetter() {
         // Can add more to this in the future, I only put
         // what is currently in the detail panel
         return {
@@ -191,7 +191,7 @@ function Person() {
         getGender: genderGetter,
         getGeneration: generationGetter,
         getID: idGetter,
-        getJSON: jsonGetter,
+        getJSOL: jsolGetter,
         getLastName: lastNameGetter,
         getMiddleName: middleNameGetter,
         getName: nameGetter,
