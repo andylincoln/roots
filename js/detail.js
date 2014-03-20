@@ -31,6 +31,7 @@ function DetailPanelWorkspace(id) {
     var birthplaceInput,
             currentNode,
             currentPerson,
+            checkEdit,
             dateOfBirthInput,
             dateOfDeathInput,
             firstNameInput,
@@ -39,9 +40,11 @@ function DetailPanelWorkspace(id) {
             lastNameInput,
             middleNameInput,
             residenceInput,
-            saveButton;
+            saveButton,
+            suffixInput;
 
     birthplaceInput = $(idPrefix + "Birthplace");
+    checkEdit = $(idPrefix + "CheckEdit");
     dateOfBirthInput = $(idPrefix + "DateBirth");
     dateOfDeathInput = $(idPrefix + "DateDeath");
     firstNameInput = $(idPrefix + "FirstName");
@@ -50,66 +53,49 @@ function DetailPanelWorkspace(id) {
     lastNameInput = $(idPrefix + "LastName");
     middleNameInput = $(idPrefix + "MiddleName");
     residenceInput = $(idPrefix + "Residence");
-    saveButton= $(idPrefix + "Save");
-    
-    //Default to enabled
-    enable();
-    
-    //  Set jQueryUI Widgets in detail panel
-    dateOfBirthInput.datepicker({
-//     showOn: 'button',
-//        buttonImage: '',
-//        buttonImageOnly: true,
-        dateFormat: 'mm/dd/yy',
-        changeMonth: true,
-        changeYear: true,
-        minDate: new Date(1900, 0, 1),
-        maxDate: new Date(2014, 11, 31),
-        defaultDate: new Date(1950, 0, 1),
-        yearRange: '1900:2014'
-    });
-    dateOfDeathInput.datepicker({
-//        showOn: 'button',
-//        buttonImage: '',
-//        buttonImageOnly: true,
-        dateFormat: 'mm/dd/yy',
-        changeMonth:true,
-        changeYear: true,
-        minDate: new Date(1900, 0, 1),
-        maxDate: new Date(2014, 11, 31),
-        defaultDate: new Date(1950, 0, 1),
-        yearRange: '1900:2014'
-    });
+    saveButton = $(idPrefix + "Save");
+    suffixInput = $(idPrefix + "Suffix");
+
+    checkEdit.button();
     saveButton.button();
-    
+
+    //Default to enabled
+    // Hide the detail panel initially:
+    enable();
+    hide();
+
+    /************************Function Definitions******************************/
+
     function disable() {
         //  Disable the inputs
-        birthplaceInput.prop( "disabled", true );
-        dateOfBirthInput.prop( "disabled", true );
-        dateOfDeathInput.prop( "disabled", true );
-        firstNameInput.prop( "disabled", true );
-        genderSelect.prop( "disabled", true );
-        generationInput.prop( "disabled", true );
-        lastNameInput.prop( "disabled", true );
-        middleNameInput.prop( "disabled", true );
-        residenceInput.prop( "disabled", true );
-        
+        birthplaceInput.prop("disabled", true);
+        dateOfBirthInput.prop("disabled", true);
+        dateOfDeathInput.prop("disabled", true);
+        firstNameInput.prop("disabled", true);
+        genderSelect.prop("disabled", true);
+        generationInput.prop("disabled", true);
+        lastNameInput.prop("disabled", true);
+        middleNameInput.prop("disabled", true);
+        residenceInput.prop("disabled", true);
+        suffixInput.prop("disabled", true);
+
         // Toggle the black text
         toggleDisplayText();
     }
 
     function enable() {
         //  Enable the inputs
-        birthplaceInput.prop( "disabled", false );
-        dateOfBirthInput.prop( "disabled", false );
-        dateOfDeathInput.prop( "disabled", false );
-        firstNameInput.prop( "disabled", false );
-        genderSelect.prop( "disabled", false );
-        generationInput.prop( "disabled", false );
-        lastNameInput.prop( "disabled", false );
-        middleNameInput.prop( "disabled", false );
-        residenceInput.prop( "disabled", false );
-        
+        birthplaceInput.prop("disabled", false);
+        dateOfBirthInput.prop("disabled", false);
+        dateOfDeathInput.prop("disabled", false);
+        firstNameInput.prop("disabled", false);
+        genderSelect.prop("disabled", false);
+        generationInput.prop("disabled", false);
+        lastNameInput.prop("disabled", false);
+        middleNameInput.prop("disabled", false);
+        residenceInput.prop("disabled", false);
+        suffixInput.prop("disabled", false);
+
         // Toggle the black text
         toggleDisplayText();
     }
@@ -120,6 +106,7 @@ function DetailPanelWorkspace(id) {
     }
 
     function load(personData) {
+
         currentPerson = personData;
         birthplaceInput.val(personData.getBirthplace());
         dateOfBirthInput.val(personData.getDateOfBirth());
@@ -130,11 +117,12 @@ function DetailPanelWorkspace(id) {
         lastNameInput.val(personData.getLastName());
         middleNameInput.val(personData.getMiddleName());
         residenceInput.val(personData.getResidence());
+        suffixInput.val(personData.getSuffix());
 
     }
 
     function save() {
-        
+
         currentPerson.setBirthplace(birthplaceInput.val());
         currentPerson.setDateOfBirth(dateOfBirthInput.val());
         currentPerson.setDateOfDeath(dateOfDeathInput.val());
@@ -144,6 +132,7 @@ function DetailPanelWorkspace(id) {
         currentPerson.setLastName(lastNameInput.val());
         currentPerson.setMiddleName(middleNameInput.val());
         currentPerson.setResidence(residenceInput.val());
+        currentPerson.setSuffix(suffixInput.val());
 
         // Update the node's display text
         currentNode.updateText();
@@ -158,7 +147,7 @@ function DetailPanelWorkspace(id) {
         $(id).show();
         $(window).resize();
     }
-    
+
     function toggleDisplayText() {
         birthplaceInput.toggleClass("displayText");
         dateOfBirthInput.toggleClass("displayText");
@@ -169,10 +158,8 @@ function DetailPanelWorkspace(id) {
         lastNameInput.toggleClass("displayText");
         middleNameInput.toggleClass("displayText");
         residenceInput.toggleClass("displayText");
+        suffixInput.toggleClass("displayText");
     }
-
-    // Hide the detail panel initially:
-    hide();
 
     // Allow external access to functions:
     return {

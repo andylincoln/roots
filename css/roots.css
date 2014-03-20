@@ -23,25 +23,8 @@ html, body {
     margin: 0px;
     overflow: hidden;
     background-color: #bbb9be;
-    background-image: url(img/roots-website-background.png);
-}
-
-#topDiv {
-    /* border: 1px solid black; /* Just here to see where div is */
-    height: 10%;
-    width: 100%;
-}
-
-#leftDetail {
-    /* border: 1px solid black;  Just here to see where the panel is */
-    display: inline-block;
-    position: relative;
-    height: 100%;
-    width: 25%;
-}
-
-#checkEdit {
-    float: right;
+    /*background-image: url(img/roots-website-background.png);*/
+    font-family: "Roboto", sans-serif;
 }
 
 #connectionDialog {
@@ -53,7 +36,7 @@ html, body {
     /*border: 1px solid black; /* Just here to see where canvas is */
     /* border-radius: 2px;*/
     display: inline-block;
-    opacity: 0.7;
+/*    opacity: 0.7;*/
     position: absolute;
 }
 
@@ -61,37 +44,56 @@ html, body {
     display: none;
 }
 
+/*** Selectors for Detail Panel ****/
+
+/*  Aside Container for Detail Panel*/
+aside {
+    display: inline-block;
+    position: relative;
+    width: 30%;
+}
+
+#buttonWrapper {
+    height: 32px;
+}
+
+#leftDetail {
+    /* border: 1px solid black;  Just here to see where the panel is */
+    display: inline-block;
+    position: relative;
+}
+
 #title {
     color: #8b4424;
     font-size: 2em;
     font-family: 'Port Lligat Slab', serif;
     text-align: center;
+    margin: 10px 20px;
+}
+
+/*** Classes for Detail Panel  *****/
+.date {
+    width: 150px;
 }
 
 .details {
     background-color: #FFF;
     /*border: 1px white solid;
     border-radius: 2px;*/
-    height: 50%;
+}
+
+.line {
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
-    margin: 20px;
 }
 
 .text {
     color: #746f6e;
     font-family: "Roboto", sans-serif;
+    font-size: 1em;
     font-weight: 300;
     text-align: center;
-}
-
-.header {
-    display:inline;
-}
-
-table {
-    color: #746f6e;
-    font-family: "Roboto", sans-serif;
-    margin: 0 auto;
 }
 
 .small-button {
@@ -99,11 +101,12 @@ table {
 }
 
 .displayText {
+    border-style: none;
     color: #000108;
     font-weight: 500;
 }
 
-/*  Header  */
+/*****  Header ********/
 
 #logo {
     display:inline;
@@ -137,4 +140,28 @@ p {
 
 li {
     display: inline;
+}
+
+
+/* Icons */
+
+.icon_save {
+    background-image: url("img/save.png") !important;
+    width: 32px;
+    height: 32px;
+}
+
+.icon_edit {
+    background-image: url("img/edit.png") !important;
+    width: 32px;
+    height: 32px;
+}
+
+.icon_residence {
+  display: inline-block;
+  background: url("img/residence.png") no-repeat scroll 0 0 transparent;
+}
+.icon_birthplace {
+  display: inline-block;
+  background: url("img/birthplace.png") no-repeat scroll 0 0 transparent;
 }
