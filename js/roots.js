@@ -1,21 +1,21 @@
 /*
-    Created on  : Feb 18 2014
-    Author      : Daniel Kolsoi
-    Description : Main script for roots web app.
-*/
+ Created on  : Feb 18 2014
+ Author      : Daniel Kolsoi
+ Description : Main script for roots web app.
+ */
 
 // Define our primary workspaces globally:
 var canvasWorkspace,
-    leftDetailWorkspace,
-    rightDetailWorkspace;
+        leftDetailWorkspace,
+        rightDetailWorkspace;
 
-$(document).ready(function(){
+$(document).ready(function() {
     // Instantiate the canvas workspace "class":
     canvasWorkspace = CanvasWorkspace("#workspace");
-    
+
     // Add an event handler to resize the canvas workspace on window resize:
     $(window).resize(function() {
-        var width  = window.innerWidth;
+        var width = window.innerWidth;
         var height = window.innerHeight - $("header").height();
 
         if ($("#leftDetail").css("display") != "none") {
@@ -28,12 +28,12 @@ $(document).ready(function(){
 
         // Adjust for temp borders
         width -= 4;
-        
+
         canvasWorkspace.resize(width, height);
     });
 
     // Instantiate the left detail panel "class":
-    leftDetailWorkspace  = DetailPanelWorkspace("#leftDetail");
+    leftDetailWorkspace = DetailPanelWorkspace("#leftDetail");
     rightDetailWorkspace = DetailPanelWorkspace("#rightDetail");
 
     // Enable/Disable editing checkbox
@@ -44,11 +44,16 @@ $(document).ready(function(){
             leftDetailWorkspace.disable();
         }
     });
-    
-    $("#leftSave").click(function(){
+
+    $("#leftSave").click(function() {
         leftDetailWorkspace.save();
     });
-    
+
+    $("#leftCheckLiving").click(function() {
+        $("#deathLabel").children().toggle();
+        $("#deathInput").children().toggle();
+    });
+
     // Resize the window once all workspaces have been loaded.    
     $(window).resize();
 });

@@ -11,7 +11,7 @@
         -->
 
         <title>Roots Family Tree</title>
-
+        <link rel="shortcut icon" href="favicon.ico" />
         <!-- Include the jQuery library -->
         <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
 
@@ -62,14 +62,15 @@
 
             <aside>
                 <!--Tree Title-->
-                <input id="title" placeholder="Untitled">
+                <input id="title" placeholder="Tree Title">
                 <!-- This is for the left detail panel. -->
 
                 <div id="leftDetail" class="details">
 
-                    <div id="buttonWrapper">
-                        <input id="leftCheckEdit" type="checkbox" class="small-button" checked> <label for="leftCheckEdit" class="small-button">Edit</label>
-                        <button id="leftSave" class="small-button">Save</button>
+                    <div class="buttonWrapper">
+                        <div style="float:right; padding-top:5px; padding-bottom: 5px; padding-right: 10px;">
+                            <input id="leftCheckEdit" type="checkbox" class="small-button" checked> <label for="leftCheckEdit" class="small-button">Edit</label>
+                        </div>
                     </div>
                     <div id="nameWrapper" class="line">
                         <input id="leftFirstName"   placeholder="First"     size="8" class="edit text displayText">
@@ -77,27 +78,53 @@
                         <input id="leftLastName"    placeholder="Last"      size="8" class="edit text displayText">
                         <input id="leftSuffix"      placeholder="Suffix"    size="3" class="edit text displayText">
                     </div>
-                    <div id="dateWrapper" class="line">
-                        <input id="leftDateBirth" type="date" size="4" class="date text displayText">
-                        <span class="text">-</span>
-                        <input id="leftDateDeath" type="date" size="4" class="date text displayText">
-                    </div>
-                    <div class="line">
-                        <label for="leftGender">Gender:</label>
-                        <select id="leftGender">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <input id="leftGeneration"  placeholder="Generation" size="2" type="number" name="generation" min="1" class="edit text displayText">
-                    </div>
-                    <div class="line">
-                        <label for="leftBirthplace">Birthplace:</label>
-                        <input id="leftBirthplace"  placeholder="Birthplace" class="edit text displayText">
-                    </div>
-                    <div class="line">
-                        <label for="leftResidence">Residence:</label>
-                        <input id="leftResidence"  placeholder="Residence" class="edit text displayText">
+
+                    <table>
+                        <tr>
+                            <td><label for="leftDateBirth">Born</label></td>
+                            <td>
+                                <input id="leftCheckLiving" type="checkbox" class="small-button" checked>
+                                <label for="leftCheckLiving" class="small-button">Living?</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="css/img/calendar.png" class="icon"></td>
+                            <td><input id="leftDateBirth" placeholder="Born" type="date" size="6" class="date text displayText"></td>
+                        </tr>
+                        <tr id="deathLabel">
+                            <td><label for="leftDateDeath">Died</label></td>
+                        </tr>
+                        <tr id="deathInput">
+                            <td><img src="css/img/calendar.png" class="icon"></td>
+                            <td><input id="leftDateDeath" placeholder="Died" type="date" size="6" class="date text displayText"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="css/img/gender.png" class="icon"></td>
+                            <td>
+                                <select id="leftGender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="css/img/generation.png" class="icon"></td>
+                            <td><input id="leftGeneration"  placeholder="Generation" size="2" type="number" name="generation" min="1" class="edit text displayText"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="css/img/birthplace.png" class="icon"></td>
+                            <td><input id="leftBirthplace"  placeholder="Birthplace" class="edit text displayText"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="css/img/residence.png" class="icon"></td>
+                            <td><input id="leftResidence"  placeholder="Residence" class="edit text displayText"></td>
+                        </tr>
+                    </table>
+                    <div class="buttonWrapper">
+                        <div style="float:right; padding-top:5px; padding-bottom: 5px; padding-right: 10px;">
+                            <button id="leftSave" class="small-button">Save</button>
+                        </div>
                     </div>
                 </div>
             </aside>

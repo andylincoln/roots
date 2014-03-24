@@ -5,14 +5,15 @@
         <meta content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width"/>
         <title>Roots Ancestry Tracker</title>
-        
+        <link rel="shortcut icon" href="favicon.ico" />
+
         <!-- Include the jQuery library -->
         <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
-        
+
         <!-- Include the jQueryUI library  & it's CSS Theme-->
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-        
+
         <!-- Include Google Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Port+Lligat+Slab|Roboto:400,500,700' rel='stylesheet' type='text/css'>
         <!-- Link to page style -->
@@ -55,7 +56,7 @@
                         $_SESSION['Username'] = $username;
                         $_SESSION['EmailAddress'] = $email;
                         $_SESSION['LoggedIn'] = 1;
-                        
+
                         echo "<script>window.location = 'roots.php'</script>";
                     } else {
                         echo "<h1>Error</h1>";

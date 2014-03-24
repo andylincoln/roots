@@ -5,7 +5,7 @@
         <meta content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width"/>
         <title>Roots Ancestry Tracker</title>
-
+        <link rel="shortcut icon" href="favicon.ico" />
         <!-- Include the jQuery library -->
         <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
 
@@ -67,8 +67,8 @@
                         <input type="text" name="username" id="username" placeholder="Username" class="required"/>
                         <input type="password" name="password" id="password" placeholder="Password" class="required"/>
                         <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm password"class="required password"/>
-                        <input type="text" name="email" id="email" placeholder="Email" class="required" />
-                        <input type="text" name="confirmEmail" id="confirmEmail" placeholder="Confirm email" class="required email"/>
+                        <input type="email" name="email" id="email" placeholder="Email" class="required" />
+                        <input type="email" name="confirmEmail" id="confirmEmail" placeholder="Confirm email" class="required email"/>
                         <input type="submit" name="register" id="register" value="Register" class="small-button"/>
                     </form>
 

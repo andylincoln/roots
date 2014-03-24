@@ -32,6 +32,7 @@ function DetailPanelWorkspace(id) {
             currentNode,
             currentPerson,
             checkEdit,
+            checkLiving,
             dateOfBirthInput,
             dateOfDeathInput,
             firstNameInput,
@@ -45,6 +46,7 @@ function DetailPanelWorkspace(id) {
 
     birthplaceInput = $(idPrefix + "Birthplace");
     checkEdit = $(idPrefix + "CheckEdit");
+    checkLiving = $(idPrefix + "CheckLiving");
     dateOfBirthInput = $(idPrefix + "DateBirth");
     dateOfDeathInput = $(idPrefix + "DateDeath");
     firstNameInput = $(idPrefix + "FirstName");
@@ -56,8 +58,17 @@ function DetailPanelWorkspace(id) {
     saveButton = $(idPrefix + "Save");
     suffixInput = $(idPrefix + "Suffix");
 
-    checkEdit.button();
-    saveButton.button();
+    checkEdit.button({
+        icons: {
+            primary: "ui-icon-pencil"
+        }
+    });
+    checkLiving.button();
+    saveButton.button({
+        icons: {
+            primary: "ui-icon-disk"
+        }
+    });
 
     //Default to enabled
     // Hide the detail panel initially:
@@ -79,6 +90,9 @@ function DetailPanelWorkspace(id) {
         residenceInput.prop("disabled", true);
         suffixInput.prop("disabled", true);
 
+        //  Hide the save button
+        saveButton.hide();
+
         // Toggle the black text
         toggleDisplayText();
     }
@@ -96,8 +110,13 @@ function DetailPanelWorkspace(id) {
         residenceInput.prop("disabled", false);
         suffixInput.prop("disabled", false);
 
+        //  Show the save button
+        saveButton.show();
+
         // Toggle the black text
         toggleDisplayText();
+        
+        // Hide null fields
     }
 
     function hide() {
@@ -159,6 +178,8 @@ function DetailPanelWorkspace(id) {
         middleNameInput.toggleClass("displayText");
         residenceInput.toggleClass("displayText");
         suffixInput.toggleClass("displayText");
+
+        $("#livingRow").toggle();
     }
 
     // Allow external access to functions:
