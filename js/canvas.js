@@ -35,24 +35,31 @@ function Connection(layer, points) {
         strokeWidth: 5,
         lineCap: "round",
         lineJoin: "round",
-        dash: [33, 10]
+        dash: [10, 10]
     });
 
     function setPoints(points) {
         connectionObj.points(points);
+        layer.draw();
     }
 
     function setColor(color) {
         connectionObj.stroke(color);
+        layer.draw();
     }
 
     function getPoints() {
         return connectionObj.points();
     }
 
+    function destroy() {
+        connectionObj.destroy();
+    }
+
     layer.add(connectionObj);
 
     return {
+        destroy: destroy,
         getPoints: getPoints,
         setColor: setColor,
         setPoints: setPoints
@@ -69,7 +76,13 @@ function findNode(circleObj) {
 }
 
 function Node(layer, x, y) {
-    var data = Person();
+    var data = Person(),
+        selected = false,
+        moved = false,
+        parents = [],
+        children = [],
+        spouses = [],
+        position = {x: x, y: y};
 
     var circleObj = new Kinetic.Circle({
         x: x,
@@ -135,7 +148,7 @@ function Node(layer, x, y) {
                 person1 = connection.start.getData().getName();
                 person2 = data.getName();
 
-                // call GUI stuff here
+                // update the form UI and display its dialog
                 $("#person1").text(person1);
                 $("#person2").text(person2);
 
@@ -197,7 +210,7 @@ function Node(layer, x, y) {
     // Update the text drawn on top of nodes
     function updateText() {
         var nameString = data.getName();
-        var charArray, xAdjust, yAdjust;
+        var charArray;
 
         // Get the initials via regex and format to string
         charArray = nameString.match(/\b(\w)/g);
@@ -213,13 +226,56 @@ function Node(layer, x, y) {
         textObj.text(nameString);
 
         // Adjust text position based on string length
-        xAdjust = x - nameString.length * 2;
-        yAdjust = y - 5;
-
-        textObj.x(xAdjust);
-        textObj.y(yAdjust);
+        textObj.x(position.x - nameString.length * 2);
+        textObj.y(position.y - 5);
 
         layer.draw();
+    }
+
+    function addParent(parentNode) {
+        // Check to see if node already is a parent
+        for (var i = 0; i < parents.length; i++) {
+            if (parents[i] == parentNode)
+                return;
+        }
+
+        // Allowed only two parents
+        if (parents.length < 2) {
+            // TODO: Needs to add parent name to person data?
+            parents.push(parentNode);
+            parentNode.addChild(findNode(circleObj));
+        }
+    }
+
+    function addChild(childNode) {
+        children.push(childNode);
+    }
+
+    function addSpouse(spouseNode) {
+        // Check to see if node already is a spouse
+        for (var i = 0; i < spouses.length; i++) {
+            if (spouses[i] == spouseNode)
+                return;
+        }
+
+        // Allowed only two spouses, due to limitations on how to draw
+        // More than one former spouse/partner.
+        if (spouses.length < 2 && spouseNode.getSpouses().length < 2) {
+            // TODO: Needs to add spouse name to person data?
+            spouses.push(spouseNode);
+        }
+    }
+
+    function getChildren() {
+        return children;
+    }
+
+    function getParents() {
+        return parents;
+    }
+
+    function getSpouses() {
+        return spouses;
     }
 
     // For when the node is de/selected
@@ -247,6 +303,14 @@ function Node(layer, x, y) {
         textObj.destroy();
     }
 
+    function setMoved(value) {
+        moved = value;
+    }
+
+    function getMoved() {
+        return moved;
+    }
+
     function getData() {
         return data;
     }
@@ -261,8 +325,14 @@ function Node(layer, x, y) {
     function setPosition(x, y) {
         circleObj.x(x);
         circleObj.y(y);
+
+        position = {x: x, y: y};
+        updateText();
+
         deleteObj.x(x + 40);
         deleteObj.y(y - 40);
+
+        layer.draw();
     }
 
     function getCircleObj() {
@@ -271,11 +341,19 @@ function Node(layer, x, y) {
 
     // Allow public access to these functions
     return {
+        addChild: addChild,
+        addParent: addParent,
+        addSpouse: addSpouse,
         deselect: deselect,
         destroy: destroy,
         getData: getData,
         getCircleObj: getCircleObj,
+        getChildren: getChildren,
+        getMoved: getMoved,
+        getParents: getParents,
         getPosition: getPosition,
+        getSpouses: getSpouses,
+        setMoved: setMoved,
         setPosition: setPosition,
         select: select,
         updateText: updateText
@@ -287,7 +365,8 @@ function CanvasWorkspace(id) {
     var stage = new Kinetic.Stage({
         container: id.substring(1)
     });
-    var layer = new Kinetic.Layer();
+    var mainLayer = new Kinetic.Layer();
+    var connectionLayer = new Kinetic.Layer();
 
     // Flag variables:
     var redrawBuffer = false,
@@ -295,21 +374,59 @@ function CanvasWorkspace(id) {
 
     // Data Structure variables:
     var scroll = {x: 0, y: 0};
+    var connections = [];
 
-    mouseConnection = Connection(layer, [0, 0]);
+    mouseConnection = Connection(connectionLayer, [0, 0]);
 
     connectionDialog.dialog({
         resizable: false,
         modal: true,
-        //width: 400,
         hide: false,
         buttons: {
             "Accept": function() {
-                console.log($("#relation").val());
+                // Define connections based on the form input
+                switch ($("#relation").val()) {
+                    case "Parent":
+                        connection.end.addParent(connection.start);
+                        break;
+
+                    case "Child":
+                        connection.start.addParent(connection.end);                  
+                        break;
+
+                    case "Spouse":
+                        connection.start.addSpouse(connection.end);
+                        connection.end.addSpouse(connection.start);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                // Clear current connection lines
+                for (var i = 0; i < connections.length; i++)
+                    connections[i].destroy();
+                
+                connections = [];
+
+                for (var i = 0; i < nodes.length; i++)
+                    nodes[i].setMoved(false);
+
+                // Reposition nodes and connections
+                reposition(connection.start);
+
+                // Might have to loop through all nodes, reposition any not moved nodes
+
+                connection.start = null;
+                connection.end = null;
+                mouseConnection.setPoints([0, 0]);
                 $(this).dialog("close");
             }
         },
         close: function() {
+            connection.start = null;
+            connection.end = null;
+            mouseConnection.setPoints([0, 0]);
             $(this).dialog("close");
         }
     });
@@ -320,6 +437,82 @@ function CanvasWorkspace(id) {
         // not final nor essential:
         scroll.x += xVelocity;
         scroll.y += yVelocity;
+    }
+
+    // Repositions all nodes and connections on the canvas
+    function reposition(node) {
+        var pos, spouse, directFamily, offset = 0;
+
+        node.setMoved(true);
+        pos = node.getPosition();
+
+        // Position spouses horizontally
+        for (var i = 0; i < node.getSpouses().length; i++) {
+            spouse = node.getSpouses()[i];
+
+            // if the spouse hasnt already been repositioned
+            
+            // Take into account number of children with this spouse
+            if (spouse.getMoved() == false) {
+                spouse.setPosition(pos.x + 300 * (i - offset) - 150, pos.y);
+
+                connections.push(Connection(connectionLayer, [pos.x, pos.y, pos.x + 300 * (i - offset) - 150, pos.y]));
+            }
+            else {
+                offset = 1;
+            }
+        }
+
+        offset = 0;
+        // Position children vertically according to parents positions
+        console.log(node.getChildren());
+        for (var i = 0; i < node.getChildren().length; i++) {
+            child = node.getChildren()[i];
+
+            // if the child hasnt already been repositioned
+            console.log(child.getMoved());
+            if (child.getMoved() == false) {
+                var linePts = [pos.x, pos.y];
+
+
+                if (child.getParents().length == 2) {
+                    for (var j = 0; j < child.getParents().length; j++) {
+                        // Found the other parent
+                        if (child.getParents()[j] != node) {
+                            // Figure out the offset
+                            if (child.getParents()[j].getPosition().x > node.getPosition().x)
+                                offset = 75;
+                            else
+                                offset = -75;
+
+                            linePts = linePts.concat([pos.x + offset, pos.y]);
+                        }
+                    }
+                }
+
+                linePts = linePts.concat([pos.x + offset, pos.y + 150]);
+
+                child.setPosition(pos.x + offset, pos.y + 150);
+
+                connections.push(Connection(connectionLayer, linePts));
+            }
+        }        
+
+
+
+
+
+
+        // End
+
+        // combine adjacent nodes into an array and reposition them
+        directFamily = node.getSpouses().concat(node.getChildren(), node.getParents());
+
+        for (var i = 0; i < directFamily.length; i++) {
+            if (directFamily[i].getMoved() == false)
+                reposition(directFamily[i]);
+        }
+
     }
 
     function removeNode(index) {
@@ -334,7 +527,7 @@ function CanvasWorkspace(id) {
         // Remove the node from the array and update KineticsJS:
         nodes[index].destroy();
         nodes.splice(index, 1);
-        layer.draw();
+        mainLayer.draw();
     }
 
     // Sets the width & height of the canvas:
@@ -345,13 +538,8 @@ function CanvasWorkspace(id) {
         stage.width(width);
         stage.height(height);
 
-        layer.width(width);
-        layer.height(height);
-    }
-
-    // This function will return the left and right selected nodes.
-    function getSelections() {
-        return selections;
+        mainLayer.width(width);
+        mainLayer.height(height);
     }
 
     // Handle the canvas being clicked:
@@ -373,7 +561,7 @@ function CanvasWorkspace(id) {
                     }
                 }
 
-                var node = Node(layer, x - scroll.x, y - scroll.y);
+                var node = Node(mainLayer, x - scroll.x, y - scroll.y);
                 nodes.push(node);
             default:
                 break;
@@ -388,7 +576,7 @@ function CanvasWorkspace(id) {
             var pos = connection.start.getPosition();
 
             mouseConnection.setPoints([pos.x, pos.y, x, y]);
-            layer.draw();
+            //mainLayer.draw();
         }
     });
 
@@ -396,16 +584,14 @@ function CanvasWorkspace(id) {
         var x = event.pageX - $(id).offset().left;
         var y = event.pageY - $(id).offset().top;
 
-        switch (event.which) {
-            // Left Click
-            case 1:
-                if (connection.start != null) {
-                    connection.start = null;
-                    mouseConnection.setPoints([0, 0]);
-                    layer.draw();
-                }
-            default:
-                break;
+        // On left click
+        if (event.which == 1) {
+            // Starting node selected and not over an existing node:
+            if (connection.start != null && mainLayer.getIntersection({x: x, y: y}) == null) {
+                connection.start = null;
+                mouseConnection.setPoints([0, 0]);
+                mainLayer.draw();
+            }
         }
     });
 
@@ -414,11 +600,11 @@ function CanvasWorkspace(id) {
         return false;
     });
 
-    stage.add(layer);
+    stage.add(connectionLayer);
+    stage.add(mainLayer);
 
     // Here is the returned JSOL which allows public access of certain functions:
     return {
-        getSelections: getSelections,
         resize: resize
     };
 }
