@@ -22,6 +22,7 @@
 body {
     background-color: #bbb9be;
     background-image: url(img/roots-website-background.png);
+    background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -47,8 +48,9 @@ header {
 
 input {
     display: block;
+    font-size: 18px;
     margin-top: 10px;
-    margin-left: 100px;
+    width: 100%;
 }
 
 li {
@@ -65,8 +67,17 @@ p {
     padding: 10px;
 }
 
+#body {
+    margin:0px auto;
+    min-height: 600px;
+}
+
 #loginform {
-    margin: 10px auto 10px auto;
+    width: 33%;
+    min-width: 280px;
+    vertical-align: top;/*Fix for different     height elements*/
+    margin-bottom: 10px;
+    display: inline-block;
 }
 
 #logo {
@@ -74,14 +85,27 @@ p {
 }
 
 #main {
+    background-color: #bbb9be;
+    border: black solid;
+    border-radius: 1px;
+    margin-left: 300px;
+    margin-right: 300px;
     margin-top: 200px;
-    float: left;
-    padding: 10px;
-    width: 25%;
+    min-width: 300px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#registerForm {
+    width: 33%;
+    min-width: 280px;
+    vertical-align: top;
+    margin-bottom: 10px;
+    display: inline-block;
 }
 
 .small-button {
-   font-size: .8em !important;
+    font-size: .8em !important;
 }
 
 .wrapper {

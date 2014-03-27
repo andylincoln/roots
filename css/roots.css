@@ -24,6 +24,7 @@ html, body {
     overflow: hidden;
     background-color: #bbb9be;
     background-image: url(img/roots-website-background.png);
+    background-repeat: no-repeat;
     font-family: "Roboto", sans-serif;
 }
 

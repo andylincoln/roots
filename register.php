@@ -13,6 +13,9 @@
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
+        <!-- Include jQuery Validation plugin -->
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
         <!-- Include Google Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Port+Lligat+Slab|Roboto:400,500,700' rel='stylesheet' type='text/css'>
 
@@ -64,12 +67,24 @@
                     <h1>Register</h1>
 
                     <form method="post" action="register.php" name="registerForm" id="registerForm">
-                        <input type="text" name="username" id="username" placeholder="Username" class="required"/>
-                        <input type="password" name="password" id="password" placeholder="Password" class="required"/>
-                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm password"class="required password"/>
-                        <input type="email" name="email" id="email" placeholder="Email" class="required" />
-                        <input type="email" name="confirmEmail" id="confirmEmail" placeholder="Confirm email" class="required email"/>
-                        <input type="submit" name="register" id="register" value="Register" class="small-button"/>
+                        <div>
+                            <input type="text" name="username" id="username" placeholder="Username"/>
+                        </div>
+                        <div>
+                            <input type="password" name="password" id="password" placeholder="Password"/>
+                        </div>
+                        <div>
+                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm password"/>
+                        </div>
+                        <div>
+                            <input type="email" name="email" id="email" placeholder="Email" />
+                        </div>
+                        <div>
+                            <input type="email" name="confirmEmail" id="confirmEmail" placeholder="Confirm email"/>
+                        </div>
+                        <div>
+                            <input type="submit" name="register" id="register" value="Register" class="small-button"/>
+                        </div>
                     </form>
 
                     <?php
@@ -77,51 +92,7 @@
                 ?>
 
             </div>
-            <script>
-                $(document).ready(function() {
-                    $("#register").button();
-                    $("#register").submit(validate());
-                });
-                
-                function validate() {
-                    
-                    $("#registerForm").validate({
-                        rules: {
-                            username: {
-                                required: true;
-                            }
-                            password: {
-                                required: true;
-                            }
-                            confirmPassword: {
-                                required: true;
-                            }
-                            email: {
-                                required: true;
-                            }
-                            confirmEmail: {
-                                require: true;
-                            }
-                        }
-                    });
-                    $.validator.addMethod("password", function() {
-                        
-                        var pass = $("#password").val();
-                        var confirm = $("#confirmPassword").val();
-                        
-                        return (pass === confirm);
-                       },
-                        "Password does not match");
-                        $.validator.addMethod("email", function() {
-                        
-                        var email = $("#email").val();
-                        var confirm = $("#confirmEmail").val();
-                        
-                        return (email === confirm);
-                       },
-                        "Email does not match");
-                }
-            </script>
+            <script src="register.js"></script>
         </div>
     </body>
 </html>
