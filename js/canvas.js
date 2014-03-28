@@ -512,7 +512,6 @@ function CanvasWorkspace(id) {
             if (directFamily[i].getMoved() == false)
                 reposition(directFamily[i]);
         }
-
     }
 
     function removeNode(index) {
