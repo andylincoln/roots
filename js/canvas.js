@@ -384,25 +384,6 @@ function CanvasWorkspace(id) {
         hide: false,
         buttons: {
             "Accept": function() {
-                // Define connections based on the form input
-                switch ($("#relation").val()) {
-                    case "Parent":
-                        connection.end.addParent(connection.start);
-                        break;
-
-                    case "Child":
-                        connection.start.addParent(connection.end);                  
-                        break;
-
-                    case "Spouse":
-                        connection.start.addSpouse(connection.end);
-                        connection.end.addSpouse(connection.start);
-                        break;
-
-                    default:
-                        break;
-                }
-
                 // Clear current connection lines
                 for (var i = 0; i < connections.length; i++)
                     connections[i].destroy();
@@ -412,8 +393,27 @@ function CanvasWorkspace(id) {
                 for (var i = 0; i < nodes.length; i++)
                     nodes[i].setMoved(false);
 
-                // Reposition nodes and connections
-                reposition(connection.start);
+                // Define connections based on the form input and reposition a node
+                switch ($("#relation").val()) {
+                    case "Parent":
+                        connection.end.addParent(connection.start);
+                        reposition(connection.start);
+                        break;
+
+                    case "Child":
+                        connection.start.addParent(connection.end);
+                        reposition(connection.end);             
+                        break;
+
+                    case "Spouse":
+                        connection.start.addSpouse(connection.end);
+                        connection.end.addSpouse(connection.start);
+                        reposition(connection.start);
+                        break;
+
+                    default:
+                        break;
+                }
 
                 // Might have to loop through all nodes, reposition any not moved nodes
 
