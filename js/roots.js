@@ -17,10 +17,9 @@ $(document).ready(function() {
     $(window).resize(function() {
         var width = window.innerWidth;
         var height = window.innerHeight - $("header").height();
+        console.log($("header").height());
 
-        if ($("#leftDetail").css("display") != "none") {
-            width -= $("#leftDetail").width();
-        }
+        width -= $("#aside").width();
 
         if ($("#rightDetail").css("display") != "none") {
             width -= $("#rightDetail").width();

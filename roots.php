@@ -60,7 +60,7 @@
                 </div>
             </header>
 
-            <aside>
+            <aside id ="aside">
                 <!--Tree Title-->
                 <input id="title" placeholder="Tree Title">
                 <!-- This is for the left detail panel. -->
