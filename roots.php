@@ -14,6 +14,7 @@
         <link rel="shortcut icon" href="favicon.ico" />
         <!-- Include the jQuery library -->
         <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="lib/jquery2.1.0/jquery.cookie.js"></script>
 
         <!-- Include the jQueryUI library  & it's CSS Theme-->
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
@@ -55,7 +56,7 @@
 
                 <div id="accountLinks">
                     <ul>
-                        <!--<li>Tutorial</li>-->
+                        <li><a href="" id="tutorialButton">Tutorial</a></li>
                         <li><a href="logout.php">Log Out</a></li>
                     </ul>
                 </div>

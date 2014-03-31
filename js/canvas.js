@@ -465,12 +465,10 @@ function CanvasWorkspace(id) {
 
         offset = 0;
         // Position children vertically according to parents positions
-        console.log(node.getChildren());
         for (var i = 0; i < node.getChildren().length; i++) {
             child = node.getChildren()[i];
 
             // if the child hasnt already been repositioned
-            console.log(child.getMoved());
             if (child.getMoved() == false) {
                 var linePts = [pos.x, pos.y];
 

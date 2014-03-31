@@ -6,8 +6,17 @@
 
 // Define our primary workspaces globally:
 var canvasWorkspace,
-        leftDetailWorkspace,
-        rightDetailWorkspace;
+    leftDetailWorkspace,
+    rightDetailWorkspace;
+
+var tutorialTooltip = $("#tutorialButton");
+
+tutorialTooltip.tooltip({
+    show: {
+        effect: "slideDown",
+        delay: 250
+    }
+});
 
 $(document).ready(function() {
     // Instantiate the canvas workspace "class":
@@ -15,11 +24,8 @@ $(document).ready(function() {
 
     // Add an event handler to resize the canvas workspace on window resize:
     $(window).resize(function() {
-        var width = window.innerWidth;
+        var width = window.innerWidth - $("#aside").width();
         var height = window.innerHeight - $("header").height();
-        console.log($("header").height());
-
-        width -= $("#aside").width();
 
         if ($("#rightDetail").css("display") != "none") {
             width -= $("#rightDetail").width();
@@ -31,9 +37,24 @@ $(document).ready(function() {
         canvasWorkspace.resize(width, height);
     });
 
+    // Enable the tutorial tooltip if first time on page
+    if ($.cookie("visited") != "true")
+        // Does not work:
+        tutorialTooltip.tooltip("open");
+
+    // Commented out for testing:
+    //$.cookie("visited", "true", { expires: 365 });
+
+    // Disable default url click functionality on tutorial button
+    $("#tutorialButton").click(function(){
+        // Start Tutorial
+
+        return false;
+    });
+
     // Instantiate the left detail panel "class":
     leftDetailWorkspace = DetailPanelWorkspace("#leftDetail");
-    rightDetailWorkspace = DetailPanelWorkspace("#rightDetail");
+    rightDetailWorkspace= DetailPanelWorkspace("#rightDetail");
 
     // Enable/Disable editing checkbox
     $("#leftCheckEdit").click(function() {
