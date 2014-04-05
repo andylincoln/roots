@@ -18,6 +18,21 @@ tutorialTooltip.tooltip({
     }
 });
 
+
+function save() {
+    
+    var tree = {
+        user  : username,
+        nodes : []
+    };
+    
+    for(var i = 0; i < nodes.length; i++) {
+        tree.nodes.push(nodes[i].getData().getJSOL());
+    }
+    console.log(JSON.stringify(tree));
+}
+
+
 $(document).ready(function() {
     // Instantiate the canvas workspace "class":
     canvasWorkspace = CanvasWorkspace("#workspace");

@@ -36,6 +36,8 @@
         <!-- Include our detail library -->
         <script type="text/javascript" src="js/detail.js"></script>
 
+        <script> var username = "<?php echo $_SESSION['Username'] ?>";</script>
+
         <!-- Include Google Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Port+Lligat+Slab|Roboto:400,500,700' rel='stylesheet' type='text/css'>
     </head>
