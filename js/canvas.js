@@ -103,6 +103,12 @@ function Node(layer, x, y) {
         if (circleObj.fill() == "green") {
             selections.left = null;
             deselect();
+
+            // For tutorial only:
+            if (tutorialStage == 2) {
+                $("#workspace").tooltipster("show");
+                $("#leftSave").tooltipster("hide");
+            }
         }
         else {
             if (selections.left != null)
@@ -110,6 +116,12 @@ function Node(layer, x, y) {
 
             selections.left = findNode(circleObj);
             select();
+
+            // For tutorial only:
+            if (tutorialStage == 2) {
+                $("#workspace").tooltipster("hide");
+                $("#leftSave").tooltipster("show");
+            }
         }
         // Update the canvas
         layer.draw();
@@ -123,6 +135,7 @@ function Node(layer, x, y) {
                 return;
             }
 
+            // Start connection tracking:
             connection.start = findNode(circleObj);
             mouseConnection.setPoints([x, y]);
 
@@ -137,7 +150,8 @@ function Node(layer, x, y) {
                 // Error message here? No name associated with this node.
                 return;
             }
-        
+            
+            // Finish connection tracking:
             if (connection.start != null && connection.start != findNode(circleObj)) {
                 var points = mouseConnection.getPoints().splice(0, 2);
                 var person1, person2;
@@ -560,6 +574,14 @@ function CanvasWorkspace(id) {
 
                 var node = Node(mainLayer, x - scroll.x, y - scroll.y);
                 nodes.push(node);
+
+                // Tutorial only:
+                if (tutorialStage == 1) {
+                    tutorialStage++;
+
+                    $("#workspace").tooltipster("content", "Lets start your family tree with yourself. Left click on the newly created person.");
+                }
+
             default:
                 break;
         }

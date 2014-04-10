@@ -12,9 +12,11 @@
 
         <title>Roots Family Tree</title>
         <link rel="shortcut icon" href="favicon.ico" />
-        <!-- Include the jQuery library -->
+        <!-- Include the jQuery library & jQuery based plugins -->
+        <link rel="stylesheet" type="text/css" href="css/tooltipster.css" />
         <script type="text/javascript" src="lib/jquery2.1.0/jquery-2.1.0.min.js"></script>
         <script type="text/javascript" src="lib/jquery2.1.0/jquery.cookie.js"></script>
+        <script type="text/javascript" src="lib/jquery2.1.0/jquery.tooltipster.min.js"></script>
 
         <!-- Include the jQueryUI library  & it's CSS Theme-->
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />

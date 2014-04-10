@@ -155,6 +155,16 @@ function DetailPanelWorkspace(id) {
 
         // Update the node's display text
         currentNode.updateText();
+
+        // Tutorial only:
+        if (tutorialStage == 2 && currentPerson.getName() != "null null") {
+            tutorialStage++;
+
+            // Switch to the canvas tooltip
+            $("#leftSave").tooltipster("hide");
+            $("#workspace").tooltipster("content", "Repeat the previous few steps and create another person.");
+            $("#workspace").tooltipster("show");
+        }
     }
 
     function show(node) {
