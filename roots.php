@@ -46,8 +46,9 @@
     <body>
 
         <?php
-        #Check if logged in, if not redirect to login
+        // Check if logged in, if not redirect to login
         if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
+            // TODO Determine when POST is updated with save data, save on update
             ?>
 
             <!-- This is for the main bar at the top of the page  -->
