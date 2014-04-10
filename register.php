@@ -42,6 +42,8 @@
             <div id="main">
                 <?php
                 if (!empty($_POST['username']) && !empty($_POST['password'])) {
+                    /* If the user is not logged in                             */
+                    /* Grab the username and password from the form submission  */
                     $username = mysql_real_escape_string($_POST['username']);
                     $password = md5(mysql_real_escape_string($_POST['password']));
                     $email = mysql_real_escape_string($_POST['email']);
@@ -49,16 +51,29 @@
                     $checkusername = mysql_query("SELECT * FROM users WHERE Username = '" . $username . "'");
 
                     if (mysql_num_rows($checkusername) == 1) {
+                        /* If the username is taken */
                         echo "<h1>Error</h1>";
                         echo "<p>Sorry, that username is taken. Please go back and try again.</p>";
                     } else {
+                        /* Enter the username into the database */
                         $registerquery = mysql_query("INSERT INTO users (Username, Password, EmailAddress) VALUES('" . $username . "', '" . $password . "', '" . $email . "')");
                         if ($registerquery) {
-                            echo "<h1>Success</h1>";
-                            echo "<p>Your account was successfully created. Please <a href=\"index.php\">click here to login</a>.</p>";
+                            /* If successfully entered, create json file for storing their tree */
+
+                            $filename = '/tmp/' . $username . '.json';
+                            fopen($filename, "a+");
+                            /* If the file was created, report the success, otherwise inform the user */
+                            if (file_exists($filename)) {
+                                echo "<h1>Success</h1>";
+                                echo "<p>Your account was successfully created. Please <a href=\"index.php\">click here to login</a>.</p>";
+                            } else {
+                                $registerquery = mysql_query("DELETE FROM users WHERE Username='" . $username . "'");
+                                echo "<h1>Error</h1>";
+                                echo "<p>Sorry, something went wrong! Please go back and try again.</p>";
+                            }
                         } else {
                             echo "<h1>Error</h1>";
-                            echo "<p>Sorry, your registration failed. Please go back and try again.</p>";
+                            echo "<p>Sorry, something went wrong! Please go back and try again.</p>";
                         }
                     }
                 } else {
@@ -92,7 +107,7 @@
                 ?>
 
             </div>
-            <script src="register.js"></script>
+            <script src="js/register.js"></script>
         </div>
     </body>
 </html>
