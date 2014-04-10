@@ -4,11 +4,18 @@
 
 session_start();
 
-$dbhost = "localhost"; // this will ususally be 'localhost', but can sometimes differ
-$dbname = "alincoln"; // the name of the database that you are going to use for this project
-$dbuser = "alincoln"; // the username that you created, or were given, to access your database
-$dbpass = "al3445"; // the password that you created, or were given, to access your database
+
+/*           Database Information      */
+$dbhost = "localhost"; 
+$dbname = "alincoln"; 
+$dbuser = "alincoln"; 
+$dbpass = "al3445";
 
 mysql_connect($dbhost, $dbuser, $dbpass) or die("MySQL Error: " . mysql_error());
 mysql_select_db($dbname) or die("MySQL Error: " . mysql_error());
+
+
+// This is the temporary file used to keep track of changes to the tree
+$filename = null;
+
 ?>
