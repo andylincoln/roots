@@ -23,12 +23,21 @@ function save() {
     
     var tree = {
         user  : username,
+        treename: $("#title").val(),
         nodes : []
     };
     
     for(var i = 0; i < nodes.length; i++) {
         tree.nodes.push(nodes[i].getData().getJSOL());
     }
+    
+    $.ajax({
+        type: "post",
+        url: "roots.php",
+        data: JSON.stringify(tree)
+//        ,success: function(){ console.log("AJAX call: Successfully saved!");}
+    });
+    // for debugging
     console.log(JSON.stringify(tree));
 }
 
