@@ -96,8 +96,9 @@ function Node(layer, x, y) {
     // When the node icon is pressed:
     circleObj.on("click", function(event) {
         // On left click only
-        if (event.which != 1)
+        if (event.which != 1) {
             return;
+        }
 
         // Select or deselect
         if (circleObj.fill() == "green") {
@@ -111,8 +112,9 @@ function Node(layer, x, y) {
             }
         }
         else {
-            if (selections.left != null)
+            if (selections.left != null) {
                 selections.left.deselect();
+            }
 
             selections.left = findNode(circleObj);
             select();
@@ -167,6 +169,15 @@ function Node(layer, x, y) {
                 $("#person2").text(person2);
 
                 connectionDialog.dialog("open");
+
+                // Tutorial only:
+                if (tutorialStage == 4) {
+                    tutorialStage++;
+                    
+                    $("#workspace").tooltipster("hide");
+                    $("#person1").tooltipster("content", "Set yourself as the child of your parent and press accept.");
+                    $("#person1").tooltipster("show");
+                }
             }
 
             layer.draw();
@@ -249,8 +260,9 @@ function Node(layer, x, y) {
     function addParent(parentNode) {
         // Check to see if node already is a parent
         for (var i = 0; i < parents.length; i++) {
-            if (parents[i] == parentNode)
+            if (parents[i] == parentNode) {
                 return;
+            }
         }
 
         // Allowed only two parents
@@ -268,12 +280,13 @@ function Node(layer, x, y) {
     function addSpouse(spouseNode) {
         // Check to see if node already is a spouse
         for (var i = 0; i < spouses.length; i++) {
-            if (spouses[i] == spouseNode)
+            if (spouses[i] == spouseNode) {
                 return;
+            }
         }
 
         // Allowed only two spouses, due to limitations on how to draw
-        // More than one former spouse/partner.
+        // more than one former spouse/partner.
         if (spouses.length < 2 && spouseNode.getSpouses().length < 2) {
             // TODO: Needs to add spouse name to person data?
             spouses.push(spouseNode);
@@ -435,6 +448,19 @@ function CanvasWorkspace(id) {
                 connection.end = null;
                 mouseConnection.setPoints([0, 0]);
                 $(this).dialog("close");
+
+                // Tutorial only
+                if (tutorialStage == 5) {
+                    tutorialStage++;
+
+                    // Switch tooltips, update canvas tooltip
+                    $("#person1").tooltipster("hide");
+                    $("#workspace").tooltipster("content", "Tutorial complete. Repeat this process to continue building your family tree!");
+                    $("#workspace").tooltipster("show");
+                    setTimeout(function() {
+                        $("#workspace").tooltipster("hide");
+                    }, 3500);
+                }
             }
         },
         close: function() {

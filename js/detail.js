@@ -155,15 +155,25 @@ function DetailPanelWorkspace(id) {
 
         // Update the node's display text
         currentNode.updateText();
-
+        
         // Tutorial only:
-        if (tutorialStage == 2 && currentPerson.getName() != "null null") {
-            tutorialStage++;
+        if (currentPerson.getName() != "  ") {
+            if (tutorialStage == 2) {
+                tutorialStage++;
+                tutorialCheck = currentPerson.getName();
 
-            // Switch to the canvas tooltip
-            $("#leftSave").tooltipster("hide");
-            $("#workspace").tooltipster("content", "Repeat the previous few steps and create another person.");
-            $("#workspace").tooltipster("show");
+                // Switch to the canvas tooltip
+                $("#leftSave").tooltipster("hide");
+                $("#workspace").tooltipster("content", "Repeat the previous few steps, create and name one of your parents.");
+                $("#workspace").tooltipster("show");
+            }
+            // Check if the 2nd person has been created and named, isnt same as first:
+            else if (tutorialStage == 3 && tutorialCheck != currentPerson.getName()) {
+                tutorialStage++;
+
+                // Update the canvas tooltip
+                $("#workspace").tooltipster("content", "Left click on the circle that represents yourself and do not let go of the left mouse button until you move your mouse over the circle representing your parent.");
+            }
         }
     }
 

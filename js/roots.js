@@ -8,7 +8,8 @@
 var canvasWorkspace,
     leftDetailWorkspace,
     rightDetailWorkspace,
-    tutorialStage = 0;
+    tutorialStage = 0,
+    tutorialCheck = "";
 
 function save() {
     
@@ -55,20 +56,30 @@ $(document).ready(function() {
     // Initiate tooltipster
     //$(".tooltipster").tooltipster();
 
+    // Tooltip for the tutorial button
     $("#tutorialButton").tooltipster({
         content: "Click here to start the tutorial. You will be taught the basics of using Roots.",
         position: "left"
     });
 
+    // Tooltip for the canvas
     $("#workspace").tooltipster({
         content: "This is where you will be creating your family tree. Right click in here to create a visual representation of a person.",
         position: "top",
         trigger: "custom"
     });
 
+    // Tooltip for the save button
     $("#leftSave").tooltipster({
         content: "Fill out your name at least and press save. You can update this information later.",
         position: "bottom",
+        trigger: "custom"
+    });
+
+    // Tooltip for the dialog
+    $("#person1").tooltipster({
+        content: "Select the child option and hit accept.",
+        position: "top-left",
         trigger: "custom"
     });
 
