@@ -55,7 +55,6 @@ $(document).ready(function() {
             errorPlacement: function(error, element) {
 
                 error.insertAfter(element);
-                $("<div class='ui-icon ui-icon-alert'></div>").insertAfter(element);
                 error.addClass("ui-helper-reset ui-state-error-text");
             }
         });
