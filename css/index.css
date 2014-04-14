@@ -33,6 +33,14 @@ a {
     text-align: center;
 }
 
+a:hover {
+    color:#4E8E1E !important;  
+}
+
+a:visited {
+    color:#1C330B;
+}
+
 h1 {
     color: #8b4424;
     font-size: 2em;
