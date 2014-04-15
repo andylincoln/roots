@@ -420,21 +420,26 @@ function CanvasWorkspace(id) {
                 for (var i = 0; i < nodes.length; i++)
                     nodes[i].setMoved(false);
 
+
+
                 // Define connections based on the form input and reposition a node
                 switch ($("#relation").val()) {
                     case "Parent":
                         connection.end.addParent(connection.start);
+                        connection.start.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
                         reposition(connection.start);
                         break;
 
                     case "Child":
                         connection.start.addParent(connection.end);
+                        connection.end.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
                         reposition(connection.end);             
                         break;
 
                     case "Spouse":
                         connection.start.addSpouse(connection.end);
                         connection.end.addSpouse(connection.start);
+                        connection.start.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
                         reposition(connection.start);
                         break;
 
