@@ -1,4 +1,4 @@
-<?php include "base.php" ?>
+<?php include "base.php"; ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,6 +42,16 @@
 
         <!-- Include Google Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Port+Lligat+Slab|Roboto:400,500,700' rel='stylesheet' type='text/css'>
+        <?php
+        if (array_key_exists('hello', $_POST)) {
+            $tree = $_POST['hello'];
+            echo $tree;
+            var_dump(json_decode($tree, true));
+        } else {
+            echo "Post empty";
+        }
+        ?>
+
     </head>
 
 

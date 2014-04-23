@@ -24,13 +24,15 @@ function save() {
     }
     
     $.ajax({
-        type: "post",
+        type: "POST",
         url: "roots.php",
-        data: JSON.stringify(tree)
-//        ,success: function(){ console.log("AJAX call: Successfully saved!");}
+        dataType: "json",
+        data:  {data:"Hello, World"}  ,//{ data : JSON.stringify(tree) },
+        success: function(){ console.log("AJAX call: Successfully saved!");},
+        error: function(){ console.log("AJAX call: Error!");}
     });
     // for debugging
-    console.log(JSON.stringify(tree));
+    //console.log(JSON.stringify(tree));
 }
 
 
