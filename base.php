@@ -15,7 +15,16 @@ mysql_connect($dbhost, $dbuser, $dbpass) or die("MySQL Error: " . mysql_error())
 mysql_select_db($dbname) or die("MySQL Error: " . mysql_error());
 
 
-// This is the temporary file used to keep track of changes to the tree
-$filename = null;
+/**
+ * Take the username as argument (username is set in roots.php upon login)
+ * Assign the filename, use temp directory
+ * Create the file and grab the data from the post
+ */
+function save($username) {
+    $filename =  $username . ".json";
+    $tree = $_POST['tree'];
+    file_put_contents("/tmp/" . $filename, $tree);
+    //shell_exec("cp $tmp $filename json/"); TODO: Get this working
+}
 
 ?>

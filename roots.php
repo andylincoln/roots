@@ -49,6 +49,8 @@
         <?php
         // Check if logged in, if not redirect to login
         if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
+            $username = $_SESSION['Username'];
+            
             // TODO Determine when POST is updated with save data, save on update
             ?>
 

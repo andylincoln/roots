@@ -1,4 +1,5 @@
 <?php
+include 'base.php';
 
 /*
  *  © 2014 alincoln
@@ -7,16 +8,22 @@
  *  Created on: Apr 23, 2014 
  */
 
-echo $_POST["user"];
-echo $_POST["treename"];
-
-//while (array_key_exists('data', $_POST)) {
-//        save();
-//}
-
-function save() {
-    $tree = $_POST['data'];
-    echo $tree;
-//var_dump(json_decode($tree, true));
+/**
+ * If the user is logged in, 
+ * check if there is a POST.
+ * 
+ * If there is a POST, call the save 
+ * function to do all the saving dirtywork
+ */
+if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
+    $username = $_SESSION['Username'];
+// If there is a tree post, save it
+    if (array_key_exists('tree', $_POST)) {
+        echo $_POST['tree'];
+        save($username);
+    }
+} else {
+    echo "ERROR: No session";
 }
+
 ?>

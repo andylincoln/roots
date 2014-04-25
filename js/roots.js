@@ -27,7 +27,7 @@ function save() {
         type: "POST",
         url: "save.php",
         dataType: "json",
-        data:  JSON.stringify(tree),
+        data:  { "tree" : JSON.stringify(tree)},
         success: function(){ console.log("AJAX call: Successfully saved!");},
         error: function(){ console.log("AJAX call: Error!");}
     });
