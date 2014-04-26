@@ -33,11 +33,12 @@ function save($username) {
     chown($tmp . $filename, get_current_user());// Change permissions to the running user NOTE: Not working on OS X
     chmod($tmp . $filename, 0755);              //Change the permissions to be web-friendly
 
-//    $command = "cp " . $filename . " " . $dest;
-    //exec($command);
+    
+    // Three different ways to do the copy. Hopefully one of these can work
+    $command = "cp " . $filename . " " . $dest;
+    exec($command);
     exec("cp " . $tmp . $filename . " " .  $dest . $filename); // Copy
-
-//    shell_exec("cp " . ("/tmp/" . $filename) . " json/");  // TODO: Get this working
+    shell_exec("cp " . ("/tmp/" . $filename) . " json/");  // TODO: Get this working
 }
 
 ?>
