@@ -17,8 +17,9 @@ include 'base.php';
  */
 if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
     $username = $_SESSION['Username'];
-// If there is a tree post, save it
+    // If there is a tree post, save it
     if (array_key_exists('tree', $_POST)) {
+        // For debugging
         echo $_POST['tree'];
         save($username);
     }

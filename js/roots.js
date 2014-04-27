@@ -27,12 +27,13 @@ function save() {
         type: "POST",
         url: "save.php",
         dataType: "json",
+        async: false,
         data:  { "tree" : JSON.stringify(tree)},
         success: function(){ console.log("AJAX call: Successfully saved!");},
         error: function(){ console.log("AJAX call: Error!");}
     });
     // for debugging
-    console.log(JSON.stringify(tree));
+//    console.log(JSON.stringify(tree));
 }
 
 
@@ -130,6 +131,11 @@ $(document).ready(function() {
         $("#deathLabel").children().toggle();
         $("#deathInput").children().toggle();
     });
+    
+    $("#logout").click(function() {
+        save();
+    });
+
 
     // Resize the window once all workspaces have been loaded.    
     $(window).resize();

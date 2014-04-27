@@ -63,7 +63,7 @@
                 <div id="accountLinks">
                     <ul>
                         <li><a href="" id="tutorialButton">Tutorial</a></li>
-                        <li><a href="logout.php">Log Out</a></li>
+                        <li><a id="logout" href="logout.php">Log Out</a></li>
                     </ul>
                 </div>
             </header>
