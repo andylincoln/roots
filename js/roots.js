@@ -6,34 +6,38 @@
 
 // Define our primary workspaces globally:
 var canvasWorkspace,
-    leftDetailWorkspace,
-    rightDetailWorkspace,
-    tutorialStage = 0,
-    tutorialCheck = "";
+        leftDetailWorkspace,
+        rightDetailWorkspace,
+        tutorialStage = 0,
+        tutorialCheck = "";
 
 function save() {
-    
+
     var tree = {
-        user  : username,
+        user: username,
         treename: $("#title").val(),
-        nodes : []
+        nodes: []
     };
-    
-    for(var i = 0; i < nodes.length; i++) {
+
+    for (var i = 0; i < nodes.length; i++) {
         tree.nodes.push(nodes[i].getData().getJSOL());
     }
-    
+
     $.ajax({
         type: "POST",
         url: "save.php",
         dataType: "json",
         async: false,
-        data:  { "tree" : JSON.stringify(tree)},
-        success: function(){ console.log("AJAX call: Successfully saved!");},
-        error: function(){ console.log("AJAX call: Error!");}
+        data: {"tree": JSON.stringify(tree)},
+        success: function() {
+            console.log("AJAX call: Successfully saved!");
+        },
+        error: function() {
+            console.log("AJAX call: Error!");
+        }
     });
     // for debugging
-//    console.log(JSON.stringify(tree));
+    //    console.log(JSON.stringify(tree));
 }
 
 
@@ -99,7 +103,7 @@ $(document).ready(function() {
     //$.cookie("visited", "true", { expires: 365 });
 
     // Disable default url click functionality on tutorial button
-    $("#tutorialButton").click(function(){
+    $("#tutorialButton").click(function() {
         // Start Tutorial
         tutorialStage = 1;
 
@@ -112,7 +116,7 @@ $(document).ready(function() {
 
     // Instantiate the left detail panel "class":
     leftDetailWorkspace = DetailPanelWorkspace("#leftDetail");
-    rightDetailWorkspace= DetailPanelWorkspace("#rightDetail");
+    rightDetailWorkspace = DetailPanelWorkspace("#rightDetail");
 
     // Enable/Disable editing checkbox
     $("#leftCheckEdit").click(function() {
@@ -128,10 +132,12 @@ $(document).ready(function() {
     });
 
     $("#leftCheckLiving").click(function() {
-        $("#deathLabel").children().toggle();
-        $("#deathInput").children().toggle();
+        if ($("#leftCheckLiving").prop("disabled", false)) {
+            $("#deathLabel").children().toggle();
+            $("#deathInput").children().toggle();
+        }
     });
-    
+
     $("#logout").click(function() {
         save();
     });

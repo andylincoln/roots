@@ -80,6 +80,7 @@ function DetailPanelWorkspace(id) {
     function disable() {
         //  Disable the inputs
         birthplaceInput.prop("disabled", true);
+        checkLiving.prop("disabled", true);
         dateOfBirthInput.prop("disabled", true);
         dateOfDeathInput.prop("disabled", true);
         firstNameInput.prop("disabled", true);
@@ -100,6 +101,7 @@ function DetailPanelWorkspace(id) {
     function enable() {
         //  Enable the inputs
         birthplaceInput.prop("disabled", false);
+        checkLiving.prop("disabled", false);
         dateOfBirthInput.prop("disabled", false);
         dateOfDeathInput.prop("disabled", false);
         firstNameInput.prop("disabled", false);
@@ -115,7 +117,7 @@ function DetailPanelWorkspace(id) {
 
         // Toggle the black text
         toggleDisplayText();
-        
+
         // Hide null fields
     }
 
@@ -155,7 +157,7 @@ function DetailPanelWorkspace(id) {
 
         // Update the node's display text
         currentNode.updateText();
-        
+
         // Tutorial only:
         if (currentPerson.getName() != "  ") {
             if (tutorialStage == 2) {
