@@ -10,4 +10,7 @@ for f in $(find $1 -regextype sed -regex $4); do chmod $3 $f; done;
 # Mod all subdirectories
 for f in $(ls -p | grep "/"); do chmod $2 $f; done;
 
+# Modify JSON folder to be 777 to make AJAX calls possible
+chmod  777 json;
+
 echo "Script complete."
