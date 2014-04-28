@@ -38,7 +38,10 @@
         <!-- Include our detail library -->
         <script type="text/javascript" src="js/detail.js"></script>
 
-        <script> var username = "<?php echo $_SESSION['Username'] ?>";</script>
+        <script>
+            var username = "<?php echo $_SESSION['Username'] ?>";
+            load(username);
+        </script>
 
         <!-- Include Google Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Port+Lligat+Slab|Roboto:400,500,700' rel='stylesheet' type='text/css'>
@@ -50,8 +53,7 @@
         // Check if logged in, if not redirect to login
         if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
             $username = $_SESSION['Username'];
-            
-            // TODO Determine when POST is updated with save data, save on update
+            load($username);
             ?>
 
             <!-- This is for the main bar at the top of the page  -->

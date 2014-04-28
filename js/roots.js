@@ -30,16 +30,36 @@ function save() {
         async: false,
         data: {"tree": JSON.stringify(tree)},
         success: function() {
-            console.log("AJAX call: Successfully saved!");
+            console.log("AJAX Save call: Successful!");
         },
         error: function() {
-            console.log("AJAX call: Error!");
+            console.log("AJAX Save call: Error!");
         }
     });
     // for debugging
     //    console.log(JSON.stringify(tree));
 }
 
+/**
+ * 
+ * @param {String} username
+ * Loads the appropriate file via an AJAX call
+ */
+function load(username) {
+    
+    var dir = "json/";
+    var tree = null;
+    
+    $.get(dir + username + '.json', function(data) {
+       tree = data;
+       
+       // Debugging: Output the data in the file to the console 
+       console.log(data);
+       
+      //    TODO Draw and load up the data from the AJAX call
+       
+    }); 
+}
 
 $(document).ready(function() {
     // Instantiate the canvas workspace "class":
@@ -145,4 +165,6 @@ $(document).ready(function() {
 
     // Resize the window once all workspaces have been loaded.    
     $(window).resize();
+    
+    save(); // Save on ready state
 });

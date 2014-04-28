@@ -40,15 +40,4 @@ function save($username) {
     shell_exec("cp " . ("/tmp/" . $filename) . " json/");  // TODO: Get this working
 }
 
-function load($username) {
-    
-  $directory = "json/";             // Directory where all the trees are stored
-  $filename = $username . ".json";  // Name of the file for the given user
-  
-  
-  // If we have a file with their name on it, report it.
-  file_exists($directory . $filename);
-  
-}
-
 ?>
