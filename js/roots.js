@@ -51,12 +51,12 @@ function load(username) {
     var tree = null;
     
     $.get(dir + username + '.json', function(data) {
-       tree = data;
+        tree = data;
        
-       // Debugging: Output the data in the file to the console 
-       console.log(data);
+        // Debugging: Output the data in the file to the console 
+        console.log(data);
        
-      //    TODO Draw and load up the data from the AJAX call
+        // TODO Draw and load up the data from the AJAX call
        
     }); 
 }

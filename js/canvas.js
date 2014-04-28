@@ -466,6 +466,7 @@ function CanvasWorkspace(id) {
                         connection.start.addSpouse(connection.end);
                         connection.end.addSpouse(connection.start);
                         connection.start.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
+
                         reposition(connection.start);
                         break;
 
@@ -517,6 +518,23 @@ function CanvasWorkspace(id) {
         node.setMoved(true);
         pos = node.getPosition();
 
+        var children = node.getChildren(),
+            parents;
+
+        // bugfix: spousify two people with mutual children
+        for (var i = 0; i < children.length; i++) {
+            parents = children[i].getParents();
+
+            if (parents.length == 2) {
+                if (parents[0] != node) {
+                    node.addSpouse(parents[0]);
+                }
+                else if (parents[1] != node) {
+                    node.addSpouse(parents[1]);
+                }
+            }
+        }        
+
         // Position spouses horizontally
         for (var i = 0; i < node.getSpouses().length; i++) {
             spouse = node.getSpouses()[i];
@@ -565,12 +583,7 @@ function CanvasWorkspace(id) {
 
                 connections.push(Connection(connectionLayer, linePts));
             }
-        }        
-
-
-
-
-
+        }
 
         // End
 
