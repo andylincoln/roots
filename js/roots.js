@@ -98,7 +98,7 @@ $(document).ready(function() {
 
     // Tooltip for the save button
     $("#leftSave").tooltipster({
-        content: "Fill out your name at least and press save. You can update this information later.",
+        content: "At minimum, fill out your name and press save. You can update this information later.",
         position: "bottom",
         trigger: "custom"
     });
@@ -111,25 +111,27 @@ $(document).ready(function() {
     });
 
     // Enable the tutorial tooltip if first time on page
-    if ($.cookie("visited") != "true")
+    if ($.cookie("visited") != "true") {
         $("#tutorialButton").tooltipster("show", function() {
             setTimeout(function() {
                 $("#tutorialButton").tooltipster("hide");
             }, 3500);
         });
-
+    }
 
     // Commented out for testing:
     //$.cookie("visited", "true", { expires: 365 });
 
     // Disable default url click functionality on tutorial button
     $("#tutorialButton").click(function() {
-        // Start Tutorial
-        tutorialStage = 1;
+        if (tutorialStage == 0) {
+            // Start Tutorial
+            tutorialStage ++;
 
-        // switch the tooltip in use:
-        $("#tutorialButton").tooltipster("hide");
-        $("#workspace").tooltipster("show");
+            // switch the tooltip in use:
+            $("#tutorialButton").tooltipster("hide");
+            $("#workspace").tooltipster("show");
+        }
 
         return false;
     });
@@ -155,13 +157,17 @@ $(document).ready(function() {
         if ($("#leftCheckLiving").prop("disabled", false)) {
             $("#deathLabel").children().toggle();
             $("#deathInput").children().toggle();
+
+            // update the save tooltip in the tutorial:
+            if (tutorialStage == 2) {
+                $("#leftSave").tooltipster("content", $("#leftSave").tooltipster("content"));
+            }
         }
     });
 
     $("#logout").click(function() {
         save();
     });
-
 
     // Resize the window once all workspaces have been loaded.    
     $(window).resize();

@@ -155,6 +155,14 @@ function DetailPanelWorkspace(id) {
         currentPerson.setResidence(residenceInput.val());
         currentPerson.setSuffix(suffixInput.val());
 
+        // Indicate the save was successful with a tooltip
+        $("#leftSave").tooltipster("content", "Saved.");
+        $("#leftSave").tooltipster("show", function() {
+            setTimeout(function() {
+                $("#leftSave").tooltipster("hide");
+            }, 1500);
+        });
+
         // Update the node's display text
         currentNode.updateText();
 
@@ -166,7 +174,7 @@ function DetailPanelWorkspace(id) {
 
                 // Switch to the canvas tooltip
                 $("#leftSave").tooltipster("hide");
-                $("#workspace").tooltipster("content", "Repeat the previous few steps, create and name one of your parents.");
+                $("#workspace").tooltipster("content", "Repeat the previous few steps. Create and name one of your parents.");
                 $("#workspace").tooltipster("show");
             }
             // Check if the 2nd person has been created and named, isnt same as first:

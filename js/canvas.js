@@ -561,7 +561,6 @@ function CanvasWorkspace(id) {
             if (child.getMoved() == false) {
                 var linePts = [pos.x, pos.y];
 
-
                 if (child.getParents().length == 2) {
                     for (var j = 0; j < child.getParents().length; j++) {
                         // Found the other parent
@@ -591,8 +590,9 @@ function CanvasWorkspace(id) {
         directFamily = node.getSpouses().concat(node.getChildren(), node.getParents());
 
         for (var i = 0; i < directFamily.length; i++) {
-            if (directFamily[i].getMoved() == false)
+            if (directFamily[i].getMoved() == false) {
                 reposition(directFamily[i]);
+            }
         }
     }
 
@@ -649,7 +649,7 @@ function CanvasWorkspace(id) {
                 if (tutorialStage == 1) {
                     tutorialStage++;
 
-                    $("#workspace").tooltipster("content", "Lets start your family tree with yourself. Left click on the newly created person.");
+                    $("#workspace").tooltipster("content", "Let's start your family tree with yourself. Left click on the newly created person.");
                 }
 
             default:
