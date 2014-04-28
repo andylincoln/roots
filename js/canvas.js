@@ -179,6 +179,10 @@ function Node(layer, x, y) {
                     $("#person1").tooltipster("show");
                 }
             }
+            // bugfix: so the connection must be dragged off the first node:
+            else {
+                connection.start = null;
+            }
 
             layer.draw();
         }
