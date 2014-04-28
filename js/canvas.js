@@ -257,6 +257,10 @@ function Node(layer, x, y) {
         layer.draw();
     }
 
+    function getFullName() {
+        return data.getName();
+    }
+
     function addParent(parentNode) {
         // Check to see if node already is a parent
         for (var i = 0; i < parents.length; i++) {
@@ -269,11 +273,13 @@ function Node(layer, x, y) {
         if (parents.length < 2) {
             // TODO: Needs to add parent name to person data?
             parents.push(parentNode);
+            data.setParent(parentNode.getFullName());
             parentNode.addChild(findNode(circleObj));
         }
     }
 
     function addChild(childNode) {
+        data.setChildren(childNode.getFullName());
         children.push(childNode);
     }
 
@@ -288,8 +294,9 @@ function Node(layer, x, y) {
         // Allowed only two spouses, due to limitations on how to draw
         // more than one former spouse/partner.
         if (spouses.length < 2 && spouseNode.getSpouses().length < 2) {
-            // TODO: Needs to add spouse name to person data?
+            data.setSpouse(spouseNode.getFullName());
             spouses.push(spouseNode);
+            spouseNode.addSpouse(findNode(circleObj));
         }
     }
 
@@ -376,6 +383,7 @@ function Node(layer, x, y) {
         getData: getData,
         getCircleObj: getCircleObj,
         getChildren: getChildren,
+        getFullName: getFullName,
         getMoved: getMoved,
         getParents: getParents,
         getPosition: getPosition,
@@ -427,12 +435,26 @@ function CanvasWorkspace(id) {
                     case "Parent":
                         connection.end.addParent(connection.start);
                         connection.start.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
+
+                        // In case both parents arent set as spouses
+                        if (connection.end.getParents().length == 2) {
+                            console.log("Two A")
+                            //connection.end.getParents()[0].addSpouse(connection.end.getParents()[1]);
+                        }
+
                         reposition(connection.start);
                         break;
 
                     case "Child":
                         connection.start.addParent(connection.end);
                         connection.end.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
+
+                        // In case both parents arent set as spouses
+                        if (connection.start.getParents().length == 2) {
+                            console.log("Two B");
+                           //connection.start.getParents()[0].addSpouse(connection.start.getParents()[1]);
+                        }
+
                         reposition(connection.end);             
                         break;
 

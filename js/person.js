@@ -11,8 +11,9 @@
 function Person() {
 
     var birthplace = null,
-            children = null,
-            currentSpouse = null,
+            parents = [],
+            children = [],
+            spouses = [],
             dateBirth = null,
             dateDeath = null,
             id = Date.now(),
@@ -39,18 +40,19 @@ function Person() {
     }
 
     function childrenSetter(child) {
-        if (children === null) {
-            children = Map();
-        }
-        children.set(child);
+        children.push(child);
     }
 
-    function currentSpouseGetter() {
-        return currentSpouse;
+    function parentSetter(parent) {
+        parents.push(parent);
     }
 
-    function currentSpouseSetter(person) {
-        currentSpouse = person;
+    function spouseGetter() {
+        return spouses;
+    }
+
+    function spouseSetter(person) {
+        spouses.push(person);
     }
 
     function dateOfBirthGetter() {
@@ -123,7 +125,10 @@ function Person() {
             "firstName": firstName,
             "lastName": lastName,
             "middleName": middleName,
-            "residence": residence
+            "residence": residence,
+            "parents": parents,
+            "children": children,
+            "spouses": spouses
         }
     }
 
@@ -188,7 +193,7 @@ function Person() {
         addChild: childrenSetter,
         addFormerSpouse: formerSpouseSetter,
         getBirthplace: birthplaceGetter,
-        getCurrentSpouse: currentSpouseGetter,
+        getCurrentSpouse: spouseGetter,
         getChildren: childrenGetter,
         getDateOfBirth: dateOfBirthGetter,
         getDateOfDeath: dateOfDeathGetter,
@@ -205,7 +210,9 @@ function Person() {
         getResidence: residenceGetter,
         getSuffix: suffixGetter,
         setBirthplace: birthplaceSetter,
-        setCurrentSpouse: currentSpouseSetter,
+        setChildren: childrenSetter,
+        setSpouse: spouseSetter,
+        setParent: parentSetter,
         setDateOfBirth: dateOfBirthSetter,
         setDateOfDeath: dateOfDeathSetter,
         setFirstName: firstNameSetter,
