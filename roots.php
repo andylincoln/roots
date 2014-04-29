@@ -53,7 +53,6 @@
         // Check if logged in, if not redirect to login
         if (!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Username'])) {
             $username = $_SESSION['Username'];
-            load($username);
             ?>
 
             <!-- This is for the main bar at the top of the page  -->
