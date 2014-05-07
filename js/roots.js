@@ -50,14 +50,17 @@ function load(username) {
     var dir = "json/";
     var tree = null;
 
-    $.get(dir + username + '.json', function(data) {
-        
-        //JSON -> JS object for safety
-        tree = JSON.parse(data);
-        
-        // Set the title of the tree
-        $("#title").val(tree.title);
-        
+    $.ajax({
+        cache: false,
+        url: dir + username + '.json',
+        success: function(data) {
+
+            //JSON -> JS object for safety
+            tree = JSON.parse(data);
+
+            // Set the title of the tree
+            $("#title").val(tree.title);
+
 //      --Debugging:        
 //      console.log("Unparsed Data: " + data +"\n");
 //      console.log(tree);
@@ -69,36 +72,33 @@ function load(username) {
 //        for (var i = 0; i < tree.nodes.length; i++) {
 //            console.log(tree.nodes[i]);
 //        }
-               
-        var x = 100, y = 100;
-        for (var i = 0; i < tree.nodes.length; i++) {
+
+            var x = 100, y = 100;
+            for (var i = 0; i < tree.nodes.length; i++) {
 //            console.log("Node " + i + "\n");
-            var temp = Node(canvasWorkspace.getMainLayer(), x, y);
+                var temp = Node(canvasWorkspace.getMainLayer(), x, y);
 //            console.log(tree.nodes[i]);
-            temp.setData(tree.nodes[i]);
-            temp.updateText();
-            nodes.push(temp);
-            // Print them out sequentially
-            if ((x += 100) > 1000) {
-                x = 100;
-                y += 100;
+                temp.setData(tree.nodes[i]);
+                temp.updateText();
+                nodes.push(temp);
+                // Print them out sequentially
+                if ((x += 100) > 1000) {
+                    x = 100;
+                    y += 100;
+                }
             }
-        }
-        
-        // TODO: Redraw connections
-        
+
+            // TODO: Redraw connections
+
 //        --Debugging
 //        console.log("Nodes global variable:");
 //        console.log(nodes);
+        }
     });
+    
 }
 
 $(document).ready(function() {
-
-    // Disable caching on AJAX requests
-    $.ajaxSetup({
-        cache: false
-    });
 
     // Instantiate the canvas workspace "class":
     canvasWorkspace = CanvasWorkspace("#workspace");
@@ -189,6 +189,7 @@ $(document).ready(function() {
 
     $("#leftSave").click(function() {
         leftDetailWorkspace.save();
+        save();
     });
 
     $("#leftCheckLiving").click(function() {
