@@ -46,38 +46,60 @@ function save() {
  * Loads the appropriate file via an AJAX call
  */
 function load(username) {
-    
+
     var dir = "json/";
     var tree = null;
-    
+
     $.get(dir + username + '.json', function(data) {
+        
+        //JSON -> JS object for safety
         tree = JSON.parse(data);
         
-        // Debugging: Output the data in the file to the console 
-        console.log("Username: " + tree.user);
-        console.log("Title: " + tree.title);
-        for(var i = 0; i < tree.nodes.length; i++) {
-            console.log("Nodes: " + tree.nodes);
-        }
         // Set the title of the tree
         $("#title").val(tree.title);
         
+//      --Debugging:        
+//      console.log("Unparsed Data: " + data +"\n");
+//      console.log(tree);
+//      console.log("Username: " + tree.user);
+//      console.log("Title: " + tree.title);      
+//      
+//      --If checking the nodes is necessary, uncomment this below
+//        console.log("Nodes: ");
+//        for (var i = 0; i < tree.nodes.length; i++) {
+//            console.log(tree.nodes[i]);
+//        }
+               
         var x = 100, y = 100;
         for (var i = 0; i < tree.nodes.length; i++) {
+//            console.log("Node " + i + "\n");
             var temp = Node(canvasWorkspace.getMainLayer(), x, y);
+//            console.log(tree.nodes[i]);
             temp.setData(tree.nodes[i]);
+            temp.updateText();
+            nodes.push(temp);
+            // Print them out sequentially
             if ((x += 100) > 1000) {
                 x = 100;
                 y += 100;
             }
         }
-
-        // TODO Draw and load up the data from the AJAX call
-       
-    }); 
+        
+        // TODO: Redraw connections
+        
+//        --Debugging
+//        console.log("Nodes global variable:");
+//        console.log(nodes);
+    });
 }
 
 $(document).ready(function() {
+
+    // Disable caching on AJAX requests
+    $.ajaxSetup({
+        cache: false
+    });
+
     // Instantiate the canvas workspace "class":
     canvasWorkspace = CanvasWorkspace("#workspace");
 
@@ -142,7 +164,7 @@ $(document).ready(function() {
     $("#tutorialButton").click(function() {
         if (tutorialStage == 0) {
             // Start Tutorial
-            tutorialStage ++;
+            tutorialStage++;
 
             // switch the tooltip in use:
             $("#tutorialButton").tooltipster("hide");
@@ -187,5 +209,5 @@ $(document).ready(function() {
 
     // Resize the window once all workspaces have been loaded.    
     $(window).resize();
-    
+
 });
