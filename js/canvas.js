@@ -616,15 +616,11 @@ function CanvasWorkspace(id) {
             else {
                 var children = node.getChildren();
                 for (var i = 0; i < children.length; i++) {
-                    if (children[i].getParents().length == 1) {
-                        var childPts = [pos.x, pos.y, pos.x, pos.y + 100];
-
-                        if (children[i].getMoved() == false) {
-
-                            connections.push(Connection(connectionLayer, childPts));
-
-                            children[i].setPosition(pos.x, pos.y + 100);
-                        }
+                    if (children[i].getParents().length == 1 && children[i].getMoved() == false) {
+                        var childPts = [pos.x, pos.y, pos.x, pos.y + 150];
+                        
+                        connections.push(Connection(connectionLayer, childPts));
+                        children[i].setPosition(pos.x + 10, pos.y + 150);
                     }
                 }
             }
@@ -632,9 +628,12 @@ function CanvasWorkspace(id) {
 
         // Reposition parents
         var parents = node.getParents();
-        if (parents.length == 1) {
-            //
+        
+        if (parents.length == 1 && parents[0].getMoved() == false) {
+            connections.push(Connection(connectionLayer, [pos.x, pos.y, pos.x, pos.y - 150]));
+            parents[0].setPosition(pos.x, pos.y - 150);
         }
+
         // End
 
         // combine adjacent nodes into an array and reposition them
