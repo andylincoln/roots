@@ -1,8 +1,8 @@
 /*
-    Created on  : Jan 26 2014
-    Author      : Daniel Kolsoi
-    Description : Script for the canvas functions.
-*/
+ Created on  : Jan 26 2014
+ Author      : Daniel Kolsoi
+ Description : Script for the canvas functions.
+ */
 
 // list of spouces, children
 
@@ -19,14 +19,14 @@ var connection = {start: null, end: null};
 var mouseConnection;
 
 var connectionDialog = $(
-    "<div id='connectionDialog'> <p id='person1'></p> is the " +
+        "<div id='connectionDialog'> <p id='person1'></p> is the " +
         "<select id='relation'>" +
-            "<option value='Parent'>Parent</option>" +
-            "<option value='Child'>Child</option>"   +
-            "<option value='Spouse'>Spouse</option>" +
+        "<option value='Parent'>Parent</option>" +
+        "<option value='Child'>Child</option>" +
+        "<option value='Spouse'>Spouse</option>" +
         "</select>" +
         " of <p id='person2'></p>" +
-    "</div>");
+        "</div>");
 
 function Connection(layer, points) {
     var connectionObj = new Kinetic.Line({
@@ -92,12 +92,12 @@ function sameParents(childA, childB) {
 
 function Node(layer, x, y) {
     var data = Person(),
-        selected = false,
-        moved = false,
-        parents = [],
-        children = [],
-        spouses = [],
-        position = {x: x, y: y};
+            selected = false,
+            moved = false,
+            parents = [],
+            children = [],
+            spouses = [],
+            position = {x: x, y: y};
 
     var circleObj = new Kinetic.Circle({
         x: x,
@@ -167,7 +167,7 @@ function Node(layer, x, y) {
                 // Error message here? No name associated with this node.
                 return;
             }
-            
+
             // Finish connection tracking:
             if (connection.start != null && connection.start != findNode(circleObj)) {
                 var points = mouseConnection.getPoints().splice(0, 2);
@@ -188,7 +188,7 @@ function Node(layer, x, y) {
                 // Tutorial only:
                 if (tutorialStage == 4) {
                     tutorialStage++;
-                    
+
                     $("#workspace").tooltipster("hide");
                     $("#person1").tooltipster("content", "Set yourself as the child of your parent and press accept.");
                     $("#person1").tooltipster("show");
@@ -218,6 +218,7 @@ function Node(layer, x, y) {
     deleteObj.on("click", function(event) {
         // On left click
         if (event.which == 1) {
+            deleteConnections();
             destroy();
             layer.draw();
         }
@@ -295,6 +296,13 @@ function Node(layer, x, y) {
             parentNode.addChild(findNode(circleObj));
         }
     }
+    
+    function removeParent(id) {
+        var index = findIDinArray(id, parents);
+        if (index != -1) {
+            parents.splice(index, 1);
+        }
+    }
 
     function addChild(childNode) {
         // Allow only two children for graphing convenience
@@ -304,6 +312,13 @@ function Node(layer, x, y) {
         }
     }
 
+    function removeChild(id) {
+        var index = findIDinArray(id, children);
+        if (index != -1) {
+            children.splice(index, 1);
+        }
+    }
+        
     function addSpouse(spouseNode) {
         // Check to see if node already is a spouse
         for (var i = 0; i < spouses.length; i++) {
@@ -319,6 +334,53 @@ function Node(layer, x, y) {
             spouses.push(spouseNode);
             spouseNode.addSpouse(findNode(circleObj));
         }
+    }
+
+    function removeSpouse(id) {
+        var index = findIDinArray(id, spouses);
+        if (index != -1) {
+            spouses.splice(index, 1);
+        }
+    }
+
+    function deleteConnections() {
+        
+        // ID of the node to be deleted
+        var id = data.getID();
+        
+        // Delete any connections that have this location
+        var x  = getPosition().x;
+        var y  = getPosition().y;
+        var connections = canvasWorkspace.getConnections();
+        
+        for (var i = 0; i < connections.length; i++) {
+            if ((connections[i].getPoints().indexOf(x) != -1) && (connections[i].getPoints().indexOf(y) != -1)) {
+                connections[i].destroy();
+            }
+        }
+        
+        // Delete references to this node in any parent
+        for (var i = 0; i < parents.length; i++) {
+            parents[i].removeChild(id);
+        }
+        
+        // Delete references to this node in any child
+        for (var i = 0; i < children.length; i++) {
+            children[i].removeParent(id);
+        }
+
+        // Delete references to this node in any spouse
+        for (var i = 0; i < spouses.length; i++) {
+            spouses[i].removeSpouse(id);
+        }
+        
+        // Delete from Global nodes
+        var index = findIDinArray(id, nodes);
+       
+        if (index != -1) {
+            nodes.splice(index, 1);
+        }
+        
     }
 
     function getChildren() {
@@ -357,6 +419,20 @@ function Node(layer, x, y) {
         deleteObj.destroy();
         textObj.destroy();
     }
+    
+    /**
+     * @param {Number} id - the ID of the Person being removed
+     * @param {Person[]} arr - The array of persons being searched
+     * @returns {Number} - Returns index of the matching person, otherwise -1
+     */
+    function findIDinArray(id, arr) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].getData().getID() === id) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     function setMoved(value) {
         moved = value;
@@ -369,7 +445,7 @@ function Node(layer, x, y) {
     function getData() {
         return data;
     }
-    
+
     /**
      * 
      * @param {JSON object} savedData
@@ -419,7 +495,10 @@ function Node(layer, x, y) {
         getParents: getParents,
         getPosition: getPosition,
         getSpouses: getSpouses,
-        setData : setData,
+        removeChild: removeChild,
+        removeParent : removeParent,
+        removeSpouse : removeSpouse,
+        setData: setData,
         setMoved: setMoved,
         setPosition: setPosition,
         select: select,
@@ -437,7 +516,7 @@ function CanvasWorkspace(id) {
 
     // Flag variables:
     var redrawBuffer = false,
-        scrolling = false;
+            scrolling = false;
 
     // Data Structure variables:
     var scroll = {x: 0, y: 0};
@@ -445,6 +524,10 @@ function CanvasWorkspace(id) {
 
     function getMainLayer() {
         return mainLayer;
+    }
+    
+    function getConnections() {
+        return connections;
     }
 
     mouseConnection = Connection(connectionLayer, [0, 0]);
@@ -458,7 +541,7 @@ function CanvasWorkspace(id) {
                 // Clear current connection lines
                 for (var i = 0; i < connections.length; i++)
                     connections[i].destroy();
-                
+
                 connections = [];
 
                 for (var i = 0; i < nodes.length; i++)
@@ -470,22 +553,22 @@ function CanvasWorkspace(id) {
                 switch ($("#relation").val()) {
                     case "Parent":
                         connection.end.addParent(connection.start);
-                        connection.start.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
+                        connection.start.setPosition($("#workspace").width() / 2, $("#workspace").height() / 2);
 
                         reposition(connection.start);
                         break;
 
                     case "Child":
                         connection.start.addParent(connection.end);
-                        connection.end.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
+                        connection.end.setPosition($("#workspace").width() / 2, $("#workspace").height() / 2);
 
-                        reposition(connection.end);             
+                        reposition(connection.end);
                         break;
 
                     case "Spouse":
                         connection.start.addSpouse(connection.end);
                         connection.end.addSpouse(connection.start);
-                        connection.start.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
+                        connection.start.setPosition($("#workspace").width() / 2, $("#workspace").height() / 2);
 
                         reposition(connection.start);
                         break;
@@ -539,7 +622,7 @@ function CanvasWorkspace(id) {
         pos = node.getPosition();
 
         var children = node.getChildren(),
-            parents;
+                parents;
 
         // bugfix: spousify two people with mutual children
         for (var i = 0; i < children.length; i++) {
@@ -553,14 +636,14 @@ function CanvasWorkspace(id) {
                     node.addSpouse(parents[1]);
                 }
             }
-        }        
+        }
 
         // Position spouses horizontally
         for (var i = 0; i < node.getSpouses().length; i++) {
             spouse = node.getSpouses()[i];
 
             // if the spouse hasnt already been repositioned
-            
+
             // Take into account number of children with this spouse
             if (spouse.getMoved() == false) {
                 spouse.setPosition(pos.x + 300 * (i - offset) - 150, pos.y);
@@ -633,7 +716,7 @@ function CanvasWorkspace(id) {
                 for (var i = 0; i < children.length; i++) {
                     if (children[i].getParents().length == 1 && children[i].getMoved() == false) {
                         var childPts = [pos.x, pos.y, pos.x, pos.y + 150];
-                        
+
                         connections.push(Connection(connectionLayer, childPts));
                         children[i].setPosition(pos.x + 10, pos.y + 150);
                     }
@@ -643,7 +726,7 @@ function CanvasWorkspace(id) {
 
         // Reposition parents
         var parents = node.getParents();
-        
+
         if (parents.length == 1 && parents[0].getMoved() == false) {
             connections.push(Connection(connectionLayer, [pos.x, pos.y, pos.x, pos.y - 150]));
             parents[0].setPosition(pos.x, pos.y - 150);
@@ -669,7 +752,7 @@ function CanvasWorkspace(id) {
         if (selections.right == nodes[index]) {
             selections.right = null;
         }
-        
+
         // Remove the node from the array and update KineticsJS:
         nodes[index].destroy();
         nodes.splice(index, 1);
@@ -722,7 +805,7 @@ function CanvasWorkspace(id) {
         }
     });
 
-    $(id).mousemove(function(event){
+    $(id).mousemove(function(event) {
         if (connection.start != null) {
             // Relocate the connection when moving mouse
             var x = event.pageX - $(id).offset().left;
@@ -734,7 +817,7 @@ function CanvasWorkspace(id) {
         }
     });
 
-    $(id).mouseup(function(event){
+    $(id).mouseup(function(event) {
         var x = event.pageX - $(id).offset().left;
         var y = event.pageY - $(id).offset().top;
 
@@ -759,7 +842,8 @@ function CanvasWorkspace(id) {
 
     // Here is the returned JSOL which allows public access of certain functions:
     return {
-        getMainLayer : getMainLayer,
+        getConnections: getConnections,
+        getMainLayer: getMainLayer,
         resize: resize
     };
 }
