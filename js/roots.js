@@ -15,7 +15,7 @@ function save() {
 
     var tree = {
         user: username,
-        treename: $("#title").val(),
+        title: $("#title").val(),
         nodes: []
     };
 
@@ -30,7 +30,7 @@ function save() {
         async: false,
         data: {"tree": JSON.stringify(tree)},
         success: function() {
-            console.log("AJAX Save call: Successful!");
+            console.log("AJAX Save call: Successful!" + JSON.stringify(tree));
         },
         error: function() {
             console.log("AJAX Save call: Error!");
@@ -51,11 +51,27 @@ function load(username) {
     var tree = null;
     
     $.get(dir + username + '.json', function(data) {
-        tree = data;
-       
+        tree = JSON.parse(data);
+        
         // Debugging: Output the data in the file to the console 
-        console.log(data);
-       
+        console.log("Username: " + tree.user);
+        console.log("Title: " + tree.title);
+        for(var i = 0; i < tree.nodes.length; i++) {
+            console.log("Nodes: " + tree.nodes);
+        }
+        // Set the title of the tree
+        $("#title").val(tree.title);
+        
+        var x = 100, y = 100;
+        for (var i = 0; i < tree.nodes.length; i++) {
+            var temp = Node(canvasWorkspace.getMainLayer(), x, y);
+            temp.setData(tree.nodes[i]);
+            if ((x += 100) > 1000) {
+                x = 100;
+                y += 100;
+            }
+        }
+
         // TODO Draw and load up the data from the AJAX call
        
     }); 
@@ -172,5 +188,4 @@ $(document).ready(function() {
     // Resize the window once all workspaces have been loaded.    
     $(window).resize();
     
-    save(); // Save on ready state
 });
