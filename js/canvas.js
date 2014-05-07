@@ -443,6 +443,10 @@ function CanvasWorkspace(id) {
     var scroll = {x: 0, y: 0};
     var connections = [];
 
+    function getMainLayer() {
+        return mainLayer;
+    }
+
     mouseConnection = Connection(connectionLayer, [0, 0]);
 
     connectionDialog.dialog({
@@ -755,6 +759,7 @@ function CanvasWorkspace(id) {
 
     // Here is the returned JSOL which allows public access of certain functions:
     return {
+        getMainLayer : getMainLayer,
         resize: resize
     };
 }
