@@ -75,6 +75,21 @@ function findNode(circleObj) {
     }
 }
 
+function sameParents(childA, childB) {
+    var count = 0;
+
+    for (var i = 0; i < childA.getParents().length; i++) {
+        for (var j = 0; j < childB.getParents().length; j++) {
+            if (childA.getParents()[i] = childB.getParents()[j]) {
+                count++;
+            }
+        }
+    }
+
+    // count == 2 means only one mutual parent
+    return (count == 4);
+}
+
 function Node(layer, x, y) {
     var data = Person(),
         selected = false,
@@ -275,7 +290,6 @@ function Node(layer, x, y) {
 
         // Allowed only two parents
         if (parents.length < 2) {
-            // TODO: Needs to add parent name to person data?
             parents.push(parentNode);
             data.setParent(parentNode.getFullName());
             parentNode.addChild(findNode(circleObj));
@@ -283,8 +297,11 @@ function Node(layer, x, y) {
     }
 
     function addChild(childNode) {
-        data.setChildren(childNode.getFullName());
-        children.push(childNode);
+        // Allow only two children for graphing convenience
+        if (children.length < 2) {
+            data.setChildren(childNode.getFullName());
+            children.push(childNode);
+        }
     }
 
     function addSpouse(spouseNode) {
@@ -440,24 +457,12 @@ function CanvasWorkspace(id) {
                         connection.end.addParent(connection.start);
                         connection.start.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
 
-                        // In case both parents arent set as spouses
-                        if (connection.end.getParents().length == 2) {
-                            console.log("Two A")
-                            //connection.end.getParents()[0].addSpouse(connection.end.getParents()[1]);
-                        }
-
                         reposition(connection.start);
                         break;
 
                     case "Child":
                         connection.start.addParent(connection.end);
                         connection.end.setPosition($("#workspace").width()/2, $("#workspace").height()/2);
-
-                        // In case both parents arent set as spouses
-                        if (connection.start.getParents().length == 2) {
-                            console.log("Two B");
-                           //connection.start.getParents()[0].addSpouse(connection.start.getParents()[1]);
-                        }
 
                         reposition(connection.end);             
                         break;
@@ -576,14 +581,60 @@ function CanvasWorkspace(id) {
                     }
                 }
 
-                linePts = linePts.concat([pos.x + offset, pos.y + 150]);
+                if (node.getChildren().length == 1) {
+                    child.setPosition(pos.x + offset, pos.y + 150);
+                    linePts = linePts.concat([pos.x + offset, pos.y + 150]);
+                }
 
-                child.setPosition(pos.x + offset, pos.y + 150);
+                else {
+                    linePts = linePts.concat([pos.x + offset, pos.y + 123]);
+                }
 
                 connections.push(Connection(connectionLayer, linePts));
             }
         }
 
+        if (node.getChildren().length == 2) {
+            if (sameParents(node.getChildren()[0], node.getChildren()[1])) {
+                // I appended to the list for readability.
+                var forkPts = [pos.x + offset - 50, pos.y + 209];
+
+                forkPts = forkPts.concat([pos.x + offset - 50, pos.y + 123]);
+                forkPts = forkPts.concat([pos.x + offset + 50, pos.y + 123]);
+                forkPts = forkPts.concat([pos.x + offset + 50, pos.y + 228]);
+
+                connections.push(Connection(connectionLayer, forkPts));
+
+                if (node.getChildren()[0].getMoved() == false) {
+                    node.getChildren()[0].setPosition(pos.x + offset - 50, pos.y + 209);
+                }
+
+                if (node.getChildren()[1].getMoved() == false) {
+                    node.getChildren()[1].setPosition(pos.x + offset + 50, pos.y + 209);
+                }
+            }
+            else {
+                var children = node.getChildren();
+                for (var i = 0; i < children.length; i++) {
+                    if (children[i].getParents().length == 1) {
+                        var childPts = [pos.x, pos.y, pos.x, pos.y + 100];
+
+                        if (children[i].getMoved() == false) {
+
+                            connections.push(Connection(connectionLayer, childPts));
+
+                            children[i].setPosition(pos.x, pos.y + 100);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Reposition parents
+        var parents = node.getParents();
+        if (parents.length == 1) {
+            //
+        }
         // End
 
         // combine adjacent nodes into an array and reposition them
