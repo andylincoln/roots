@@ -140,6 +140,22 @@ function Person() {
         lastName = strName;
     }
 
+    function loadData(data) {
+        birthplace = data.birthplace;
+        children = data.children;
+        dateBirth = data.dateBirth;
+        dateDeath = data.dateDeath;
+        id = data.id;
+        gender = data.gender;
+        generation = data.generation;
+        firstName = data.firstName;
+        lastName = data.lastName;
+        middleName = data.middleName;
+        parents = data.parents;
+        residence = data.residence;
+        spouses = data.spouses;
+    }
+
     function middleNameGetter() {
         return middleName;
     }
@@ -209,6 +225,7 @@ function Person() {
         getPictureURL: pictureURLGetter,
         getResidence: residenceGetter,
         getSuffix: suffixGetter,
+        loadData: loadData,
         setBirthplace: birthplaceSetter,
         setChildren: childrenSetter,
         setSpouse: spouseSetter,

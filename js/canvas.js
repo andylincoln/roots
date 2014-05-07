@@ -369,6 +369,16 @@ function Node(layer, x, y) {
     function getData() {
         return data;
     }
+    
+    /**
+     * 
+     * @param {JSON object} savedData
+     * 
+     * Passes to the Person.loadData() function to fill in the person's details
+     */
+    function setData(savedData) {
+        data.loadData(savedData);
+    }
 
     function getPosition() {
         return {
@@ -409,6 +419,7 @@ function Node(layer, x, y) {
         getParents: getParents,
         getPosition: getPosition,
         getSpouses: getSpouses,
+        setData : setData,
         setMoved: setMoved,
         setPosition: setPosition,
         select: select,
