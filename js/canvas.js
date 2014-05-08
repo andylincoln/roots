@@ -75,6 +75,7 @@ function findNode(circleObj) {
     }
 }
 
+// checks to see if two children have both of the same parents
 function sameParents(childA, childB) {
     var count = 0;
 
@@ -454,6 +455,8 @@ function Node(layer, x, y) {
      */
     function setData(savedData) {
         data.loadData(savedData);
+	
+	setPosition(savedData.position.x, savedData.position.y);
     }
 
     function getPosition() {
@@ -472,6 +475,8 @@ function Node(layer, x, y) {
 
         deleteObj.x(x + 40);
         deleteObj.y(y - 40);
+
+	data.setPosition(x, y);
 
         layer.draw();
     }

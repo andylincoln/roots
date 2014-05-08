@@ -25,7 +25,17 @@ function Person() {
             middleName = null,
             pictureURL = null,
             residence = null,
-            suffix = null;
+            suffix = null,
+            pos = {x: 0, y: 0};
+
+    function positionGetter() {
+	return pos;
+    }
+
+    function positionSetter(x, y) {
+	pos.x = x;
+	pos.y = y;
+    }
 
     function birthplaceGetter() {
         return birthplace;
@@ -128,7 +138,8 @@ function Person() {
             "residence": residence,
             "parents": parents,
             "children": children,
-            "spouses": spouses
+            "spouses": spouses,
+	    "position": pos
         }
     }
 
@@ -154,6 +165,7 @@ function Person() {
         parents = data.parents;
         residence = data.residence;
         spouses = data.spouses;
+	pos = data.position;
     }
 
     function middleNameGetter() {
@@ -223,6 +235,7 @@ function Person() {
         getMiddleName: middleNameGetter,
         getName: nameGetter,
         getPictureURL: pictureURLGetter,
+	getPosition: positionGetter,
         getResidence: residenceGetter,
         getSuffix: suffixGetter,
         loadData: loadData,
@@ -230,6 +243,7 @@ function Person() {
         setChildren: childrenSetter,
         setSpouse: spouseSetter,
         setParent: parentSetter,
+	setPosition: positionSetter,
         setDateOfBirth: dateOfBirthSetter,
         setDateOfDeath: dateOfDeathSetter,
         setFirstName: firstNameSetter,
